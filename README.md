@@ -14,7 +14,7 @@
 + Easy use simditor & Nice codemirror editor
 + Amazing charting and visualization(echarts)
 + User-friendly operation
-+ Quite beautifulï¼š)
++ Quite beautifulï¼?)
 
 ## Get Started
 
@@ -62,3 +62,4 @@ Modern browsers and Internet Explorer 10+.
 ## LICENSE
 
 [MIT](http://opensource.org/licenses/MIT)
+test test
