@@ -1,5 +1,5 @@
 <template>
-  <Row type="flex" justify="space-around">
+  <!--<Row type="flex" justify="space-around">
     <Col :span="22">
     <Panel :padding="10">
       <div slot="title">{{$t('m.ACM_Ranklist')}}</div>
@@ -13,6 +13,20 @@
                 @on-page-size-change="getRankData(1)"></Pagination>
     </Col>
   </Row>
+  -->
+  <div id="acm-rank">
+    <vue-csv-import
+      v-model="csv"
+      :autoMatchFields="true"
+      :autoMatchIgnoreCase="true"
+      :map-fields="['학번', '이름']"
+    >
+    </vue-csv-import>
+    <div style="padding-top: 50px">
+      <p>Results</p>
+      {{ csv }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -20,14 +34,17 @@
   import Pagination from '@oj/components/Pagination'
   import utils from '@/utils/utils'
   import { RULE_TYPE } from '@/utils/constants'
+  import {VueCsvImport} from 'vue-csv-import'
 
   export default {
     name: 'acm-rank',
     components: {
-      Pagination
+      Pagination,
+      VueCsvImport
     },
     data () {
       return {
+        csv: null,
         page: 1,
         limit: 30,
         total: 0,
