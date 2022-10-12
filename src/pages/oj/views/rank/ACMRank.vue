@@ -1,5 +1,5 @@
 <template>
-  <Row type="flex" justify="space-around">
+  <!--<Row type="flex" justify="space-around">
     <Col :span="22">
     <Panel :padding="10">
       <div slot="title">{{$t('m.ACM_Ranklist')}}</div>
@@ -13,6 +13,26 @@
                 @on-page-size-change="getRankData(1)"></Pagination>
     </Col>
   </Row>
+  -->
+  <div id="acm-rank">
+    <vue-csv-import
+      v-model="csv"
+      :autoMatchFields="true"
+      :autoMatchIgnoreCase="true"
+      :map-fields="['학번', '이름']"
+    >
+    </vue-csv-import>
+    <div style="padding-top: 50px">
+      <p>Results</p>
+      {{ csv }}
+    </div>
+    <p>{{$t('m.No_Announcements')}}</p>
+    <p>{{$t('Profile_Setting')}}</p>
+    <p>{{total}}</p>
+    <p>{{tfaRequired}}</p>
+    <p>{{testcase}}</p>
+    <Button @click="init">{{$t('m.Refresh')}}</Button>
+  </div>
 </template>
 
 <script>
@@ -20,14 +40,20 @@
   import Pagination from '@oj/components/Pagination'
   import utils from '@/utils/utils'
   import { RULE_TYPE } from '@/utils/constants'
+  import {VueCsvImport} from 'vue-csv-import'
 
   export default {
     name: 'acm-rank',
     components: {
-      Pagination
+      Pagination,
+      VueCsvImport
     },
     data () {
       return {
+        csv: null,
+        testname: 123,
+        testcase: '아!',
+        tfaRequired: true,
         page: 1,
         limit: 30,
         total: 0,
@@ -151,10 +177,23 @@
         }
       }
     },
+    created () {
+      this.testcase(1)
+    },
     mounted () {
       this.getRankData(1)
+      this.init()
     },
     methods: {
+      testChange (testchar) {
+        this.testcase = 'testchar'
+      },
+      init () {
+        api.tfaRequiredCheck(this.testname).then(res => {
+          this.tfaRequired = res.data.data.result
+          this.testcase = res.data.data.result
+        })
+      },
       getRankData (page) {
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart
