@@ -19,7 +19,7 @@
       v-model="csv"
       :autoMatchFields="true"
       :autoMatchIgnoreCase="true"
-      :map-fields="['학번', '이름']"
+      :map-fields="['학번']"
     >
     </vue-csv-import>
     <div style="padding-top: 50px">
@@ -51,7 +51,7 @@
     data () {
       return {
         csv: null,
-        testname: 123,
+        testname: '1',
         testcase: '아!',
         tfaRequired: true,
         page: 1,
