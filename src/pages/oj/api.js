@@ -269,11 +269,11 @@ export default {
       data
     })
   },
-  ContestStudentIdAPI (contestId) {
+  ContestStudentIdAPI (contestId, studentId) {
     return ajax('admin/contest/student_id', 'post', {
       data: {
         contest_id: contestId,
-        student_id_list: {'student_id_list': '17010136'}
+        student_id: studentId
       }
     })
   },
