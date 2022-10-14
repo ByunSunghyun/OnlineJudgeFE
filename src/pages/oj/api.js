@@ -268,7 +268,25 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  ContestStudentIdAPI (contestId) {
+    return ajax('admin/contest/student_id', 'post', {
+      data: {
+        contest_id: contestId,
+        student_id_list: {'student_id_list': '17010136'}
+      }
+    })
+  },
+  getContestStudentIdAPI (contestId) {
+    return ajax('admin/contest/student_id', 'get', {
+      params: {
+        contest_id: contestId
+      }
+    })
   }
+  /**
+  여기서 부터 추가부분
+  **/
 }
 
 /**

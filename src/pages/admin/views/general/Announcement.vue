@@ -70,7 +70,7 @@
         </div>
       </div>
     </Panel>
-    <!--对话框-->
+    <!-- 대화상자 -->
     <el-dialog :title="announcementDialogTitle" :visible.sync="showEditAnnouncementDialog"
                @open="onOpenEditDialog" :close-on-click-modal="false">
       <el-form label-position="top">
@@ -112,28 +112,28 @@
     data () {
       return {
         contestID: '',
-        // 显示编辑公告对话框
+        // 공지사항 편집 대화상자 보이기
         showEditAnnouncementDialog: false,
-        // 公告列表
+        // 공지사항 목록
         announcementList: [],
-        // 一页显示的公告数
+        // 한 페이지에 표시되는 공지 수
         pageSize: 15,
-        // 总公告数
+        // 총합
         total: 0,
-        // 当前公告id
+        // 현재공지id
         currentAnnouncementId: null,
         mode: 'create',
-        // 公告 (new | edit) model
+        // 공지 (new | edit) model
         announcement: {
           title: '',
           visible: true,
           content: ''
         },
-        // 对话框标题
+        // 대화상자 제목
         announcementDialogTitle: 'Edit Announcement',
-        // 是否显示loading
+        // 표시 여부 loading
         loading: true,
-        // 当前页码
+        // 현재 페이지 번호
         currentPage: 0
       }
     },
@@ -149,7 +149,7 @@
           this.getAnnouncementList(1)
         }
       },
-      // 切换页码回调
+      // 페이지 콜백 전환
       currentChange (page) {
         this.currentPage = page
         this.getAnnouncementList(page)
@@ -173,10 +173,10 @@
           this.loading = false
         })
       },
-      // 打开编辑对话框的回调
+      // 편집 대화상자의 콜백 열기
       onOpenEditDialog () {
-        // todo 优化
-        // 暂时解决 文本编辑器显示异常bug
+        // todo 최적화
+        // 텍스트 편집기에서 비정상적인 버그를 표시합니다.
         setTimeout(() => {
           if (document.createEvent) {
             let event = document.createEvent('HTMLEvents')
@@ -187,8 +187,8 @@
           }
         }, 0)
       },
-      // 提交编辑
-      // 默认传入MouseEvent
+      // 편집자에게 제출하기
+      // MouseEvent 기본 가져오기
       submitAnnouncement (data = undefined) {
         let funcName = ''
         if (!data.title) {
@@ -210,14 +210,14 @@
           this.init()
         }).catch()
       },
-      // 删除公告
+      // 공지사항 삭제
       deleteAnnouncement (announcementId) {
         this.$confirm('Are you sure you want to delete this announcement?', 'Warning', {
           confirmButtonText: 'Delete',
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          // then 为确定
+          // then 확정하기 위하여
           this.loading = true
           let funcName = this.contestID ? 'deleteContestAnnouncement' : 'deleteAnnouncement'
           api[funcName](announcementId).then(res => {
@@ -225,7 +225,7 @@
             this.init()
           })
         }).catch(() => {
-          // catch 为取消
+          // catch 취소하기 위해
           this.loading = false
         })
       },

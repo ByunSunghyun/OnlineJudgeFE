@@ -19,7 +19,7 @@
       v-model="csv"
       :autoMatchFields="true"
       :autoMatchIgnoreCase="true"
-      :map-fields="['학번']"
+      :map-fields="['student_id_list']"
     >
     </vue-csv-import>
     <div style="padding-top: 50px">
@@ -32,6 +32,11 @@
     <p>{{tfaRequired}}</p>
     <p>{{testcase}}</p>
     <Button @click="init">{{$t('m.Refresh')}}</Button>
+    <li v-for="announcement in announcements" :key="announcement.title">
+      <div class="creator"> {{announcement.title}} {{$t('m.By')}} {{announcement.created_by.username}}</div>
+    </li>
+    <p>{{"가나?"}}{{gana}}</p>
+    <p>{{"get한거"}}{{hihihi}}</p>
   </div>
 </template>
 
@@ -50,13 +55,19 @@
     },
     data () {
       return {
+        gana: false,
+        limit: 10,
+        hihihi: [],
+        total: 10,
+        btnLoading: false,
+        testjsondata: [],
+        announcements: [],
+        announcement: '',
         csv: null,
         testname: '1',
         testcase: '아!',
         tfaRequired: true,
         page: 1,
-        limit: 30,
-        total: 0,
         loadingTable: false,
         dataRank: [],
         columns: [
@@ -193,6 +204,27 @@
           this.tfaRequired = res.data.data.result
           this.testcase = res.data.data.result
         })
+        this.getAnnouncementList()
+        api.ContestStudentIdAPI(1).then(res => {
+          this.gana = true
+        })
+        /** api.getContestStudentIdAPI(1).then(res => {
+          this.hihihi = res.data.data.result
+        }) **/
+      },
+      getAnnouncementList (page = 1) {
+        this.btnLoading = true
+        api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
+          this.btnLoading = false
+          this.announcements = res.data.data.results
+          this.total = res.data.data.total
+        }, () => {
+          this.btnLoading = false
+        })
+        this.testjsondata = {
+          id: 1,
+          student: this.csv
+        }
       },
       getRankData (page) {
         let offset = (page - 1) * this.limit
