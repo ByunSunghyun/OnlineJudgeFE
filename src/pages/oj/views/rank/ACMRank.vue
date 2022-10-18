@@ -35,9 +35,9 @@
     <li v-for="announcement in announcements" :key="announcement.title">
       <div class="creator"> {{announcement.title}} {{$t('m.By')}} {{announcement.created_by.username}}</div>
     </li>
-    <p>{{"가나?"}}{{gana}}</p>
-    <p>{{"get한거"}}{{hihihi}}</p>
-    <p>{{hihihi}}</p>
+    <p>{{"가나? "}}{{gana}}</p>
+    <p>{{"get한거"}}</p>
+    <p>{{hihihi.data}}</p>
   </div>
 </template>
 
@@ -47,7 +47,6 @@
   import utils from '@/utils/utils'
   import { RULE_TYPE } from '@/utils/constants'
   import {VueCsvImport} from 'vue-csv-import'
-
   export default {
     name: 'acm-rank',
     components: {
@@ -65,7 +64,7 @@
         announcements: [],
         announcement: '',
         csv: null,
-        csv2: '{{ "student_id_list": "17010136" }, { "student_id_list": "17010524" }, { "student_id_list": "17010689" }, { "student_id_list": "17011511" }, { "student_id_list": "17011677" }, { "student_id_list": "17011691" }, { "student_id_list": "17013148" }, { "student_id_list": "17013237" }, { "student_id_list": "18011334" }, { "student_id_list": "18011646" }, { "student_id_list": "18011648" }, { "student_id_list": "18011659" }, { "student_id_list": "18011668" }, { "student_id_list": "18011681" }, { "student_id_list": "18011683" }, { "student_id_list": "18011684" }, { "student_id_list": "18011700" }, { "student_id_list": "18011727" }, { "student_id_list": "18011740" }, { "student_id_list": "18011771" }, { "student_id_list": "18013186" }, { "student_id_list": "19011654" }, { "student_id_list": "19011659" }, { "student_id_list": "19011675" }, { "student_id_list": "19013128" }, { "student_id_list": "19013137" }, { "student_id_list": "20003318" }, { "student_id_list": "20011161" }, { "student_id_list": "20011475" }, { "student_id_list": "20011733" }, { "student_id_list": "20011757" }, { "student_id_list": "20011761" }, { "student_id_list": "20011764" }, { "student_id_list": "20011770" }, { "student_id_list": "20011778" }, { "student_id_list": "20011788" }, { "student_id_list": "20011789" }, { "student_id_list": "20011790" }, { "student_id_list": "20012646" }}',
+        csv2: '{ "student_id_list": "17010136" }, { "student_id_list": "17010524" }, { "student_id_list": "17010689" }, { "student_id_list": "17011511" }, { "student_id_list": "17011677" }, { "student_id_list": "17011691" }, { "student_id_list": "17013148" }, { "student_id_list": "17013237" }, { "student_id_list": "18011334" }, { "student_id_list": "18011646" }, { "student_id_list": "18011648" }, { "student_id_list": "18011659" }, { "student_id_list": "18011668" }, { "student_id_list": "18011681" }, { "student_id_list": "18011683" }, { "student_id_list": "18011684" }, { "student_id_list": "18011700" }, { "student_id_list": "18011727" }, { "student_id_list": "18011740" }, { "student_id_list": "18011771" }, { "student_id_list": "18013186" }, { "student_id_list": "19011654" }, { "student_id_list": "19011659" }, { "student_id_list": "19011675" }, { "student_id_list": "19013128" }, { "student_id_list": "19013137" }, { "student_id_list": "20003318" }, { "student_id_list": "20011161" }, { "student_id_list": "20011475" }, { "student_id_list": "20011733" }, { "student_id_list": "20011757" }, { "student_id_list": "20011761" }, { "student_id_list": "20011764" }, { "student_id_list": "20011770" }, { "student_id_list": "20011778" }, { "student_id_list": "20011788" }, { "student_id_list": "20011789" }, { "student_id_list": "20011790" }, { "student_id_list": "20012646" }',
         testname: '1',
         testcase: '아!',
         tfaRequired: true,
@@ -207,12 +206,11 @@
           this.testcase = res.data.data.result
         })
         this.getAnnouncementList()
-        api.ContestStudentIdAPI(1, this.csv2).then(res => {
+        api.ContestStudentIdAPI(2, this.csv).then(res => {
           this.gana = true
         })
-        api.getContestStudentIdAPI(1).then(res => {
-          // this.gana = true
-          this.hihihi = res.data.data.result
+        api.getContestStudentIdAPI(2).then(res => {
+          this.hihihi = res.data
         })
       },
       getAnnouncementList (page = 1) {
