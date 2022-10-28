@@ -93,10 +93,10 @@
           theme: 'solarized',
           lineNumbers: true,
           line: true,
-          // 代码折叠
+          // 코드 폴딩
           foldGutter: true,
           gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-          // 选中文本自动高亮，及高亮方式
+          // 텍스트 자동 하이라이트 및 하이라이트 방식 선택
           styleSelectedText: true,
           lineWrapping: true,
           highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true}

@@ -71,6 +71,7 @@ export const m = {
   // Announcements.vue
   Contest_Announcements: 'Contest Announcements',
   By: 'By',
+  Question_Regist: '질문 등록',
   // ApplyResetPassword.vue
   The_email_doesnt_exist: 'The email doesn\'t exist',
   Success: 'Success',
@@ -110,7 +111,7 @@ export const m = {
   Cancel: 'Cancel',
   // ContestDetail.vue
   Problems: 'Problems',
-  Announcements: 'Announcements',
+  Announcements: 'My Question',
   Submissions: 'Submissions',
   Rankings: 'Rankings',
   Overview: 'Overview',
@@ -145,8 +146,8 @@ export const m = {
   Latex_Editor: 'Latex Editor',
   // NavBar.vue
   Home: 'Home',
-  NavProblems: 'Problems',
-  Contests: 'Contests',
+  NavProblems: 'Questions',
+  Contests: 'Classes',
   NavStatus: 'Status',
   Rank: 'Rank',
   ACM_Rank: 'ACM Rank',
@@ -162,6 +163,7 @@ export const m = {
   Management: 'Management',
   Logout: 'Logout',
   Welcome_to: 'Welcome to',
+  Question: 'questions',
   // announcements.vue
   Refresh: 'Refresh',
   Back: 'Back',
@@ -193,7 +195,7 @@ export const m = {
   // OIContestRank.vue
   Total_Score: 'Total Score',
   // ProblemList.vue
-  Problem_List: 'Problem List',
+  Problem_List: 'Immedient Problems',
   High: 'High',
   Mid: 'Mid',
   Low: 'Low',
@@ -257,5 +259,10 @@ export const m = {
   UserHomeserSubmissions: 'Submissions',
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
-  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
+  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
+  // Question.vue
+  Date: 'Date',
+  Class: 'Class',
+  Problem: 'Problem',
+  Answer: 'Answer'
 }

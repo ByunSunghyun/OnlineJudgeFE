@@ -1,23 +1,34 @@
 <template>
   <div id="header">
     <Menu theme="light" mode="horizontal" @on-select="handleRoute" :active-name="activeMenu" class="oj-menu">
-      <div class="logo"><span>{{website.website_name}}</span></div>
+      <div class="logo"><span>{{"Online Judge"}}</span></div>
+      
       <Menu-item name="/">
         <Icon type="home"></Icon>
         {{$t('m.Home')}}
       </Menu-item>
-      <Menu-item name="/problem">
-        <Icon type="ios-keypad"></Icon>
-        {{$t('m.NavProblems')}}
-      </Menu-item>
+
       <Menu-item name="/contest">
         <Icon type="trophy"></Icon>
         {{$t('m.Contests')}}
       </Menu-item>
+      
+      <Menu-item name="/problem">
+        <Icon type="ios-keypad"></Icon>
+        {{$t('m.NavProblems')}}
+      </Menu-item>
+      
+      
+      <Menu-item name="/question">
+        <Icon type="ios-keypad"></Icon>
+        {{$t('m.Question')}}
+      </Menu-item>
+
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
         {{$t('m.NavStatus')}}
       </Menu-item>
+      <!--
       <Submenu name="rank">
         <template slot="title">
           <Icon type="podium"></Icon>
@@ -30,7 +41,15 @@
           {{$t('m.OI_Rank')}}
         </Menu-item>
       </Submenu>
-      <Submenu name="about">
+      -->
+      <!--
+        <Menu-item name="/question">
+          <Icon type="question"></Icon>
+          {{$t('Question')}}
+        </Menu-item>
+      -->
+
+      <Submenu name="">
         <template slot="title">
           <Icon type="information-circled"></Icon>
           {{$t('m.About')}}
@@ -111,7 +130,7 @@
     },
     computed: {
       ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated', 'isAdminRole']),
-      // 跟随路由变化
+      // 경로를 따라 변화하다
       activeMenu () {
         return '/' + this.$route.path.split('/')[1]
       },
@@ -148,6 +167,7 @@
       font-size: 20px;
       float: left;
       line-height: 60px;
+      color : #2D8CF0;
     }
 
     .drop-menu {

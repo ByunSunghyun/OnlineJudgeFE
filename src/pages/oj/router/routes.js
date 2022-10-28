@@ -14,7 +14,9 @@ import {
   ResetPassword,
   SubmissionDetails,
   SubmissionList,
-  UserHome
+  UserHome,
+  Question,
+  QuestionRegister
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
@@ -25,7 +27,7 @@ export default [
     name: 'home',
     path: '/',
     meta: {title: 'Home'},
-    component: Home
+    component: ProblemList
   },
   {
     name: 'logout',
@@ -49,7 +51,7 @@ export default [
     name: 'problem-list',
     path: '/problem',
     meta: {title: 'Problem List'},
-    component: ProblemList
+    component: Home
   },
   {
     name: 'problem-details',
@@ -177,5 +179,10 @@ export default [
     path: '*',
     meta: {title: '404'},
     component: NotFound
+  },
+  {
+    name: '/questionRegist',
+    path: 'questionRegist',
+    component: QuestionRegister
   }
 ]

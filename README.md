@@ -30,7 +30,7 @@ export NODE_ENV=development
 npm run build:dll
 
 # the dev-server will set proxy table to your backend
-export TARGET=http://Your-backend
+export TARGET=http:/localhost
 
 # serve with hot reload at localhost:8080
 npm run dev
@@ -45,7 +45,7 @@ set NODE_ENV=development
 npm run build:dll
 
 # the dev-server will set proxy table to your backend
-set TARGET=http://Your-backend
+set TARGET=http://localhost
 
 # serve with hot reload at localhost:8080
 npm run dev

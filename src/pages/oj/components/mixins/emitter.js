@@ -5,7 +5,7 @@ function broadcast (componentName, eventName, params) {
     if (name === componentName) {
       child.$emit.apply(child, [eventName].concat(params))
     } else {
-      // todo 如果 params 是空数组，接收到的会是 undefined
+      // todo params가 null 배열이면 undefine을 수신합니다.d
       broadcast.apply(child, [componentName, eventName].concat([params]))
     }
   })
