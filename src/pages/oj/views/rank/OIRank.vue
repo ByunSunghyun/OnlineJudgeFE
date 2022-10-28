@@ -15,6 +15,14 @@
         <td><span v-if="index<prevStep" v-html="index"></span></td>
       </tr>
     </table>
+    <p>{{"test: "}}{{hihihi.data}}</p>
+    <li v-for="contest in hihihi.data" :key="hihihi.data">
+      <p class="title">
+        <a class="entry" @click.stop="goContest(contest.contest_id_list)">
+          {{contest.contest_name}}
+        </a>
+      </p>
+    </li>
     <v-stage ref="stage" :config="stageSize">
       <v-layer>
       <v-text :config="{text: 'Some text on canvas', fontSize: 15}"/>
@@ -41,12 +49,12 @@
 
 <script>
   import Pagination from '@oj/components/Pagination'
+  import api from '@oj/api'
   const width = window.innerWidth
   const height = window.innerHeight
-  /* import api from '@oj/api'
   
-  //import utils from '@/utils/utils'
-  //import { RULE_TYPE } from '@/utils/constants' */
+  /* import utils from '@/utils/utils'
+  import { RULE_TYPE } from '@/utils/constants' */
 
   export default {
     name: 'acm-rank',
@@ -55,8 +63,10 @@
     },
     data () {
       return {
+        hihihi: [],
         prevStep: 0,
         maxStep: 0,
+        testID: 18011668,
         width: width,
         height: height,
         items: [
@@ -81,10 +91,19 @@
     },
     mounted () {
       this.init()
+      this.getClass()
     },
     methods: {
       init () {
         this.maxStep = this.items.length
+      },
+      goContest (contest) {
+        this.$router.push({name: 'contest-details', params: {contestID: contest}})
+      },
+      getClass () {
+        api.getClassList(this.testID).then(res => {
+          this.hihihi = res.data
+        })
       },
       prevStep () {
         if (this.prevStep <= 0) {

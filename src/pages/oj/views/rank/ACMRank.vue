@@ -1,19 +1,4 @@
 <template>
-  <!--<Row type="flex" justify="space-around">
-    <Col :span="22">
-    <Panel :padding="10">
-      <div slot="title">{{$t('m.ACM_Ranklist')}}</div>
-      <div class="echarts">
-        <ECharts :options="options" ref="chart" auto-resize></ECharts>
-      </div>
-    </Panel>
-    <Table :data="dataRank" :columns="columns" :loading="loadingTable" size="large"></Table>
-    <Pagination :total="total" :page-size.sync="limit" :current.sync="page"
-                @on-change="getRankData" show-sizer
-                @on-page-size-change="getRankData(1)"></Pagination>
-    </Col>
-  </Row>
-  -->
   <div id="acm-rank">
     <vue-csv-import
       v-model="csv"
@@ -26,17 +11,12 @@
       <p>Results</p>
       {{ csv }}
     </div>
-    <p>{{$t('m.No_Announcements')}}</p>
-    <p>{{$t('Profile_Setting')}}</p>
-    <p>{{total}}</p>
-    <p>{{tfaRequired}}</p>
-    <p>{{testcase}}</p>
     <Button @click="init">{{$t('m.Refresh')}}</Button>
-    <li v-for="announcement in announcements" :key="announcement.title">
+    <!-- <li v-for="announcement in announcements" :key="announcement.title">
       <div class="creator"> {{announcement.title}} {{$t('m.By')}} {{announcement.created_by.username}}</div>
-    </li>
-    <p>{{"가나? "}}{{gana}}</p>
-    <p>{{"get한거"}}</p>
+    </li>  -->
+    <p>{{"push success?? "}}{{gana}}</p>
+    <p>{{"get한거: "}}</p>
     <p>{{hihihi.data}}</p>
   </div>
 </template>

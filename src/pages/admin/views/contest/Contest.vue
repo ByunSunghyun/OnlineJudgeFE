@@ -61,6 +61,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
+            <el-form-item :label="create_student" required>
+              <p>{{'dd'}}</p>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
             <el-form-item :label="$t('m.Allowed_IP_Ranges')">
               <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
                 <el-row :gutter="20" style="margin-bottom: 15px">
