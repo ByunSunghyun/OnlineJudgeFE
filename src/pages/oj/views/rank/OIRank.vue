@@ -1,25 +1,52 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="22">
-    <Panel :padding="10">
-      <div slot="title">{{$t('m.OI_Ranklist')}}</div>
-      <div class="echarts">
-        <ECharts :options="options" ref="chart" auto-resize></ECharts>
-      </div>
-    </Panel>
-    <Table :data="dataRank" :columns="columns" size="large"></Table>
-    <Pagination :total="total" :page-size.sync="limit" :current.sync="page"
-                @on-change="getRankData"
-                show-sizer @on-page-size-change="getRankData(1)"></Pagination>
-    </Col>
-  </Row>
+  <div id="table"> 
+    <p>비주얼라이징 테스트</p>
+    <p>{{"max step: "}}{{maxStep}}</p>
+    <p>{{"now step: "}}{{prevStep}}</p>
+    <Button @click="prevStep">{{"prev_step"}}</Button>
+    <Button @click="nextStep">{{"next_step"}}</Button>
+    <table>
+      <td>name</td>
+      <td>value</td>
+      <td>index</td>
+      <tr v-if="index<prevStep" v-for="(item, index) in items" :key="items.name">
+        <td><span v-if="index<prevStep" v-html="item.name"></span></td>
+        <td><span v-if="index<prevStep" v-html="item.value"></span></td>
+        <td><span v-if="index<prevStep" v-html="index"></span></td>
+      </tr>
+    </table>
+    <v-stage ref="stage" :config="stageSize">
+      <v-layer>
+      <v-text :config="{text: 'Some text on canvas', fontSize: 15}"/>
+      <v-rect :config="{
+          x: 20,
+          y: 50,
+          width: 100,
+          height: 100,
+          fill: 'red',
+          shadowBlur: 10
+        }"
+      />
+      <v-circle :config="{
+          x: 200,
+          y: 100,
+          radius: 50,
+          fill: 'green'
+        }"
+      /></v-layer>
+      <v-layer ref="dragLayer"></v-layer>
+    </v-stage>
+  </div>
 </template>
 
 <script>
-  import api from '@oj/api'
   import Pagination from '@oj/components/Pagination'
-  import utils from '@/utils/utils'
-  import { RULE_TYPE } from '@/utils/constants'
+  const width = window.innerWidth
+  const height = window.innerHeight
+  /* import api from '@oj/api'
+  
+  //import utils from '@/utils/utils'
+  //import { RULE_TYPE } from '@/utils/constants' */
 
   export default {
     name: 'acm-rank',
@@ -28,162 +55,72 @@
     },
     data () {
       return {
-        page: 1,
-        limit: 30,
-        total: 0,
-        dataRank: [],
-        columns: [
+        prevStep: 0,
+        maxStep: 0,
+        width: width,
+        height: height,
+        items: [
           {
-            align: 'center',
-            width: 60,
-            render: (h, params) => {
-              return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
-            }
+            'name': 'a',
+            'value': '123'
           },
           {
-            title: this.$i18n.t('m.User_User'),
-            align: 'center',
-            render: (h, params) => {
-              return h('a', {
-                style: {
-                  'display': 'inline-block',
-                  'max-width': '200px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push(
-                      {
-                        name: 'user-home',
-                        query: {username: params.row.user.username}
-                      })
-                  }
-                }
-              }, params.row.user.username)
-            }
+            'name': 'b',
+            'value': '234'
           },
           {
-            title: this.$i18n.t('m.mood'),
-            align: 'center',
-            key: 'mood'
+            'name': 'c',
+            'value': '123'
           },
           {
-            title: this.$i18n.t('m.Score'),
-            align: 'center',
-            key: 'total_score'
-          },
-          {
-            title: this.$i18n.t('m.AC'),
-            align: 'center',
-            key: 'accepted_number'
-          },
-          {
-            title: this.$i18n.t('m.Total'),
-            align: 'center',
-            key: 'submission_number'
-          },
-          {
-            title: this.$i18n.t('m.Rating'),
-            align: 'center',
-            render: (h, params) => {
-              return h('span', utils.getACRate(params.row.accepted_number, params.row.submission_number))
-            }
+            'name': 'd',
+            'value': '456'
           }
-        ],
-        options: {
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data: [this.$i18n.t('m.Score')]
-          },
-          grid: {
-            x: '3%',
-            x2: '3%'
-          },
-          toolbox: {
-            show: true,
-            feature: {
-              dataView: {show: true, readOnly: true},
-              magicType: {show: true, type: ['line', 'bar']},
-              saveAsImage: {show: true}
-            },
-            right: '10%'
-          },
-          calculable: true,
-          xAxis: [
-            {
-              type: 'category',
-              data: ['root'],
-              boundaryGap: true,
-              axisLabel: {
-                interval: 0,
-                showMinLabel: true,
-                showMaxLabel: true,
-                align: 'center',
-                formatter: (value, index) => {
-                  return utils.breakLongWords(value, 14)
-                }
-              },
-              axisTick: {
-                alignWithLabel: true
-              }
-            }
-          ],
-          yAxis: [
-            {
-              type: 'value'
-            }
-          ],
-          series: [
-            {
-              name: this.$i18n.t('m.Score'),
-              type: 'bar',
-              data: [0],
-              barMaxWidth: '80',
-              markPoint: {
-                data: [
-                  {type: 'max', name: 'max'}
-                ]
-              }
-            }
-          ]
-        }
+        ]
       }
     },
     mounted () {
-      this.getRankData(1)
+      this.init()
     },
     methods: {
-      getRankData (page) {
-        let offset = (page - 1) * this.limit
-        let bar = this.$refs.chart
-        bar.showLoading({maskColor: 'rgba(250, 250, 250, 0.8)'})
-        api.getUserRank(offset, this.limit, RULE_TYPE.OI).then(res => {
-          if (page === 1) {
-            this.changeCharts(res.data.data.results.slice(0, 10))
-          }
-          this.total = res.data.data.total
-          this.dataRank = res.data.data.results
-          bar.hideLoading()
-        })
+      init () {
+        this.maxStep = this.items.length
       },
-      changeCharts (rankData) {
-        let [usernames, scores] = [[], []]
-        rankData.forEach(ele => {
-          usernames.push(ele.user.username)
-          scores.push(ele.total_score)
-        })
-        this.options.xAxis[0].data = usernames
-        this.options.series[0].data = scores
+      prevStep () {
+        if (this.prevStep <= 0) {
+          this.prevStep = 0
+        } else {
+          this.prevStep = this.prevStep - 1
+        }
+      },
+      nextStep () {
+        if (this.items.length === this.prevStep) {
+          this.prevStep = this.items.length
+        } else {
+          this.prevStep = this.prevStep + 1
+        }
+      },
+      createRow () {
+        this.prevStep = 0
       }
     }
   }
 </script>
-
 <style scoped lang="less">
-  .echarts {
-    margin: 0 auto;
-    width: 95%;
-    height: 400px;
-  }
+  td, th, table {
+      font-size: 30px;
+      padding: 10px;
+      border: 1px solid rgb(0, 0, 0);
+      white-space: nowrap;
+      width: fit-content;
+    }
+    td, th{
+      text-align: center;
+      white-space: nowrap;
+      width: fit-content;
+    }
+    table{
+      width: fit-content;
+    }
+
 </style>
