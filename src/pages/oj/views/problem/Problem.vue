@@ -209,7 +209,7 @@
   import api from '@oj/api'
   import {pie, largePie} from './chartData'
 
-  // 只显示这些状态的图形占用
+  // 이 상태만 보여주는 그림 점유율
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
 
   export default {
@@ -252,7 +252,7 @@
         },
         pie: pie,
         largePie: largePie,
-        // echarts 无法获取隐藏dom的大小，需手动指定
+        // echarts 숨겨진 dom의 크기를 가져올 수 없습니다. 수동으로 지정해야 합니다.
         largePieInitOpts: {
           width: '500',
           height: '480'
@@ -295,7 +295,7 @@
             this.changePie(problem)
           }
 
-          // 在beforeRouteEnter中修改了, 说明本地有code，无需加载template
+          // beforeRouteEnter에서 수정했는데, 로컬에 code가 있으므로 template를 로드할 필요가 없습니다
           if (this.code !== '') {
             return
           }
@@ -310,7 +310,7 @@
         })
       },
       changePie (problemData) {
-        // 只显示特定的一些状态
+        // 특정 상태만 보이기
         for (let k in problemData.statistic_info) {
           if (filtedStatus.indexOf(k) === -1) {
             delete problemData.statistic_info[k]
@@ -322,19 +322,19 @@
           {name: 'AC', value: acNum}
         ]
         this.pie.series[0].data = data
-        // 只把大图的AC selected下，这里需要做一下deepcopy
+        // 큰 그림의 AC selected 아래, 여기에 deepcopy가 필요합니다.
         let data2 = JSON.parse(JSON.stringify(data))
         data2[1].selected = true
         this.largePie.series[1].data = data2
 
-        // 根据结果设置legend,没有提交过的legend不显示
+        // 결과에 따라 legend를 설정하고, 제출하지 않은 legend는 표시되지 않습니다.
         let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
         if (legend.length === 0) {
           legend.push('AC', 'WA')
         }
         this.largePie.legend.data = legend
 
-        // 把ac的数据提取出来放在最后
+        // ac의 데이터를 추출하여 마지막에 두다
         let acCount = problemData.statistic_info['0']
         delete problemData.statistic_info['0']
 
@@ -373,9 +373,9 @@
         })
       },
       checkSubmissionStatus () {
-        // 使用setTimeout避免一些问题
+        // setTimeout을 사용하여 몇 가지 문제를 피합니다
         if (this.refreshStatus) {
-          // 如果之前的提交状态检查还没有停止,则停止,否则将会失去timeout的引用造成无限请求
+          // 만약 이전의 제출 상태 검사가 아직 중지되지 않았다면, 중지하고, 그렇지 않으면 timeout의 인용을 잃게 되어 무한 청구가 됩니다.
           clearTimeout(this.refreshStatus)
         }
         const checkStatus = () => {
@@ -418,7 +418,7 @@
           this.statusVisible = true
           api.submitCode(data).then(res => {
             this.submissionId = res.data.data && res.data.data.submission_id
-            // 定时检查状态
+            // 정시에 상태를 점검하다.
             this.submitting = false
             this.submissionExists = true
             if (!detailsVisible) {
@@ -446,7 +446,7 @@
               title: '',
               content: '<h3>' + this.$i18n.t('m.You_have_submission_in_this_problem_sure_to_cover_it') + '<h3>',
               onOk: () => {
-                // 暂时解决对话框与后面提示对话框冲突的问题(否则一闪而过）
+                // 대화 상자가 뒤에 오는 프롬프트와 충돌하는 문제를 잠시 해결합니다(그렇지 않으면 스쳐 지나갑니다)
                 setTimeout(() => {
                   submitFunc(data, false)
                 }, 1000)
@@ -492,7 +492,7 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      // 防止切换组件后仍然不断请求
+      // 구성 요소 전환 방지 요청
       clearInterval(this.refreshStatus)
 
       this.$store.commit(types.CHANGE_CONTEST_ITEM_VISIBLE, {menu: true})

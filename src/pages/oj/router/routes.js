@@ -14,6 +14,8 @@ import {
   ResetPassword,
   SubmissionDetails,
   SubmissionList,
+  TestV,
+  Question,
   UserHome
 } from '../views'
 
@@ -177,5 +179,17 @@ export default [
     path: '*',
     meta: {title: '404'},
     component: NotFound
+  },
+  {
+    name: 'test-v',
+    path: '/test-v',
+    meta: {title: 'test-view'},
+    component: TestV
+  },
+  {
+    name: 'question',
+    path: '/question',
+    meta: {title: 'question'},
+    component: Question
   }
 ]

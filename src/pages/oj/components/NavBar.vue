@@ -10,6 +10,10 @@
         <Icon type="ios-keypad"></Icon>
         {{$t('m.NavProblems')}}
       </Menu-item>
+      <Menu-item name="/question">
+        <Icon type="ios-keypad"></Icon>
+        {{"question"}}
+      </Menu-item>
       <Menu-item name="/contest">
         <Icon type="trophy"></Icon>
         {{$t('m.Contests')}}
@@ -23,11 +27,14 @@
           <Icon type="podium"></Icon>
           {{$t('m.Rank')}}
         </template>
-        <Menu-item name="/acm-rank">
+        <Menu-item name="/acm-rank">  
           {{$t('m.ACM_Rank')}}
         </Menu-item>
         <Menu-item name="/oi-rank">
           {{$t('m.OI_Rank')}}
+        </Menu-item>
+        <Menu-item name="/test-v">
+          {{"testv"}}
         </Menu-item>
       </Submenu>
       <Submenu name="about">

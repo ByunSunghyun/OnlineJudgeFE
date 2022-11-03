@@ -14,7 +14,7 @@
 + Easy use simditor & Nice codemirror editor
 + Amazing charting and visualization(echarts)
 + User-friendly operation
-+ Quite beautifulï¼?)
++ Quite beautifulï¿½?)
 
 ## Get Started
 

@@ -20,7 +20,7 @@ const router = new VueRouter({
   routes
 })
 
-// 全局身份确认
+// 전역적 신원 확인
 router.beforeEach((to, from, next) => {
   Vue.prototype.$Loading.start()
   if (to.matched.some(record => record.meta.requiresAuth)) {

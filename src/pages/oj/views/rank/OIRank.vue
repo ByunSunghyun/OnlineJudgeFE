@@ -2,17 +2,17 @@
   <div id="table"> 
     <p>비주얼라이징 테스트</p>
     <p>{{"max step: "}}{{maxStep}}</p>
-    <p>{{"now step: "}}{{prevStep}}</p>
+    <p>{{"now step: "}}{{nowStep}}</p>
     <Button @click="prevStep">{{"prev_step"}}</Button>
     <Button @click="nextStep">{{"next_step"}}</Button>
     <table>
       <td>name</td>
       <td>value</td>
       <td>index</td>
-      <tr v-if="index<prevStep" v-for="(item, index) in items" :key="items.name">
-        <td><span v-if="index<prevStep" v-html="item.name"></span></td>
-        <td><span v-if="index<prevStep" v-html="item.value"></span></td>
-        <td><span v-if="index<prevStep" v-html="index"></span></td>
+      <tr v-if="index<nowStep" v-for="(item, index) in items" :key="items.name">
+        <td><span v-if="index<nowStep" v-html="item.name"></span></td>
+        <td><span v-if="index<nowStep" v-html="item.value"></span></td>
+        <td><span v-if="index<nowStep" v-html="index"></span></td>
       </tr>
     </table>
     <p>{{"test: "}}{{hihihi.data}}</p>
@@ -43,7 +43,7 @@
     data () {
       return {
         hihihi: [],
-        prevStep: 0,
+        nowStep: 0,
         maxStep: 0,
         testID: 18011668,
         width: width,
@@ -85,17 +85,17 @@
         })
       },
       prevStep () {
-        if (this.prevStep <= 0) {
-          this.prevStep = 0
+        if (this.nowStep <= 0) {
+          this.nowStep = 0
         } else {
-          this.prevStep = this.prevStep - 1
+          this.nowStep = this.nowStep - 1
         }
       },
       nextStep () {
-        if (this.items.length === this.prevStep) {
-          this.prevStep = this.items.length
+        if (this.items.length === this.nowStep) {
+          this.nowStep = this.items.length
         } else {
-          this.prevStep = this.prevStep + 1
+          this.nowStep = this.nowStep + 1
         }
       },
       createRow () {
