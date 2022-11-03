@@ -111,7 +111,7 @@ export const m = {
   Cancel: 'Cancel',
   // ContestDetail.vue
   Problems: 'Problems',
-  Announcements: 'My Question',
+  Announcements: 'Announcements',
   Submissions: 'Submissions',
   Rankings: 'Rankings',
   Overview: 'Overview',
@@ -145,8 +145,8 @@ export const m = {
   // KatexEditor.vue
   Latex_Editor: 'Latex Editor',
   // NavBar.vue
-  Home: 'Home',
-  NavProblems: 'Questions',
+  Home: 'Classes',
+  NavProblems: 'Notices',
   Contests: 'Classes',
   NavStatus: 'Status',
   Rank: 'Rank',
@@ -163,7 +163,7 @@ export const m = {
   Management: 'Management',
   Logout: 'Logout',
   Welcome_to: 'Welcome to',
-  Question: 'questions',
+  Question: 'Questions',
   // announcements.vue
   Refresh: 'Refresh',
   Back: 'Back',
@@ -260,9 +260,12 @@ export const m = {
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
   UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
+  // Question Register.vue
+  Question_regist: 'Question Register',
   // Question.vue
   Date: 'Date',
   Class: 'Class',
   Problem: 'Problem',
-  Answer: 'Answer'
+  Answer: 'Answer',
+  My_question: 'My Question'
 }

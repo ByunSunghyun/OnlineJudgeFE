@@ -7,7 +7,7 @@ import NotFound from './general/404.vue'
 import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
 import Question from './question/question.vue'
-import QuestionRegist from './question/QuestionRegister.vue'
+import QuestionRegist from './question/questionRegister.vue'
 
 // Grouping Components in the Same Chunk
 const SubmissionList = () => import(/* webpackChunkName: "submission" */ '@oj/views/submission/SubmissionList.vue')

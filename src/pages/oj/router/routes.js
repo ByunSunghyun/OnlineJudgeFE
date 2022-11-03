@@ -27,7 +27,7 @@ export default [
     name: 'home',
     path: '/',
     meta: {title: 'Home'},
-    component: ProblemList
+    component: Contest.ContestList
   },
   {
     name: 'logout',
@@ -179,6 +179,11 @@ export default [
     path: '*',
     meta: {title: '404'},
     component: NotFound
+  },
+  {
+    name: '/question',
+    path: '/question',
+    component: Question
   },
   {
     name: '/questionRegist',
