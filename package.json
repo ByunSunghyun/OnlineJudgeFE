@@ -27,6 +27,7 @@
     "screenfull": "^3.3.2",
     "tar-simditor": "^3.0.5",
     "tar-simditor-markdown": "^1.2.3",
+    "v-network-graph": "^0.6.10",
     "vue": "^2.5.16",
     "vue-analytics": "^5.10.4",
     "vue-clipboard2": "^0.2.1",
@@ -36,6 +37,7 @@
     "vue-echarts": "^2.6.0",
     "vue-i18n": "^7.7.0",
     "vue-router": "^3.0.1",
+    "vue-tree-chart": "^1.2.9",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0"
   },
