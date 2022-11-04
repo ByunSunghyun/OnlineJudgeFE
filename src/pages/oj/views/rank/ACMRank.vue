@@ -1,18 +1,24 @@
 <template>
-  <Row type="flex" justify="space-around">
-    <Col :span="22">
-    <Panel :padding="10">
-      <div slot="title">{{$t('m.ACM_Ranklist')}}</div>
-      <div class="echarts">
-        <ECharts :options="options" ref="chart" auto-resize></ECharts>
-      </div>
-    </Panel>
-    <Table :data="dataRank" :columns="columns" :loading="loadingTable" size="large"></Table>
-    <Pagination :total="total" :page-size.sync="limit" :current.sync="page"
-                @on-change="getRankData" show-sizer
-                @on-page-size-change="getRankData(1)"></Pagination>
-    </Col>
-  </Row>
+  <div id="acm-rank">
+    <vue-csv-import
+      v-model="csv"
+      :autoMatchFields="true"
+      :autoMatchIgnoreCase="true"
+      :map-fields="['student_id_list']"
+    >
+    </vue-csv-import>
+    <div style="padding-top: 50px">
+      <p>Results</p>
+      {{ csv }}
+    </div>
+    <Button @click="init">{{$t('m.Refresh')}}</Button>
+    <!-- <li v-for="announcement in announcements" :key="announcement.title">
+      <div class="creator"> {{announcement.title}} {{$t('m.By')}} {{announcement.created_by.username}}</div>
+    </li>  -->
+    <p>{{"push success?? "}}{{gana}}</p>
+    <p>{{"get한거: "}}</p>
+    <p>{{hihihi.data}}</p>
+  </div>
 </template>
 
 <script>
@@ -20,17 +26,29 @@
   import Pagination from '@oj/components/Pagination'
   import utils from '@/utils/utils'
   import { RULE_TYPE } from '@/utils/constants'
-
+  import {VueCsvImport} from 'vue-csv-import'
   export default {
     name: 'acm-rank',
     components: {
-      Pagination
+      Pagination,
+      VueCsvImport
     },
     data () {
       return {
+        gana: false,
+        limit: 10,
+        hihihi: [],
+        total: 10,
+        btnLoading: false,
+        testjsondata: [],
+        announcements: [],
+        announcement: '',
+        csv: null,
+        csv2: '{ "student_id_list": "17010136" }, { "student_id_list": "17010524" }, { "student_id_list": "17010689" }, { "student_id_list": "17011511" }, { "student_id_list": "17011677" }, { "student_id_list": "17011691" }, { "student_id_list": "17013148" }, { "student_id_list": "17013237" }, { "student_id_list": "18011334" }, { "student_id_list": "18011646" }, { "student_id_list": "18011648" }, { "student_id_list": "18011659" }, { "student_id_list": "18011668" }, { "student_id_list": "18011681" }, { "student_id_list": "18011683" }, { "student_id_list": "18011684" }, { "student_id_list": "18011700" }, { "student_id_list": "18011727" }, { "student_id_list": "18011740" }, { "student_id_list": "18011771" }, { "student_id_list": "18013186" }, { "student_id_list": "19011654" }, { "student_id_list": "19011659" }, { "student_id_list": "19011675" }, { "student_id_list": "19013128" }, { "student_id_list": "19013137" }, { "student_id_list": "20003318" }, { "student_id_list": "20011161" }, { "student_id_list": "20011475" }, { "student_id_list": "20011733" }, { "student_id_list": "20011757" }, { "student_id_list": "20011761" }, { "student_id_list": "20011764" }, { "student_id_list": "20011770" }, { "student_id_list": "20011778" }, { "student_id_list": "20011788" }, { "student_id_list": "20011789" }, { "student_id_list": "20011790" }, { "student_id_list": "20012646" }',
+        testname: '1',
+        testcase: '아!',
+        tfaRequired: true,
         page: 1,
-        limit: 30,
-        total: 0,
         loadingTable: false,
         dataRank: [],
         columns: [
@@ -151,10 +169,44 @@
         }
       }
     },
+    created () {
+      this.testcase(1)
+    },
     mounted () {
       this.getRankData(1)
+      this.init()
     },
     methods: {
+      testChange (testchar) {
+        this.testcase = 'testchar'
+      },
+      init () {
+        api.tfaRequiredCheck(this.testname).then(res => {
+          this.tfaRequired = res.data.data.result
+          this.testcase = res.data.data.result
+        })
+        this.getAnnouncementList()
+        api.ContestStudentIdAPI(2, this.csv).then(res => {
+          this.gana = true
+        })
+        api.getContestStudentIdAPI(2).then(res => {
+          this.hihihi = res.data
+        })
+      },
+      getAnnouncementList (page = 1) {
+        this.btnLoading = true
+        api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
+          this.btnLoading = false
+          this.announcements = res.data.data.results
+          this.total = res.data.data.total
+        }, () => {
+          this.btnLoading = false
+        })
+        this.testjsondata = {
+          id: 1,
+          student: this.csv
+        }
+      },
       getRankData (page) {
         let offset = (page - 1) * this.limit
         let bar = this.$refs.chart

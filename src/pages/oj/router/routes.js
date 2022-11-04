@@ -186,8 +186,8 @@ export default [
     component: Question
   },
   {
-    name: '/questionRegist',
-    path: 'questionRegist',
+    name: 'questionRegister',
+    path: '/questionRegister',
     component: QuestionRegister
   }
 ]

@@ -71,11 +71,12 @@
   import { mapGetters } from 'vuex'
   import api from '@oj/api'
   import utils from '@/utils/utils'
-  import { ProblemMixin } from '@oj/components/mixins'
+  import { QuestionMixin } from '@oj/components/mixins'
   import Pagination from '@oj/components/Pagination'
 
   export default {
     name: 'Announcement',
+    mixins: [QuestionMixin],
     components: {
       Pagination
     },
@@ -83,10 +84,10 @@
       return {
         limit: 10,
         total: 10,
-        btnLoading: false,
         QuestionTableColumns: [
           {
             title: this.$i18n.t('m.Date'),
+            align: 'center',
             width: 150,
             render: (h, params) => {
               return h('Button', {
@@ -103,11 +104,12 @@
                   textAlign: 'center',
                   padding: '2px 0'
                 }
-              }, params.row._id)
+              }, params.row.date)
             }
           },
           {
             title: this.$i18n.t('m.Class'),
+            align: 'center',
             width: 300,
             render: (h, params) => {
               return h('Button', {
@@ -118,11 +120,12 @@
                 style: {
                   textAlign: 'center'
                 }
-              })
+              }, params.row.class)
             }
           },
           {
             title: this.$i18n.t('m.Problem'),
+            align: 'center',
             width: 300,
             render: (h, params) => {
               return h('Button', {
@@ -133,11 +136,12 @@
                 style: {
                   textAlign: 'center'
                 }
-              })
+              }, params.row.problem)
             }
           },
           {
             title: this.$i18n.t('m.Title'),
+            align: 'center',
             width: 300,
             render: (h, params) => {
               return h('Button', {
@@ -148,11 +152,12 @@
                 style: {
                   textAlign: 'center'
                 }
-              })
+              }, params.row.title)
             }
           },
           {
             title: this.$i18n.t('m.Answer'),
+            align: 'center',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -162,17 +167,20 @@
                 style: {
                   textAlign: 'center'
                 }
-              })
+              }, params.row.answer)
             }
           }
         ],
+        loadings: [],
+        routeName: '',
+        query: {
+          keyword: '',
+          difficulty: '',
+          tag: '',
+          page: 1,
+          limit: 10
+        },
         questionList: [],
-        loadings: [
-
-        ],
-
-        announcements: [],
-        announcement: '',
         listVisible: true
       }
     },
@@ -182,16 +190,44 @@
     methods: {
       goRegist () {
         this.$router.push({
-          name: '/questionRegist'
+          name: 'questionRegister'
         })
       },
       init () {
-        if (this.isContest) {
-          this.getContestAnnouncementList()
-        } else {
-          this.getAnnouncementList()
+        this.routeName = this.$route.name
+        let query = this.$route.query
+        this.query.difficulty = query.difficulty || ''
+        this.query.keyword = query.keyword || ''
+        this.query.tag = query.tag || ''
+        this.query.page = parseInt(query.page) || 1
+        if (this.query.page < 1) {
+          this.query.page = 1
         }
+        this.query.limit = parseInt(query.limit) || 10
+        this.getQuestionList()
       },
+      pushRouter () {
+        this.$router.push({
+          name: '/question',
+          query: utils.filterEmptyValue(this.query)
+        })
+      },
+      getQuestionList () {
+        // getProblemList from ProblemList.vue
+        let offset = (this.query.page - 1) * this.query.limit
+        this.loadings.table = true
+        api.getQuestionList(offset, this.limit, this.query).then(res => {
+          this.loadings.table = false
+          this.total = res.data.data.total
+          this.questionList = res.data.data.results
+          if (this.isAuthenticated) {
+            this.addStatusColumn(this.QuestionTableColumns, res.data.data.results)
+          }
+        }, res => {
+          this.loadings.table = false
+        })
+      },
+      /*
       getAnnouncementList (page = 1) {
         this.btnLoading = true
         api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
@@ -202,55 +238,26 @@
           this.btnLoading = false
         })
       },
-      getContestAnnouncementList () {
-        this.btnLoading = true
-        api.getContestAnnouncementList(this.$route.params.contestID).then(res => {
-          this.btnLoading = false
-          this.announcements = res.data.data
-        }, () => {
-          this.btnLoading = false
-        })
-      },
-      goAnnouncement (announcement) {
-        this.announcement = announcement
-        this.listVisible = false
-      },
+      */
+      // announcement.vue
       goBack () {
         this.listVisible = true
         this.announcement = ''
-      },
-      openAnnouncementDialog (id) {
-        this.showEditAnnouncementDialog = true
-        if (id !== null) {
-          this.currentAnnouncementId = id
-          this.announcementDialogTitle = 'Edit Announcement'
-          this.announcementList.find(item => {
-            if (item.id === this.currentAnnouncementId) {
-              this.announcement.title = item.title
-              this.announcement.visible = item.visible
-              this.announcement.content = item.content
-              this.mode = 'edit'
-            }
-          })
-        } else {
-          this.announcementDialogTitle = 'Create Announcement'
-          this.announcement.title = ''
-          this.announcement.visible = true
-          this.announcement.content = ''
-          this.mode = 'create'
-        }
       }
     },
     computed: {
-      title () {
-        if (this.listVisible) {
-          return this.isContest ? this.$i18n.t('m.Contest_Announcements') : this.$i18n.t('m.Announcements')
-        } else {
-          return this.announcement.title
+      ...mapGetters(['isAuthenticated'])
+    },
+    watch: {
+      '$route' (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.init(true)
         }
       },
-      isContest () {
-        return !!this.$route.params.contestID
+      'isAuthenticated' (newVal) {
+        if (newVal === true) {
+          this.init()
+        }
       }
     }
   }
