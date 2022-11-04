@@ -30,7 +30,7 @@
           </el-form>
         </div>
       </el-card>
-      <panel :title="$t('m.System_Overview')" v-if="isSuperAdmin">
+      <!-- <panel :title="$t('m.System_Overview')" v-if="isSuperAdmin">
         <p>{{$t('m.DashBoardJudge_Server')}}:  {{infoData.judge_server_count}}</p>
         <p>{{$t('m.HTTPS_Status')}}:
           <el-tag :type="https ? 'success' : 'danger'" size="small">
@@ -47,10 +47,10 @@
             {{cdn ? cdn : 'Not Use'}}
           </el-tag>
         </p>
-      </panel>
+      </panel>-->
     </el-col>
 
-    <el-col :md="14" :lg="16" v-if="isSuperAdmin">
+    <el-col :md="20" :lg="40" v-if="isSuperAdmin">
       <div class="info-container">
         <info-card color="#909399" icon="el-icon-fa-users" message="Total Users" iconSize="30px" class="info-item"
                    :value="infoData.user_count"></info-card>
@@ -59,7 +59,7 @@
         <info-card color="#409EFF" icon="el-icon-fa-trophy" message="Recent Contests" class="info-item"
                    :value="infoData.recent_contest_count"></info-card>
       </div>
-      <panel style="margin-top: 5px">
+      <!-- <panel style="margin-top: 5px">
         <span slot="title" v-loading="loadingReleases">Release Notes
         <el-popover placement="right" trigger="hover">
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
@@ -68,9 +68,9 @@
           http://docs.onlinejudge.me/#/onlinejudge/guide/upgrade</a>
           </p>
         </el-popover>
-        </span>
+        </span> -->
 
-        <el-collapse v-model="activeNames" v-for="(release, index) of releases" :key="'release' + index">
+        <!-- <el-collapse v-model="activeNames" v-for="(release, index) of releases" :key="'release' + index">
           <el-collapse-item :name="index+1">
             <template slot="title">
               <div v-if="release.new_version">{{release.title}}
@@ -86,7 +86,7 @@
               </ul>
             </div>
           </el-collapse-item>
-        </el-collapse>
+        </el-collapse>-->
       </panel>
     </el-col>
   </el-row>
