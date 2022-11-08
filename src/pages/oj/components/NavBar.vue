@@ -36,6 +36,9 @@
         <Menu-item name="/test-v">
           {{"testv"}}
         </Menu-item>
+        <Menu-item name="/submit-test">
+          {{"submittest"}}
+        </Menu-item>
       </Submenu>
       <Submenu name="about">
         <template slot="title">

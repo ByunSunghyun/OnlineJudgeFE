@@ -15,6 +15,7 @@ import {
   SubmissionDetails,
   SubmissionList,
   TestV,
+  SubmitTest,
   Question,
   UserHome
 } from '../views'
@@ -185,6 +186,12 @@ export default [
     path: '/test-v',
     meta: {title: 'test-view'},
     component: TestV
+  },
+  {
+    name: 'submit-test',
+    path: '/submit-test',
+    meta: {title: 'submittest'},
+    component: SubmitTest
   },
   {
     name: 'question',
