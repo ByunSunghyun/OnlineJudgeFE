@@ -17,7 +17,7 @@
       </Alert>
     </Col>
 
-    <!--后台返info就显示出来， 权限控制放后台 -->
+    <!-- 백그라운드로 돌아가면 나타납니다. 권한 제어 백그라운드로 이동 -->
     <Col v-if="submission.info && !isCE" :span="20">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
