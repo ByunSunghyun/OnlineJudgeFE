@@ -1,49 +1,5 @@
-
+<!-- problem-list 참조 -->
 <template>
-  <!--
-    
-    <Panel shadow :padding="10">
-      <div slot="title">
-        {{title}}
-      </div>
-      <div slot="extra">
-        <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
-        <Button v-else type="ghost" icon="ios-undo" @click="goBack">{{$t('m.Back')}}</Button>
-      </div>
-  
-      <transition-group name="announcement-animate" mode="in-out">
-        <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
-          <p>{{$t('m.No_Announcements')}}</p>
-        </div>
-        <template v-if="listVisible">
-          <ul class="announcements-container" key="list">
-            <li v-for="announcement in announcements" :key="announcement.title">
-              <div class="flex-container">
-                <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
-                  {{announcement.title}}</a></div>
-                <div class="date">{{announcement.create_time | localtime }}</div>
-                <div class="creator"> {{$t('m.By')}} {{announcement.created_by.username}}</div>
-              </div>
-            </li>
-          </ul>
-  
-          <el-button type="primary" size="small" @click="openAnnouncementDialog(null)" icon="el-icon-plus">Create</el-button>
-          <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">{{$t('m.Refresh')}}</Button>
-          <Pagination v-if="!isContest"
-                      key="page"
-                      :total="total"
-                      :page-size="limit"
-                      @on-change="getAnnouncementList">
-          </Pagination>
-        </template>
-  
-        <template v-else>
-          <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
-        </template>
-      </transition-group>
-    </Panel>
-  -->
-
   <Panel shadow :padding="10">
       <div slot="title">
         {{$t('m.My_question')}}
@@ -61,9 +17,11 @@
 
       <div>
         <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_Regist')}}</Button>
+        <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
+        <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
+        <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
       </div>
   </panel>
-
   
 </template>
 
@@ -85,28 +43,6 @@
         limit: 10,
         total: 10,
         QuestionTableColumns: [
-          {
-            title: this.$i18n.t('m.Date'),
-            align: 'center',
-            width: 150,
-            render: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text',
-                  size: 'large'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push({name: 'question_date', params: {questionID: params.row._id}})
-                  }
-                },
-                style: {
-                  textAlign: 'center',
-                  padding: '2px 0'
-                }
-              }, params.row.date)
-            }
-          },
           {
             title: this.$i18n.t('m.Class'),
             align: 'center',
@@ -191,6 +127,21 @@
       goRegist () {
         this.$router.push({
           name: 'questionRegister'
+        })
+      },
+      goDetail () {
+        this.$router.push({
+          name: 'questionDetails'
+        })
+      },
+      goAnswer () {
+        this.$router.push({
+          name: 'answerRegister'
+        })
+      },
+      goAnswerDet () {
+        this.$router.push({
+          name: 'answerDetails'
         })
       },
       init () {

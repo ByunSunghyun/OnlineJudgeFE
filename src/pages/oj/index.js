@@ -7,6 +7,8 @@ import i18n from '@/i18n'
 import VueClipboard from 'vue-clipboard2'
 import VueAnalytics from 'vue-analytics'
 import { GOOGLE_ANALYTICS_ID } from '@/utils/constants'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
@@ -32,6 +34,9 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
 import 'echarts/lib/component/markPoint'
 
+import Save from './components/btn/Save.vue'
+import Cancel from './components/btn/Cancel.vue'
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -39,6 +44,10 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 Vue.use(iView, {
+  i18n: (key, value) => i18n.t(key, value)
+})
+
+Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
@@ -54,6 +63,8 @@ Vue.component('ECharts', ECharts)
 Vue.component(VerticalMenu.name, VerticalMenu)
 Vue.component(VerticalMenuItem.name, VerticalMenuItem)
 Vue.component(Panel.name, Panel)
+Vue.component(Save.name, Save)
+Vue.component(Cancel.name, Cancel)
 
 // 注册全局消息提示
 Vue.prototype.$Message.config({

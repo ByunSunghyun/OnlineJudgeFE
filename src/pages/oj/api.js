@@ -129,6 +129,21 @@ export default {
       params: params
     })
   },
+  getQuestionList (offset, limit, searchParams) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('problem', 'get', {
+      params: params
+    })
+  },
   pickone () {
     return ajax('pickone', 'get')
   },

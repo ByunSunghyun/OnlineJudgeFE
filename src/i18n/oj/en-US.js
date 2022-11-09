@@ -262,10 +262,21 @@ export const m = {
   UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
   // Question Register.vue
   Question_regist: 'Question Register',
+  Class_ID: 'Class ID',
+  Problem_ID: 'Problem ID',
+  input_description: 'Input Description',
   // Question.vue
   Date: 'Date',
   Class: 'Class',
   Problem: 'Problem',
   Answer: 'Answer',
-  My_question: 'My Question'
+  My_question: 'My Question',
+  // QuestionDetail.vue
+  Question_Content: 'Question Contents',
+  // AnswerRegister.vue
+  Answer_regist: 'Answer Register',
+  question_content: 'Question Content',
+  Go_Code: 'Go to Code',
+  // AnswerDetail.vue
+  Answer_Content: 'Answer Contents'
 }
