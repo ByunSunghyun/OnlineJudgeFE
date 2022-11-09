@@ -265,6 +265,7 @@ export const m = {
   Class_ID: 'Class ID',
   Problem_ID: 'Problem ID',
   input_description: 'Input Description',
+  question_contents: 'Question Contents',
   // Question.vue
   Date: 'Date',
   Class: 'Class',

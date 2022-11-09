@@ -9,7 +9,7 @@
           <el-row :gutter='15'>
             <el-col :span='12'>
               <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
-                <el-input :placeholder="$t('m.Class_ID')" v-model="answer._class_id"></el-input>
+                <el-input :placeholder="$t('m.Class_ID')" v-model="_class_id"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -18,7 +18,7 @@
           <el-row :gutter='15'>
             <el-col :span='12'>
               <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
-                <el-input :placeholder="$t('m.Problem_ID')" v-model="answer._problem_id"></el-input>
+                <el-input :placeholder="$t('m.Problem_ID')" v-model="_problem_id"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -27,7 +27,7 @@
           <el-row :gutter='15'>
             <el-col :span='24'>
               <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
-                <el-input :placeholder="$t('m.Title')" v-model="answer.title"></el-input>
+                <el-input :placeholder="$t('m.Title')" v-model="title"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -37,7 +37,7 @@
             <el-col :span='24'>
               <el-form-item :label="$t('m.question_content')" label-width="80px" prop="question_content">
                 <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
-                <div class="question">Question Code</div>
+                <div class="question">{{question_content}}</div>
                 <!--
                   <Simditor v-model="answer.question_content"></Simditor>
                 -->
@@ -58,8 +58,8 @@
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <save type="primary" @click.native="submitAnnouncement"></save>
-          <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
+          <save type="primary" @click.native="submitAnswer"></save>
+          <cancel @click.native="backPage"></cancel>
         </span>
           <!--
             <el-row>
@@ -87,14 +87,29 @@
             _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
             _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
             title: {required: true, message: 'Title is required', trigger: 'blur'},
-            question_content: {required: true, message: 'Question_Content is required', trigger: 'blur'},
-            input_description: {required: true, message: 'Input Description is required', trigger: 'blur'}
+            answer_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
           },
           answer: {
             languages: [],
             io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
           },
-          routeName: ''
+          routeName: '',
+          _class_id: '',
+          _problem_id: '',
+          title: '',
+          question_content: 'Question 으로부터 Question Content를 호출해야함!',
+          answer_contents: '',
+          //
+          submission_id: '',
+          username: '',
+          //
+          mode: 'create',
+          loading: true,
+          pageSize: 15,
+          totoal: 0,
+          answerList: [],
+          error: {
+          }
         }
       },
       mounted () {
@@ -103,11 +118,37 @@
       methods: {
         goStatus () {
           this.$router.push({
-            name: 'questionRegister'
+            name: 'answerRegister'
           })
         },
+        backPage () {
+          this.$router.go(-1)
+        },
         init () {
-          this.routeName = this.$route.name
+          this._submission_id = null
+          this.username = null
+          this.question_content = 'Question 으로부터 Question Content를 호출해야함!'
+        },
+        submitAnswer (data = undefined) {
+          //
+          let funcName = ''
+          if (!data.title) {
+            data = {
+              class_id: this._class_id,
+              problem_id: this._problem_id,
+              submission_id: this._submission_id,
+              title: this.title,
+              answer_contents: this.answer_contents,
+              username: this.username
+            }
+            //
+            funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
+            //
+            api[funcName](data).then(res => {
+              this.init()
+              this.$router.push({name: '/question'})
+            }).catch()
+          }
         }
       }
     }

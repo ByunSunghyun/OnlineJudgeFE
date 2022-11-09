@@ -9,7 +9,7 @@
         <el-row :gutter='15'>
           <el-col :span='12'>
             <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
-              <el-input :placeholder="$t('m.Class_ID')" v-model="question._class_id"></el-input>
+              <el-input :placeholder="$t('m.Class_ID')" v-model="_class_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -18,7 +18,7 @@
         <el-row :gutter='15'>
           <el-col :span='12'>
             <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
-              <el-input :placeholder="$t('m.Problem_ID')" v-model="question._problem_id"></el-input>
+              <el-input :placeholder="$t('m.Problem_ID')" v-model="_problem_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -27,7 +27,7 @@
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
-              <el-input :placeholder="$t('m.Title')" v-model="question.title"></el-input>
+              <el-input :placeholder="$t('m.Title')" v-model="title"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -35,18 +35,18 @@
       <el-form :model='question' ref='form'  size="samll" label-position='top' :rules='rules'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.input_description')" label-width="80px" prop="input_description">
+            <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question_contents">
               <!--
-              <el-input :placeholder="$t('m.input_description')" v-model="question.input_description"></el-input>
+              <el-input :placeholder="$t('m.question_contents')" v-model="question.question_contents"></el-input>
               -->
-              <Simditor v-model="question.input_description"></Simditor>
+              <Simditor v-model="question_contents"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <save type="primary" @click.native="submitAnnouncement"></save>
-        <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
+        <save type="primary" @click.native="submitQuestion"></save>
+        <cancel @click.native="backPage"></cancel>
       </span>
         <!--
           <el-row>
@@ -74,13 +74,61 @@
           _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
           _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
           title: {required: true, message: 'Title is required', trigger: 'blur'},
-          input_description: {required: true, message: 'Input Description is required', trigger: 'blur'}
+          question_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
         },
         question: {
           languages: [],
           io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
+        },
+        //
+        _class_id: '',
+        _problem_id: '',
+        title: '',
+        question_contents: '',
+        //
+        _submission_id: '',
+        username: '',
+        //
+        mode: 'create',
+        loading: true,
+        pageSize: 15,
+        totoal: 0,
+        questionList: [],
+        error: {
         }
-
+      }
+    },
+    mounted () {
+      this.init()
+    },
+    methods: {
+      init () {
+        this._submission_id = null
+        this.username = null
+      },
+      backPage () {
+        this.$router.go(-1)
+      },
+      submitQuestion (data = undefined) {
+        //
+        let funcName = ''
+        if (!data.title) {
+          data = {
+            class_id: this._class_id,
+            problem_id: this._problem_id,
+            submission_id: this._submission_id,
+            title: this.title,
+            question_contents: this.question_contents,
+            username: this.username
+          }
+          //
+          funcName = this.mode === 'edit' ? 'updateQuestion' : 'createQuestion'
+          //
+          api[funcName](data).then(res => {
+            this.init()
+            this.$router.push({name: '/question'})
+          }).catch()
+        }
       }
     }
   }

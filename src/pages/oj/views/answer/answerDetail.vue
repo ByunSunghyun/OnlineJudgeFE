@@ -70,7 +70,7 @@
                       </div>
                   -->
                   <div class="btnfooter">
-                      <cancel @click.native="showEditAnnouncementDialog = false"></cancel>
+                      <cancel @click.native="backPage"></cancel>
                   </div>
               </div>
               
@@ -103,6 +103,9 @@
       mounted () {
       },
       methods: {
+        backPage () {
+          this.$router.go(-1)
+        }
       }
     }
   </script>

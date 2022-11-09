@@ -283,6 +283,26 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  updateQuestion (data) {
+    return ajax('admin/question', 'put', {
+      data
+    })
+  },
+  createQuestion (data) {
+    return ajax('admin/question', 'post', {
+      data
+    })
+  },
+  updateAnswer (data) {
+    return ajax('admin/question', 'put', {
+      data
+    })
+  },
+  createAnswer (data) {
+    return ajax('admin/question', 'post', {
+      data
+    })
   }
 }
 
