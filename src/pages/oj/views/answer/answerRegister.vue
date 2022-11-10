@@ -25,9 +25,9 @@
         </el-form>
         <el-form :model='answer' ref='form'  size="samll" label-position='left' :rules='rules'>
           <el-row :gutter='15'>
-            <el-col :span='24'>
-              <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
-                <el-input :placeholder="$t('m.Title')" v-model="title"></el-input>
+            <el-col :span='12'>
+              <el-form-item :label="$t('m.username')" label-width="120px" prop="username">
+                <el-input :placeholder="$t('m.username')" v-model="username"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -86,7 +86,7 @@
           rules: {
             _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
             _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-            title: {required: true, message: 'Title is required', trigger: 'blur'},
+            username: {required: true, message: 'Username is required', trigger: 'blur'},
             answer_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
           },
           answer: {
@@ -96,7 +96,6 @@
           routeName: '',
           _class_id: '',
           _problem_id: '',
-          title: '',
           question_content: 'Question 으로부터 Question Content를 호출해야함!',
           answer_contents: '',
           //

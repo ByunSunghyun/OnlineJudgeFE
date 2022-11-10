@@ -5,7 +5,7 @@
     </div>
     
     <div class = "register">
-      <el-form :model='question' ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
         <el-row :gutter='15'>
           <el-col :span='12'>
             <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
@@ -14,7 +14,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-form :model='question' ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
         <el-row :gutter='15'>
           <el-col :span='12'>
             <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
@@ -23,7 +23,16 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-form :model='question' ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
+        <el-row :gutter='15'>
+          <el-col :span='12'>
+            <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="_submission_id">
+              <el-input :placeholder="$t('m.Submission_ID')" v-model="_submission_id"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
@@ -32,7 +41,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-form :model='question' ref='form'  size="samll" label-position='top' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='top' :rules='rules'>
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question_contents">
@@ -73,6 +82,7 @@
         rules: {
           _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
           _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
+          _submission_id: {required: true, message: 'Submission ID is required', trigger: 'blur'},
           title: {required: true, message: 'Title is required', trigger: 'blur'},
           question_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
         },
@@ -103,8 +113,7 @@
     },
     methods: {
       init () {
-        this._submission_id = null
-        this.username = null
+        this.username = ''
       },
       backPage () {
         this.$router.go(-1)
@@ -114,19 +123,19 @@
         let funcName = ''
         if (!data.title) {
           data = {
-            class_id: this._class_id,
+            contest_id: this._class_id,
             problem_id: this._problem_id,
             submission_id: this._submission_id,
             title: this.title,
-            question_contents: this.question_contents,
+            content: this.question_contents,
             username: this.username
           }
           //
           funcName = this.mode === 'edit' ? 'updateQuestion' : 'createQuestion'
           //
-          api[funcName](data).then(res => {
+          api.createQuestion(data).then(res => {
             this.init()
-            this.$router.push({name: '/question'})
+            this.$router.push({name: 'questionDetails'})
           }).catch()
         }
       }

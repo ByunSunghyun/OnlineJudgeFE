@@ -285,22 +285,22 @@ export default {
     })
   },
   updateQuestion (data) {
-    return ajax('admin/question', 'put', {
+    return ajax('question/question_api', 'put', {
       data
     })
   },
   createQuestion (data) {
-    return ajax('admin/question', 'post', {
+    return ajax('question/question_api', 'post', {
       data
     })
   },
   updateAnswer (data) {
-    return ajax('admin/question', 'put', {
+    return ajax('admin/answer', 'put', {
       data
     })
   },
   createAnswer (data) {
-    return ajax('admin/question', 'post', {
+    return ajax('admin/answer', 'post', {
       data
     })
   }
