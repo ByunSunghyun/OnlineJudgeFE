@@ -18,14 +18,38 @@
     </Col>
 
     <!-- 백그라운드로 돌아가면 나타납니다. 권한 제어 백그라운드로 이동 -->
-    <Col v-if="submission.info && !isCE" :span="20">
+    <Col v-if="submission.info && !isCE" :span="6">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
-    <Col :span="20">
+    <Col :span="6">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
-    <Col v-if="submission.can_unshare" :span="20">
+    <Col :span="6" id="debuglist">
+      <Button @click="prevStep">{{ "prev_step" }}</Button>
+      <Button @click="nextStep">{{ "next_step" }}</Button>
+      <p>{{ "max step: " }}{{ maxStep }}</p>
+      <p>{{ "now step: " }}{{ nowStep }}</p>
+      <table>
+        <td>name</td>
+        <td>value</td>
+        <td>type</td>
+        <td>Check</td>
+        <tr v-if="index < nowStep" v-for="(item, index) in items" :key="items.name">
+          <td><span v-if="index < nowStep" v-html="item.name"></span></td>
+          <td><span v-if="index < nowStep" v-html="item.value"></span></td>
+          <td><span v-if="index < nowStep" v-html="index"></span></td>
+          <td><span v-if="index < nowStep" v-html="index"></span></td>
+        </tr>
+      </table>
+    </Col>
+    <Col :span="6">
+      <p>visualization 구현부분</p>
+      <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
+    </Col>
+  </Row>
+  
+    <!-- <Col v-if="submission.can_unshare" :span="20">
       <div id="share-btn">
         <Button v-if="submission.shared"
                 type="warning" size="large" @click="shareSubmission(false)">
@@ -36,8 +60,7 @@
           {{$t('m.Share')}}
         </Button>
       </div>
-    </Col>
-  </Row>
+    </Col>-->
 
 </template>
 
@@ -54,6 +77,26 @@
     },
     data () {
       return {
+        nowStep: 0,
+        maxStep: 0,
+        items: [
+          {
+            'name': 'a',
+            'value': '123'
+          },
+          {
+            'name': 'b',
+            'value': '234'
+          },
+          {
+            'name': 'c',
+            'value': '123'
+          },
+          {
+            'name': 'd',
+            'value': '456'
+          }
+        ],
         columns: [
           {
             title: this.$i18n.t('m.ID'),
@@ -97,14 +140,52 @@
             memory_cost: ''
           }
         },
+        submission1: {
+          'data': {
+            'id': 'a1ae53b0b238a89d46df1648c25456e3',
+            'problem': '1',
+            'create_time': '2022-11-08T05:04:40.983545Z',
+            'user_id': 9137,
+            'username': '12345654',
+            'code': '#include <stdio.h>    \nint main(){\n    int a, b;\n    scanf(\\"%d%d\\", &a, &b);\n    printf(\\"%d\\n\\", a+b);\n    return 0;\n}',
+            'result': 0,
+            'language': 'C',
+            'shared': false,
+            'statistic_info': {
+              'time_cost': 1,
+              'memory_cost': 1736704
+            }
+          }
+        },
         isConcat: false,
         loading: false
       }
     },
     mounted () {
-      this.getSubmission()
+      this.getSubmission1()
+      this.init()
     },
     methods: {
+      init () {
+        this.maxStep = this.items.length
+      },
+      prevStep () {
+        if (this.nowStep <= 0) {
+          this.nowStep = 0
+        } else {
+          this.nowStep = this.nowStep - 1
+        }
+      },
+      nextStep () {
+        if (this.items.length === this.nowStep) {
+          this.nowStep = this.items.length
+        } else {
+          this.nowStep = this.nowStep + 1
+        }
+      },
+      getSubmission1 () {
+        this.submission = this.submission1.data
+      },
       getSubmission () {
         this.loading = true
         api.getSubmission(this.$route.params.id).then(res => {
@@ -174,6 +255,20 @@
 </script>
 
 <style scoped lang="less">
+table {
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+  }
+  #debuglist {
+    padding: 10px;
+    background-color: white;
+    //border: 1px solid rgb(0, 0, 0); 
+  }
   #status {
     .title {
       font-size: 20px;
