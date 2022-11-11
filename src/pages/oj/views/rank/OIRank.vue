@@ -1,5 +1,7 @@
 <template>
   <div id="table"> 
+    <p>{{username}}</p>
+    <p>{{profile}}</p>
     <p>비주얼라이징 테스트</p>
     <p>{{"max step: "}}{{maxStep}}</p>
     <p>{{"now step: "}}{{nowStep}}</p>
@@ -42,6 +44,8 @@
     },
     data () {
       return {
+        username: '',
+        profile: {},
         hihihi: [],
         nowStep: 0,
         maxStep: 0,
@@ -74,7 +78,11 @@
     },
     methods: {
       init () {
+        this.username = this.$route.query.username
         this.maxStep = this.items.length
+        api.getUserInfo(this.username).then(res => {
+          this.profile = res.data.data
+        })
       },
       goContest (contest) {
         this.$router.push({name: 'contest-details', params: {contestID: contest}})

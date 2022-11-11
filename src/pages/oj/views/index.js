@@ -6,6 +6,7 @@ import FAQ from './help/FAQ.vue'
 import NotFound from './general/404.vue'
 import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
+import QuestionRegister from './question/questionRegister.vue'
 
 // Grouping Components in the Same Chunk
 const SubmissionList = () => import(/* webpackChunkName: "submission" */ '@oj/views/submission/SubmissionList.vue')
@@ -23,12 +24,15 @@ const TestV = () => import(/* webpackChunkName: "userRank" */ '@oj/views/rank/Te
 const SubmitTest = () => import(/* webpackChunkName: "userRank" */ '@oj/views/rank/SubmitTest.vue')
 
 const Question = () => import(/* webpackChunkName: "userRank" */ '@oj/views/question/Question.vue')
+const QuestionDetail = () => import(/* webpackChunkName: "userRank" */ '@oj/views/question/questionDetail.vue')
+// const QuestionRegister = () => import(/* webpackChunkName: "userRank" */ '@oj/views/question/questionRegister.vue')
 
 export {
   Home, NotFound, Announcements,
   Logout, UserHome, About, FAQ,
   ProblemList, Problem, SubmitTest,
   ACMRank, OIRank, TestV, Question,
+  QuestionDetail, QuestionRegister,
   SubmissionList, SubmissionDetails,
   ApplyResetPassword, ResetPassword
 }

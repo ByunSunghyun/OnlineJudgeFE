@@ -16,6 +16,8 @@ import {
   SubmissionList,
   TestV,
   SubmitTest,
+  QuestionRegister,
+  QuestionDetail,
   Question,
   UserHome
 } from '../views'
@@ -198,5 +200,17 @@ export default [
     path: '/question',
     meta: {title: 'question'},
     component: Question
+  },
+  {
+    name: 'questionregister',
+    path: '/questionregister',
+    meta: {title: 'question register'},
+    component: QuestionRegister
+  },
+  {
+    name: 'questionDetail',
+    path: '/question/questionDetail',
+    meta: {title: 'Question Detail'},
+    component: QuestionDetail
   }
 ]

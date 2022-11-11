@@ -297,6 +297,41 @@ export default {
         username: userId
       }
     })
+  },
+  getQuestionList (offset, limit, searchParams) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
+    Object.keys(searchParams).forEach((element) => {
+      if (searchParams[element]) {
+        params[element] = searchParams[element]
+      }
+    })
+    return ajax('problem', 'get', {
+      params: params
+    })
+  },
+  updateQuestion (data) {
+    return ajax('question/question_api', 'put', {
+      data
+    })
+  },
+  createQuestion (data) {
+    return ajax('question/question_api', 'post', {
+      data
+    })
+  },
+  updateAnswer (data) {
+    return ajax('admin/answer', 'put', {
+      data
+    })
+  },
+  createAnswer (data) {
+    return ajax('admin/answer', 'post', {
+      data
+    })
   }
   /**
   여기서 부터 추가부분

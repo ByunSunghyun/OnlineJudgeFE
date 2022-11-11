@@ -1,5 +1,6 @@
 <template>
   <div class="setting-main">
+    <!-- 
     <div class="section-title">{{$t('m.Avatar_Setting')}}</div>
     <template v-if="!avatarOption.imgSrc">
       <Upload type="drag"
@@ -51,6 +52,7 @@
         </div>
       </div>
     </template>
+    
     <Modal v-model="uploadModalVisible"
            title="Upload the avatar">
       <div class="upload-modal">
@@ -61,6 +63,7 @@
         <Button @click="uploadAvatar" :loading="loadingUploadBtn">upload</Button>
       </div>
     </Modal>
+     -->
 
     <div class="section-title">{{$t('m.Profile_Setting')}}</div>
     <Form ref="formProfile" :model="formProfile">
@@ -85,7 +88,7 @@
           </Form-item>
         </Col>
 
-        <Col :span="11">
+        <!-- <Col :span="11">
           <Form-item label="Mood">
             <Input v-model="formProfile.mood"/>
           </Form-item>
@@ -95,7 +98,7 @@
           <Form-item label="Github">
             <Input v-model="formProfile.github"/>
           </Form-item>
-        </Col>
+        </Col> -->
       </Row>
     </Form>
   </div>
