@@ -17,24 +17,6 @@
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
-              <el-input :placeholder="$t('m.Problem_ID')" v-model="problem_id"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-form ref='form'  size="samll" label-position='left'>
-        <el-row :gutter='15'>
-          <el-col :span='24'>
-            <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
-              <el-input :placeholder="$t('m.Submission_ID')" v-model="submission_id"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-form ref='form'  size="samll" label-position='left'>
-        <el-row :gutter='15'>
-          <el-col :span='24'>
             <el-form-item :label="$t('m.username')" label-width="120px" prop="username">
               <!--
                 <div class="output"><p>{{profile.user.username}}</p></div>
@@ -140,9 +122,10 @@
         //
         if (!data.title) {
           data = {
-            contest_id: this.class_id,
-            problem_id: this.problem_id,
-            submission_id: this.submission_id,
+            question_id: this.class_id,
+            contest_id: 2,
+            problem_id: 2,
+            submission_id: 2,
             title: this.title,
             content: this.question_contents,
             username: this.name
