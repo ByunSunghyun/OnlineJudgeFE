@@ -5,34 +5,46 @@
     </div>
     
     <div class = "register">
-      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='12'>
-            <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
-              <el-input :placeholder="$t('m.Class_ID')" v-model="_class_id"></el-input>
+          <el-col :span='24'>
+            <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
+              <el-input :placeholder="$t('m.Class_ID')" v-model="class_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='12'>
-            <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
-              <el-input :placeholder="$t('m.Problem_ID')" v-model="_problem_id"></el-input>
+          <el-col :span='24'>
+            <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
+              <el-input :placeholder="$t('m.Problem_ID')" v-model="problem_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='12'>
-            <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="_submission_id">
-              <el-input :placeholder="$t('m.Submission_ID')" v-model="_submission_id"></el-input>
+          <el-col :span='24'>
+            <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
+              <el-input :placeholder="$t('m.Submission_ID')" v-model="submission_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <el-form ref='form'  size="samll" label-position='left' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='left'>
+        <el-row :gutter='15'>
+          <el-col :span='24'>
+            <el-form-item :label="$t('m.username')" label-width="120px" prop="username">
+              <!--
+                <div class="output"><p>{{profile.user.username}}</p></div>
+              -->
+              <div class="output"><p>{{this.name}}</p></div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
@@ -41,7 +53,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-form ref='form'  size="samll" label-position='top' :rules='rules'>
+      <el-form ref='form'  size="samll" label-position='top'>
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question_contents">
@@ -80,9 +92,9 @@
     data () {
       return {
         rules: {
-          _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
-          _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-          _submission_id: {required: true, message: 'Submission ID is required', trigger: 'blur'},
+          class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
+          problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
+          submission_id: {required: true, message: 'Submission ID is required', trigger: 'blur'},
           title: {required: true, message: 'Title is required', trigger: 'blur'},
           question_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
         },
@@ -91,13 +103,15 @@
           io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
         },
         //
-        _class_id: '',
-        _problem_id: '',
+        class_id: '',
+        problem_id: '',
         title: '',
         question_contents: '',
         //
-        _submission_id: '',
+        submission_id: '',
         username: '',
+        name: '',
+        profile: {},
         //
         mode: 'create',
         loading: true,
@@ -113,7 +127,11 @@
     },
     methods: {
       init () {
-        this.username = ''
+        this.username = this.$route.query.username
+        api.getUserInfo(this.username).then(res => {
+          this.profile = res.data.data
+          this.name = res.data.data.user.username
+        })
       },
       backPage () {
         this.$router.go(-1)
@@ -123,12 +141,12 @@
         let funcName = ''
         if (!data.title) {
           data = {
-            contest_id: this._class_id,
-            problem_id: this._problem_id,
-            submission_id: this._submission_id,
+            contest_id: this.class_id,
+            problem_id: this.problem_id,
+            submission_id: this.submission_id,
             title: this.title,
             content: this.question_contents,
-            username: this.username
+            username: this.name
           }
           //
           funcName = this.mode === 'edit' ? 'updateQuestion' : 'createQuestion'
@@ -182,5 +200,11 @@
   .dialog-footer{
     float: right;
   }
-
+  .output{
+      height: 40px;
+      padding-left: 15px;
+      padding-right: 10px;
+      border-radius: 5px;
+      background: #f1f2f4;
+    }
 </style>
