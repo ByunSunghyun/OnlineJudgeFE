@@ -18,7 +18,7 @@
 
 ## Get Started
 
-Install nodejs **v8.12.0** first.
+Install nodejs **v16.16.7** first.
 
 ### Linux
 
