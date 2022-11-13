@@ -107,7 +107,7 @@ export const m = {
   How_to_report_bugs_answer_part_1: 'The onlinejudge is open source, you can open an issue in',
   How_to_report_bugs_answer_part_2: 'The details(like env, version..) about a bug is required, which will help us a lot to solve the bug. Certainly, we are very pleased to merge your pull requests.',
   // Cancel.vue
-  Cancel: 'Cancel',
+  Cancel: '취소',
   // ContestDetail.vue
   Problems: 'Problems',
   Announcements: '공지사항',
@@ -224,7 +224,7 @@ export const m = {
   Send_Password_Reset_Email: 'Send Password Reset Email',
   Your_password_has_been_reset: 'Your password has been reset.',
   // Save.vue
-  Save: 'Save',
+  Save: '저장',
   // Simditor.vue
   Uploading_is_in_progress: 'Uploading is in progress, are you sure to leave this page?',
   // SubmissionDetails.vue
@@ -257,5 +257,13 @@ export const m = {
   UserHomeserSubmissions: 'Submissions',
   UserHomeScore: 'Score',
   List_Solved_Problems: 'List of solved problems',
-  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.'
+  UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
+  // 새로 추가
+  Question_regist: '질문 등록',
+  Question_contents: '질문 내용',
+  Class_ID: 'class id',
+  My_question: '내질문',
+  Answer: '답변',
+  Class: '수업'
+  //
 }

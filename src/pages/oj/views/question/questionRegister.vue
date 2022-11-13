@@ -5,7 +5,7 @@
     </div>
     
     <div class = "register">
-      <el-form ref='form'  size="samll" label-position='left'>
+      <el-form ref='form' size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
             <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
@@ -38,7 +38,7 @@
       <el-form ref='form'  size="samll" label-position='top'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question_contents">
+            <el-form-item :label="$t('m.Question_contents')" label-width="80px" prop="question_contents">
               <!--
               <el-input :placeholder="$t('m.question_contents')" v-model="question.question_contents"></el-input>
               -->
@@ -59,6 +59,9 @@
           </el-row>
         
       -->
+      <p>{{class_id}}</p>
+      <p>{{title}}</p>
+      <p>{{question_contents}}</p>
     </div>
   </panel>
 </template>
