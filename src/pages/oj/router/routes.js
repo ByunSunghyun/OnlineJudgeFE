@@ -19,7 +19,9 @@ import {
   QuestionRegister,
   QuestionDetail,
   Question,
-  UserHome
+  UserHome,
+  AnswerDetail,
+  AnswerRegister
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
@@ -209,8 +211,20 @@ export default [
   },
   {
     name: 'questionDetail',
-    path: '/question/questionDetail',
+    path: '/questionDetail',
     meta: {title: 'Question Detail'},
     component: QuestionDetail
+  },
+  {
+    name: 'answerRegister',
+    path: '/answerRegister',
+    meta: {title: 'Answer Register'},
+    component: AnswerRegister
+  },
+  {
+    name: 'answerDetail',
+    path: '/answerDetail',
+    meta: {title: 'Answer Detail'},
+    component: AnswerDetail
   }
 ]

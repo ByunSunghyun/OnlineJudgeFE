@@ -137,7 +137,7 @@
       },
       goAnswerDet () {
         this.$router.push({
-          name: 'answerDetails'
+          name: 'answerDetail'
         })
       },
       init () {

@@ -7,6 +7,8 @@ import NotFound from './general/404.vue'
 import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
 import QuestionRegister from './question/questionRegister.vue'
+import AnswerRegister from './answer/AnswerRegister.vue'
+import AnswerDetail from './answer/AnswerDetail.vue'
 
 // Grouping Components in the Same Chunk
 const SubmissionList = () => import(/* webpackChunkName: "submission" */ '@oj/views/submission/SubmissionList.vue')
@@ -33,6 +35,7 @@ export {
   ProblemList, Problem, SubmitTest,
   ACMRank, OIRank, TestV, Question,
   QuestionDetail, QuestionRegister,
+  AnswerDetail, AnswerRegister,
   SubmissionList, SubmissionDetails,
   ApplyResetPassword, ResetPassword
 }

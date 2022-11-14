@@ -259,11 +259,21 @@ export const m = {
   List_Solved_Problems: 'List of solved problems',
   UserHomeIntro: 'The guy is so lazy that has not solved any problem yet.',
   // 새로 추가
+  // Question Register.vue
+  Class_ID: 'Class ID',
+  Problem_ID: 'Problem ID',
+  input_description: 'Input Description',
+  question_contents: 'Question Contents',
+  Submission_ID: 'Submission ID',
   Question_regist: '질문 등록',
   Question_contents: '질문 내용',
-  Class_ID: 'class id',
   My_question: '내질문',
   Answer: '답변',
-  Class: '수업'
-  //
+  Class: '수업',
+  // AnswerRegister.vue
+  Answer_regist: 'Answer Register',
+  question_content: 'Question Content',
+  Go_Code: 'Go to Code',
+  // AnswerDetail.vue
+  Answer_Content: 'Answer Contents'
 }
