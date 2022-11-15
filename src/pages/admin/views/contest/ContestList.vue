@@ -77,8 +77,9 @@
             <icon-btn name="Problem" icon="list-ol" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
             <icon-btn name="Announcement" icon="info-circle"
                       @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
-            <icon-btn icon="download" name="Download Accepted Submissions"
-                      @click.native="openDownloadOptions(scope.row.id)"></icon-btn>
+            <icon-btn icon="download" name="Add Students" @click.native="goAddStudent(scope.row.id)"></icon-btn>          
+            <!-- <icon-btn icon="download" name="Download Accepted Submissions"
+                      @click.native="openDownloadOptions(scope.row.id)"></icon-btn> -->
           </div>
         </el-table-column>
       </el-table>
@@ -164,6 +165,9 @@
       },
       goContestProblemList (contestId) {
         this.$router.push({name: 'contest-problem-list', params: {contestId}})
+      },
+      goAddStudent (contestId) {
+        this.$router.push({name: 'add-student', params: {contestId}})
       },
       handleVisibleSwitch (row) {
         api.editContest(row)

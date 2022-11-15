@@ -58,6 +58,11 @@
       getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
       },
+      getClass () {
+        api.getClassList(this.testID).then(res => {
+          this.hihihi = res.data
+        })
+      },
       goContest () {
         this.$router.push({
           name: 'contest-details',

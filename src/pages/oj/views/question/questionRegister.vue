@@ -135,7 +135,7 @@
           }
           api.createQuestion(data).then(res => {
             this.init()
-            this.$router.push({name: 'questionDetails'})
+            this.$router.push({name: 'questionDetail'})
           }).catch()
         }
       }
