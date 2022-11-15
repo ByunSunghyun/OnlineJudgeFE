@@ -129,21 +129,6 @@ export default {
       params: params
     })
   },
-  getQuestionList (offset, limit, searchParams) {
-    let params = {
-      paging: true,
-      offset,
-      limit
-    }
-    Object.keys(searchParams).forEach((element) => {
-      if (searchParams[element]) {
-        params[element] = searchParams[element]
-      }
-    })
-    return ajax('problem', 'get', {
-      params: params
-    })
-  },
   pickone () {
     return ajax('pickone', 'get')
   },
@@ -306,7 +291,7 @@ export default {
   },
   getQuestion (id) {
     // url change
-    return ajax('question', 'get', {
+    return ajax('question/question_api', 'get', {
       params: {
         id
       }
@@ -314,10 +299,23 @@ export default {
   },
   getAnswer (id) {
     // url change
-    return ajax('answer', 'get', {
+    return ajax('answer/answer_api', 'get', {
       params: {
         id
       }
+    })
+  },
+  getQuestionList (offset, limit, keyword) {
+    let params = {
+      paging: true,
+      offset,
+      limit
+    }
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('question/question_api', 'get', {
+      params: params
     })
   }
 }

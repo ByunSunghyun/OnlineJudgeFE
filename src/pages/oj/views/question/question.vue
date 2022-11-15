@@ -42,8 +42,9 @@
     },
     data () {
       return {
-        limit: 10,
-        total: 10,
+        currentPage: 1,
+        pageSize: 10,
+        keyword: '',
         QuestionTableColumns: [
           {
             title: this.$i18n.t('m.Class'),
@@ -109,21 +110,15 @@
             }
           }
         ],
-        loadings: [],
+        loading: true,
         routeName: '',
-        query: {
-          keyword: '',
-          difficulty: '',
-          tag: '',
-          page: 1,
-          limit: 10
-        },
+        total: 0,
         questionList: [],
         listVisible: true
       }
     },
     mounted () {
-      this.init()
+      this.getQuestionList(this.currentPage)
     },
     methods: {
       goRegist () {
@@ -158,15 +153,6 @@
       },
       init () {
         this.routeName = this.$route.name
-        let query = this.$route.query
-        this.query.difficulty = query.difficulty || ''
-        this.query.keyword = query.keyword || ''
-        this.query.tag = query.tag || ''
-        this.query.page = parseInt(query.page) || 1
-        if (this.query.page < 1) {
-          this.query.page = 1
-        }
-        this.query.limit = parseInt(query.limit) || 10
         this.getQuestionList()
       },
       pushRouter () {
@@ -175,19 +161,15 @@
           query: utils.filterEmptyValue(this.query)
         })
       },
-      getQuestionList () {
+      getQuestionList (page) {
         // getProblemList from ProblemList.vue
-        let offset = (this.query.page - 1) * this.query.limit
-        this.loadings.table = true
-        api.getQuestionList(offset, this.limit, this.query).then(res => {
-          this.loadings.table = false
+        this.loading = true
+        api.getQuestionList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
+          this.loadings = false
           this.total = res.data.data.total
           this.questionList = res.data.data.results
-          if (this.isAuthenticated) {
-            this.addStatusColumn(this.QuestionTableColumns, res.data.data.results)
-          }
         }, res => {
-          this.loadings.table = false
+          this.loading = false
         })
       },
       // announcement.vue
@@ -197,17 +179,11 @@
       }
     },
     computed: {
-      ...mapGetters(['isAuthenticated'])
     },
     watch: {
       '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init(true)
-        }
-      },
-      'isAuthenticated' (newVal) {
-        if (newVal === true) {
-          this.init()
         }
       }
     }
