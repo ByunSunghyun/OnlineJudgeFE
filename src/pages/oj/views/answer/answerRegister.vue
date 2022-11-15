@@ -5,39 +5,57 @@
       </div>
       
       <div class = "answer_register">
-        <el-form :model='answer' ref='form'  size="samll" label-position='left' :rules='rules'>
+        <el-form :model='answer' ref='form'  size="samll" label-position='left'>
           <el-row :gutter='15'>
             <el-col :span='12'>
-              <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
-                <el-input :placeholder="$t('m.Class_ID')" v-model="_class_id"></el-input>
+              <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
+                <!--
+                  <el-input :placeholder="$t('m.Class_ID')" v-model="class_id"></el-input>
+                -->
+                <div class="output"><p>{{this.answer.class_id}}</p></div>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-        <el-form :model='answer' ref='form'  size="samll" label-position='left' :rules='rules'>
+        <el-form :model='answer' ref='form'  size="samll" label-position='left'>
           <el-row :gutter='15'>
             <el-col :span='12'>
-              <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
-                <el-input :placeholder="$t('m.Problem_ID')" v-model="_problem_id"></el-input>
+              <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
+                <!--
+                  <el-input :placeholder="$t('m.Problem_ID')" v-model="problem_id"></el-input>
+                -->
+                <div class="output"><p>{{this.answer.problem_id}}</p></div>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-        <el-form :model='answer' ref='form'  size="samll" label-position='left' :rules='rules'>
+        <el-form ref='form'  size="samll" label-position='left'>
+        <el-row :gutter='15'>
+          <el-col :span='12'>
+            <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
+              <!--
+                <el-input :placeholder="$t('m.Submission_ID')" v-model="submission_id"></el-input>
+              -->
+              <div class="output"><p>{{this.answer.submission_id}}</p></div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+        <el-form :model='answer' ref='form'  size="samll" label-position='left'>
           <el-row :gutter='15'>
             <el-col :span='12'>
               <el-form-item :label="$t('m.username')" label-width="120px" prop="username">
-                <el-input :placeholder="$t('m.username')" v-model="username"></el-input>
+                <div class="output"><p>{{this.name}}</p></div>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-        <el-form :model='answer' ref='form'  size="samll" label-position='top' :rules='rules'>
+        <el-form :model='answer' ref='form'  size="samll" label-position='top'>
           <el-row :gutter='15'>
             <el-col :span='24'>
               <el-form-item :label="$t('m.question_content')" label-width="80px" prop="question_content">
                 <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
-                <div class="question">{{question_content}}</div>
+                <div class="output_content"><p>{{answer.question_content}}</p></div>
                 <!--
                   <Simditor v-model="answer.question_content"></Simditor>
                 -->
@@ -45,14 +63,14 @@
             </el-col>
           </el-row>
         </el-form>
-        <el-form :model='answer' ref='form'  size="samll" label-position='top' :rules='rules'>
+        <el-form :model='answer' ref='form'  size="samll" label-position='top'>
           <el-row :gutter='15'>
             <el-col :span='24'>
-              <el-form-item :label="$t('m.input_description')" label-width="80px" prop="input_description">
+              <el-form-item :label="$t('m.input_description')" label-width="80px" prop="answer_contents">
                 <!--
                 <el-input :placeholder="$t('m.input_description')" v-model="answer.input_description"></el-input>
                 -->
-                <Simditor v-model="answer.input_description"></Simditor>
+                <Simditor v-model="answer.answer_contents"></Simditor>
               </el-form-item>
             </el-col>
           </el-row>
@@ -83,32 +101,27 @@
       },
       data () {
         return {
-          rules: {
-            _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
-            _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-            username: {required: true, message: 'Username is required', trigger: 'blur'},
-            answer_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
-          },
+          id: '',
           answer: {
-            languages: [],
-            io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
+            class_id: '',
+            problem_id: '',
+            submission_id: '',
+            question_id: '',
+            question_content: '',
+            answer_contents: ''
           },
-          routeName: '',
-          _class_id: '',
-          _problem_id: '',
-          question_content: 'Question 으로부터 Question Content를 호출해야함!',
-          answer_contents: '',
+          // class_id: '',
+          // problem_id: '',
+          // question_content: 'Question 으로부터 Question Content를 호출!',
+          // answer_contents: '',
           //
-          submission_id: '',
+          // submission_id: '',
           username: '',
+          profile: {},
+          name: '',
           //
           mode: 'create',
-          loading: true,
-          pageSize: 15,
-          totoal: 0,
-          answerList: [],
-          error: {
-          }
+          loading: true
         }
       },
       mounted () {
@@ -124,26 +137,40 @@
           this.$router.go(-1)
         },
         init () {
-          this._submission_id = null
-          this.username = null
+          this.username = this.$route.query.username
+          api.getUserInfo(this.username).then(res => {
+            this.profile = res.data.data
+            this.name = res.data.data.user.username
+          })
+
           this.question_content = 'Question 으로부터 Question Content를 호출해야함!'
+        },
+        getAnswer () {
+          this.loading = true
+          // this.$route.params.id - 이걸로 가능한가?
+          api.getAnswer(this.$route.params.id).then(res => {
+            this.loading = true
+            let data = res.data.data
+            this.question = data
+          }, () => {
+            this.loading = false
+          })
         },
         submitAnswer (data = undefined) {
           //
           let funcName = ''
           if (!data.title) {
             data = {
-              class_id: this._class_id,
-              problem_id: this._problem_id,
-              submission_id: this._submission_id,
-              title: this.title,
+              class_id: this.class_id,
+              problem_id: this.problem_id,
+              submission_id: this.submission_id,
               answer_contents: this.answer_contents,
-              username: this.username
+              username: this.name
             }
             //
             funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
             //
-            api[funcName](data).then(res => {
+            api.createAnswer(data).then(res => {
               this.init()
               this.$router.push({name: '/question'})
             }).catch()
@@ -172,27 +199,39 @@
         }
       }
     }
-    .answer_register{
-      padding-left: 50px;
-      padding-right: 50px;
+  .answer_register{
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-bottom: 50px;
+  }
+  .el-row {
       margin-bottom: 50px;
-    }
-    .el-row {
-        margin-bottom: 50px;
-        &:last-child {
-          margin-bottom: 0;
-        }
-    }
-    .el-col {
-        border-radius: 4px;
-    }
-    .question{
-      margin-top: 15px;
-      padding: 10px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+  }
+  .el-col {
+      border-radius: 4px;
+  }
+  .bg-puple-dark{
+    background: #99a9bf;
+  }
+  .dialog-footer{
+    float: right;
+  }
+  .output{
+      height: 40px;
+      padding-left: 15px;
+      padding-right: 10px;
+      border-radius: 5px;
       background: #f1f2f4;
-    }
-    .dialog-footer{
-      float: right;
-    }
+  }
+  .output_content{
+      height: 200px;
+      padding-left: 15px;
+      padding-right: 10px;
+      border-radius: 5px;
+      background: #f1f2f4;
+  }
   </style>
   

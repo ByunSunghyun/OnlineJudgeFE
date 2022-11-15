@@ -295,13 +295,29 @@ export default {
     })
   },
   updateAnswer (data) {
-    return ajax('admin/answer', 'put', {
+    return ajax('answer/answer_api', 'put', {
       data
     })
   },
   createAnswer (data) {
-    return ajax('admin/answer', 'post', {
+    return ajax('answer/answer_api', 'post', {
       data
+    })
+  },
+  getQuestion (id) {
+    // url change
+    return ajax('question', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  getAnswer (id) {
+    // url change
+    return ajax('answer', 'get', {
+      params: {
+        id
+      }
     })
   }
 }

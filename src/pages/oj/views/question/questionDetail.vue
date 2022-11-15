@@ -12,41 +12,50 @@
                   {{question.title}}
                 </div>
             -->
-            <div slot="title">Question</div>
+            <div slot="title">Question [{{question.id}}]</div>
 
             <div class="question_container">
-                <el-form :model='question' ref='form'  size="samll" label-position='left'>
+                <el-form ref='form'  size="samll" label-position='left'>
                   <el-row :gutter='15'>
                     <el-col :span='12'>
-                      <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
-                        <div id="class_id" class="content">:{{classID}}</div>
+                      <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
+                        <div id="class_id" class="content"><p>{{question.class_id}}</p></div>
                       </el-form-item>
                     </el-col>
                   </el-row>
                 </el-form>
-                <el-form :model='question' ref='form'  size="samll" label-position='left'>
+                <el-form ref='form'  size="samll" label-position='left'>
                   <el-row :gutter='15'>
                     <el-col :span='12'>
-                      <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
-                        <div id="problem_id" class="content">problem ID</div>
+                      <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
+                        <div id="problem_id" class="content"><p>{{question.problem_id}}</p></div>
                       </el-form-item>
                     </el-col>
                   </el-row>
                 </el-form>
-                <el-form :model='question' ref='form'  size="samll" label-position='left'>
+                <el-form ref='form'  size="samll" label-position='left'>
+                  <el-row :gutter='15'>
+                    <el-col :span='12'>
+                      <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submisssion_id">
+                        <div id="submission_id" class="content"><p>{{question.submisssion_id}}</p></div>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-form>
+                <el-form ref='form'  size="samll" label-position='left'>
                   <el-row :gutter='15'>
                     <el-col :span='12'>
                       <el-form-item :label="$t('m.Title')" label-width="120px" prop="title">
-                        <div id="title" class="content">Title</div>
+                        <div id="title" class="content"><p>{{question.title}}</p></div>
                       </el-form-item>
                     </el-col>
                   </el-row>
                 </el-form>
-                <el-form :model='question' ref='form'  size="samll" label-position='top' :rules='rules'>
+                <el-form ref='form'  size="samll" label-position='top' :rules='rules'>
                   <el-row :gutter='15'>
                     <el-col :span='24'>
-                        <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="input_description">
-                          <div id="question" class="content">Question Content</div>
+                        <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
+                          <div id="question" class="content"><p>{{question.content}}</p></div>
                         </el-form-item>
                     </el-col>
                   </el-row>
@@ -79,24 +88,39 @@
     components: {},
     data () {
       return {
-        rules: {
-          _class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
-          _problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-          title: {required: true, message: 'Title is required', trigger: 'blur'},
-          input_description: {required: true, message: 'Input Description is required', trigger: 'blur'}
-        },
         question: {
-          languages: []
+          id: '',
+          class_id: '',
+          problem_id: '',
+          submisssion_id: '',
+          title: '',
+          content: ''
         },
-        classID: ''
+        loading: false
       }
     },
     mounted () {
-
+      /*
+      this.$router.push({name: 'questionDetails', params: {questionID: 'id_value'}})로 in
+      */
+      this.getQuestion()
     },
     methods: {
+      init () {
+        this.getQuestion()
+      },
       backPage () {
         this.$router.go(-1)
+      },
+      getQuestion () {
+        this.loading = true
+        api.getQuestion(this.$route.params.id).then(res => {
+          this.loading = true
+          let data = res.data.data
+          this.question = data
+        }, () => {
+          this.loading = false
+        })
       }
     }
   }
@@ -113,12 +137,11 @@
     }
   }
   .content{
-    background: #f1f2f4;
-    border-radius: 4px;
+    height: 40px;
     padding-left: 15px;
-
-    #question{
-    }
+    padding-right: 10px;
+    border-radius: 5px;
+    background: #f1f2f4;
   }
   .btnfooter {
     display: inline-block;

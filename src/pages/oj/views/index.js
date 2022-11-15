@@ -8,8 +8,10 @@ import Home from './general/Home.vue'
 import Announcements from './general/Announcements.vue'
 import Question from './question/question.vue'
 import QuestionRegister from './question/questionRegister.vue'
+import QuestionForm from './question/questionForm.vue'
 import QuestionDetail from './question/questionDetail.vue'
 import AnswerRegister from './answer/AnswerRegister.vue'
+import AnswerForm from './answer/AnswerForm.vue'
 import AnswerDetail from './answer/AnswerDetail.vue'
 
 // Grouping Components in the Same Chunk
@@ -31,8 +33,8 @@ export {
   ACMRank, OIRank,
   SubmissionList, SubmissionDetails,
   ApplyResetPassword, ResetPassword,
-  Question, QuestionRegister,
-  QuestionDetail, AnswerRegister, AnswerDetail
+  Question, QuestionRegister, QuestionForm,
+  QuestionDetail, AnswerRegister, AnswerDetail, AnswerForm
 }
 /* 组件导出分为两类, 一类常用的直接导出，另一类诸如Login, Logout等用懒加载,懒加载不在此处导出
  *   在对应的route内加载

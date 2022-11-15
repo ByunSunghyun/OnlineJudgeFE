@@ -1,25 +1,25 @@
 <template>
     <div class="flex-container">
-      <div id="answer-main">
+      <div id="question-main">
         <!--
-            <div class="flex-container" v-if="route_name === 'answer-details'">
+            <div class="flex-container" v-if="route_name === 'question-details'">
       -->
         <div class="flex-container">
-          <div id="answer-desc">
+          <div id="question-desc">
             <Panel :padding="20" shadow>
               <!--
                   <div slot="title">
-                    {{answer.title}}
+                    {{question.title}}
                   </div>
               -->
-              <div slot="title">Answer ({{this.answer.id}}) [Question : {{this.answer.question_id}}]</div>
+              <div slot="title">Question</div>
   
-              <div class="answer_container">
+              <div class="question_container">
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
-                          <div id="class_id" class="content"><p>{{this.answer.class_id}}</p></div>
+                        <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
+                          <div id="class_id" class="content"><p>:{{classID}}</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -27,8 +27,8 @@
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
-                          <div id="problem_id" class="content"><p>{{this.answer.problem_id}}</p></div>
+                        <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
+                          <div id="problem_id" class="content"><p>problem ID</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -36,26 +36,17 @@
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
-                          <div id="submission_id" class="content"><p>{{this.answer.submisssion_id}}</p></div>
+                        <el-form-item :label="$t('m.Title')" label-width="120px" prop="title">
+                          <div id="title" class="content"><p>Title</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
                   </el-form>
-                  <el-form ref='form'  size="samll" label-position='top'>
+                  <el-form ref='form'  size="samll" label-position='top' :rules='rules'>
                     <el-row :gutter='15'>
                       <el-col :span='24'>
-                          <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
-                            <div id="question" class="content"><p>{{this.answer.question_content}}</p></div>
-                          </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </el-form>
-                  <el-form ref='form'  size="samll" label-position='top'>
-                    <el-row :gutter='15'>
-                      <el-col :span='24'>
-                          <el-form-item :label="$t('m.Answer_Content')" label-width="80px" prop="answer_content">
-                            <div id="answer" class="content"><p>{{this.answer.content}}</p></div>
+                          <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="input_description">
+                            <div id="question" class="content"><p>Question Content</p></div>
                           </el-form-item>
                       </el-col>
                     </el-row>
@@ -84,38 +75,38 @@
   <script>
     import api from '@oj/api'
     export default {
-      name: 'AnswerDetail',
+      name: 'QuestionDetail',
       components: {},
       data () {
         return {
-          answer: {
+          classID: '',
+          question: {
             id: '',
             class_id: '',
             problem_id: '',
             submisssion_id: '',
-            question_id: '',
-            question_content: '',
+            title: '',
             content: ''
           },
           loading: false
         }
       },
       mounted () {
-        this.getAnswer()
       },
       methods: {
         init () {
-          this.getAnswer()
+          this.getQuestion()
+          this.init()
         },
         backPage () {
           this.$router.go(-1)
         },
-        getAnswer () {
+        getQuestion () {
           this.loading = true
-          api.getAnswer(this.$route.params.id).then(res => {
+          api.getQuestion(this.$route.params.id).then(res => {
             this.loading = true
             let data = res.data.data
-            this.answer = data
+            this.question = data
           }, () => {
             this.loading = false
           })
@@ -126,10 +117,10 @@
   
   <style scoped lang="less">
     .flex-container {
-      #answer-main {
+      #question-main {
         flex: 1 1;
         width: 0;
-        #answer-desc {
+        #question-desc {
           flex: auto;
         }
       }
@@ -146,7 +137,7 @@
       margin: 0 5px;
       float: right;
     }
-    .answer_container{
+    .question_container{
       padding-left: 20px;
       padding-right: 20px;
       margin-bottom: 50px;

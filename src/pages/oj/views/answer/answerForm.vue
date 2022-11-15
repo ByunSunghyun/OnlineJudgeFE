@@ -12,14 +12,14 @@
                     {{answer.title}}
                   </div>
               -->
-              <div slot="title">Answer ({{this.answer.id}}) [Question : {{this.answer.question_id}}]</div>
+              <div slot="title">Answer</div>
   
               <div class="answer_container">
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
-                          <div id="class_id" class="content"><p>{{this.answer.class_id}}</p></div>
+                        <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="_class_id">
+                          <div id="class_id" class="content"><p>answer ID</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -27,8 +27,8 @@
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
-                          <div id="problem_id" class="content"><p>{{this.answer.problem_id}}</p></div>
+                        <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="_problem_id">
+                          <div id="problem_id" class="content"><p>problem ID</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -36,8 +36,8 @@
                   <el-form ref='form'  size="samll" label-position='left'>
                     <el-row :gutter='15'>
                       <el-col :span='12'>
-                        <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
-                          <div id="submission_id" class="content"><p>{{this.answer.submisssion_id}}</p></div>
+                        <el-form-item :label="$t('m.Title')" label-width="120px" prop="title">
+                          <div id="title" class="content"><p>Title</p></div>
                         </el-form-item>
                       </el-col>
                     </el-row>
@@ -46,7 +46,7 @@
                     <el-row :gutter='15'>
                       <el-col :span='24'>
                           <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
-                            <div id="question" class="content"><p>{{this.answer.question_content}}</p></div>
+                            <div id="question" class="content"><p>Question Content</p></div>
                           </el-form-item>
                       </el-col>
                     </el-row>
@@ -55,7 +55,7 @@
                     <el-row :gutter='15'>
                       <el-col :span='24'>
                           <el-form-item :label="$t('m.Answer_Content')" label-width="80px" prop="answer_content">
-                            <div id="answer" class="content"><p>{{this.answer.content}}</p></div>
+                            <div id="answer" class="content"><p>Answer Content</p></div>
                           </el-form-item>
                       </el-col>
                     </el-row>
@@ -89,36 +89,15 @@
       data () {
         return {
           answer: {
-            id: '',
-            class_id: '',
-            problem_id: '',
-            submisssion_id: '',
-            question_id: '',
-            question_content: '',
-            content: ''
-          },
-          loading: false
+            languages: []
+          }
         }
       },
       mounted () {
-        this.getAnswer()
       },
       methods: {
-        init () {
-          this.getAnswer()
-        },
         backPage () {
           this.$router.go(-1)
-        },
-        getAnswer () {
-          this.loading = true
-          api.getAnswer(this.$route.params.id).then(res => {
-            this.loading = true
-            let data = res.data.data
-            this.answer = data
-          }, () => {
-            this.loading = false
-          })
         }
       }
     }

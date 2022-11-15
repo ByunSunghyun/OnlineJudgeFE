@@ -7,34 +7,43 @@
     <div class = "register">
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='24'>
+          <el-col :span='12'>
             <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
-              <el-input :placeholder="$t('m.Class_ID')" v-model="class_id"></el-input>
+              <!--
+                <el-input :placeholder="$t('m.Class_ID')" v-model="class_id"></el-input>
+              -->
+              <div class="output"><p>{{this.question.class_id}}</p></div>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='24'>
+          <el-col :span='12'>
             <el-form-item :label="$t('m.Problem_ID')" label-width="120px" prop="problem_id">
-              <el-input :placeholder="$t('m.Problem_ID')" v-model="problem_id"></el-input>
+              <!--
+                <el-input :placeholder="$t('m.Problem_ID')" v-model="problem_id"></el-input>
+              -->
+              <div class="output"><p>{{this.question.problem_id}}</p></div>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='24'>
+          <el-col :span='12'>
             <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submission_id">
-              <el-input :placeholder="$t('m.Submission_ID')" v-model="submission_id"></el-input>
+              <!--
+                <el-input :placeholder="$t('m.Submission_ID')" v-model="submission_id"></el-input>
+              -->
+              <div class="output"><p>{{this.question.submission_id}}</p></div>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
-          <el-col :span='24'>
+          <el-col :span='12'>
             <el-form-item :label="$t('m.username')" label-width="120px" prop="username">
               <!--
                 <div class="output"><p>{{profile.user.username}}</p></div>
@@ -47,8 +56,8 @@
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
-              <el-input :placeholder="$t('m.Title')" v-model="title"></el-input>
+            <el-form-item :label="$t('m.Title')" label-width="80px" prop="question.title">
+              <el-input :placeholder="$t('m.Title')" v-model="question.title"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -56,11 +65,11 @@
       <el-form ref='form'  size="samll" label-position='top'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question_contents">
+            <el-form-item :label="$t('m.question_contents')" label-width="80px" prop="question.question_contents">
               <!--
               <el-input :placeholder="$t('m.question_contents')" v-model="question.question_contents"></el-input>
               -->
-              <Simditor v-model="question_contents"></Simditor>
+              <Simditor v-model="question.question_contents"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -91,35 +100,26 @@
     },
     data () {
       return {
-        rules: {
-          class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
-          problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-          submission_id: {required: true, message: 'Submission ID is required', trigger: 'blur'},
-          title: {required: true, message: 'Title is required', trigger: 'blur'},
-          question_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
-        },
+        id: '',
         question: {
-          languages: [],
-          io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
+          class_id: '',
+          problem_id: '',
+          submission_id: '',
+          title: '',
+          question_contents: ''
         },
         //
-        class_id: '',
-        problem_id: '',
-        title: '',
-        question_contents: '',
-        //
-        submission_id: '',
+        // class_id: '',
+        // problem_id: '',
+        // title: '',
+        // question_contents: '',
+        // submission_id: '',
         username: '',
         name: '',
         profile: {},
         //
         mode: 'create',
-        loading: true,
-        pageSize: 15,
-        totoal: 0,
-        questionList: [],
-        error: {
-        }
+        loading: true
       }
     },
     mounted () {
@@ -132,28 +132,40 @@
           this.profile = res.data.data
           this.name = res.data.data.user.username
         })
+        this.getQuestion()
       },
       backPage () {
         this.$router.go(-1)
+      },
+      getQuestion () {
+        this.loading = true
+        // this.$route.params.id - 이걸로 가능한가?
+        api.getQuestion(this.$route.params.id).then(res => {
+          this.loading = true
+          let data = res.data.data
+          this.question = data
+        }, () => {
+          this.loading = false
+        })
       },
       submitQuestion (data = undefined) {
         //
         let funcName = ''
         if (!data.title) {
           data = {
-            contest_id: this.class_id,
-            problem_id: this.problem_id,
-            submission_id: this.submission_id,
-            title: this.title,
-            content: this.question_contents,
+            contest_id: this.question.class_id,
+            problem_id: this.question.problem_id,
+            submission_id: this.question.submission_id,
+            title: this.question.title,
+            content: this.question.question_contents,
             username: this.name
           }
           //
           funcName = this.mode === 'edit' ? 'updateQuestion' : 'createQuestion'
           //
           api.createQuestion(data).then(res => {
-            this.init()
-            this.$router.push({name: 'questionDetails'})
+            // this.init()
+            this.$router.push({name: '/question'})
           }).catch()
         }
       }

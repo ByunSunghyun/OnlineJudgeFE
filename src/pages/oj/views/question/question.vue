@@ -17,8 +17,10 @@
 
       <div>
         <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_Regist')}}</Button>
+        <Button type="button" @click="goQuestionForm" style="margin: 10px">Q.FormPage</Button>
         <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
         <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
+        <Button type="button" @click="goAnswerForm" style="margin: 10px">A.FormPage</Button>
         <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
       </div>
   </panel>
@@ -127,6 +129,16 @@
       goRegist () {
         this.$router.push({
           name: 'questionRegister'
+        })
+      },
+      goQuestionForm () {
+        this.$router.push({
+          name: 'questionForm'
+        })
+      },
+      goAnswerForm () {
+        this.$router.push({
+          name: 'answerForm'
         })
       },
       goDetail () {

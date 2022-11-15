@@ -16,9 +16,11 @@ import {
   SubmissionList,
   UserHome,
   Question,
+  QuestionForm,
   QuestionRegister,
   QuestionDetail,
   AnswerRegister,
+  AnswerForm,
   AnswerDetail
 } from '../views'
 
@@ -189,14 +191,18 @@ export default [
     component: Question
   },
   {
+    name: 'questionForm',
+    path: '/questionForm',
+    component: QuestionForm
+  },
+  {
     name: 'questionRegister',
     path: '/questionRegister',
     component: QuestionRegister
   },
   {
     name: 'questionDetails',
-    // path: '/question/:questionID',
-    path: '/question/questionDetail',
+    path: '/question/:questionID',
     meta: {title: 'Question Details'},
     component: QuestionDetail
   },
@@ -206,9 +212,13 @@ export default [
     component: AnswerRegister
   },
   {
+    name: 'answerForm',
+    path: '/answerForm',
+    component: AnswerForm
+  },
+  {
     name: 'answerDetails',
-    // path: '/answer/:questionID',
-    path: '/answer/answerDetail',
+    path: '/answer/:answerID',
     meta: {title: 'Answer Details'},
     component: AnswerDetail
   }
