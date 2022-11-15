@@ -164,8 +164,8 @@
           funcName = this.mode === 'edit' ? 'updateQuestion' : 'createQuestion'
           //
           api.createQuestion(data).then(res => {
-            // this.init()
-            this.$router.push({name: '/question'})
+            // questionID value 수정 필요
+            this.$router.push({name: 'questionDetails', params: {questionID: data.result.question_id}})
           }).catch()
         }
       }

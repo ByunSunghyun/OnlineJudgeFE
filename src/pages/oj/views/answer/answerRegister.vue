@@ -54,9 +54,9 @@
           <el-row :gutter='15'>
             <el-col :span='24'>
               <el-form-item :label="$t('m.question_content')" label-width="80px" prop="question_content">
-                <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
-                <div class="output_content"><p>{{answer.question_content}}</p></div>
+                <div class="output"><p>{{answer.question_content}}</p></div>
                 <!--
+                  <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
                   <Simditor v-model="answer.question_content"></Simditor>
                 -->
               </el-form-item>
@@ -142,8 +142,6 @@
             this.profile = res.data.data
             this.name = res.data.data.user.username
           })
-
-          this.question_content = 'Question 으로부터 Question Content를 호출해야함!'
         },
         getAnswer () {
           this.loading = true
@@ -172,7 +170,7 @@
             //
             api.createAnswer(data).then(res => {
               this.init()
-              this.$router.push({name: '/question'})
+              this.$router.push({name: 'questionDetails', params: {questionID: this.answer.question_id}})
             }).catch()
           }
         }
@@ -227,7 +225,6 @@
       background: #f1f2f4;
   }
   .output_content{
-      height: 200px;
       padding-left: 15px;
       padding-right: 10px;
       border-radius: 5px;
