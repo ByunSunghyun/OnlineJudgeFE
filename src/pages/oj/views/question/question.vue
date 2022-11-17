@@ -12,7 +12,7 @@
 
       <Table estyle="width: 100%; font-size: 16px;" 
         :columns="QuestionTableColumns"
-        :data="questionList"
+        :data="questionList1"
         disabled-hover> </Table>
 
       <div>
@@ -56,10 +56,15 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'contest-details', params: {questionID: params.row.class_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.class)
+              }, params.row.class_id)
             }
           },
           {
@@ -72,10 +77,15 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'problem-details', params: {questionID: params.row.problem_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.problem)
+              }, params.row.problem_id)
             }
           },
           {
@@ -87,6 +97,11 @@
                 props: {
                   type: 'text',
                   size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetails', params: {questionID: params.row.id}})
+                  }
                 },
                 style: {
                   textAlign: 'center'
@@ -103,6 +118,11 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetails', params: {questionID: params.row.id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
@@ -114,11 +134,28 @@
         routeName: '',
         total: 0,
         questionList: [],
+        questionList1: [
+          {
+            'id': '12',
+            'class_id': '123',
+            'problem_id': '456',
+            'title': 'question',
+            'answer': ''
+          },
+          {
+            'id': '45',
+            'class_id': '456',
+            'problem_id': '12',
+            'title': 'question2',
+            'answer': '12'
+          }
+        ],
         listVisible: true
       }
     },
     mounted () {
-      this.getQuestionList(this.currentPage)
+      // this.getQuestionList(this.currentPage)
+      this.getQuestionList1()
     },
     methods: {
       goRegist () {
@@ -171,6 +208,9 @@
         }, res => {
           this.loading = false
         })
+      },
+      getQuestionList1 () {
+        this.questionList = this.questionList1.data
       },
       // announcement.vue
       goBack () {

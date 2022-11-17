@@ -102,9 +102,9 @@
       return {
         id: '',
         question: {
-          class_id: '',
-          problem_id: '',
-          submission_id: '',
+          class_id: '2',
+          problem_id: '2',
+          submission_id: '2',
           title: '',
           question_contents: ''
         },
@@ -132,7 +132,7 @@
           this.profile = res.data.data
           this.name = res.data.data.user.username
         })
-        this.getQuestion()
+        // this.getQuestion()
       },
       backPage () {
         this.$router.go(-1)
