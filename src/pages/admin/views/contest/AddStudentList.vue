@@ -13,8 +13,8 @@
       </div>
       <Button @click="pushStudentList">{{$t('학생 추가')}}</Button>
       <p>{{hihihi.data}}</p>
-      <p>{{idid}}</p>
-      <p>{{gana}}</p>
+      <p>{{"This class id: "}}{{idid}}</p>
+      <p>{{"upload success? "}}{{gana}}</p>
     </div>
   </template>
   

@@ -25,6 +25,11 @@
         </a>
       </p>
     </li>
+    <li v-for="contest in hihihi.data" :key="hihihi.data">
+      <button @click="goContest(contest.contest_id_list)">
+        {{contest.contest_name}}
+      </button>
+    </li>
   </div>
 </template>
 

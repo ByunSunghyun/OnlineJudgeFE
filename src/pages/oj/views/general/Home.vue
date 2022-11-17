@@ -1,5 +1,11 @@
 <template>
-  <Row type="flex" justify="space-around">
+  <div>
+    <li v-for="contest in hihihi.data" :key="hihihi.data">
+      <button @click="goContestl(contest.contest_id_list)">
+        {{contest.contest_name}}
+      </button>
+    </li>
+    <Row type="flex" justify="space-around">
     <Col :span="22">
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
@@ -28,7 +34,9 @@
     </panel>
     <Announcements class="announcement"></Announcements>
     </Col>
-  </Row>
+    </Row>
+    <p>{{hihihi.data}}</p>
+  </div>
 </template>
 
 <script>
@@ -45,23 +53,39 @@
     data () {
       return {
         contests: [],
-        index: 0
+        hihihi: [],
+        index: 0,
+        username: '',
+        profile: {},
+        userID: ''
       }
     },
     mounted () {
+      this.username = this.$route.query.username
       let params = {status: CONTEST_STATUS.NOT_START}
       api.getContestList(0, 5, params).then(res => {
         this.contests = res.data.data.results
       })
+      this.init()
     },
     methods: {
       getDuration (startTime, endTime) {
         return time.duration(startTime, endTime)
       },
+      init () {
+        api.getUserInfo(this.username).then(res => {
+          this.profile = res.data.data
+          this.userID = this.profile.user.username
+          this.getClass()
+        })
+      },
       getClass () {
-        api.getClassList(this.testID).then(res => {
+        api.getClassList(this.userID).then(res => {
           this.hihihi = res.data
         })
+      },
+      goContestl (contest) {
+        this.$router.push({name: 'contest-details', params: {contestID: contest}})
       },
       goContest () {
         this.$router.push({
