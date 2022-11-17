@@ -5,7 +5,21 @@
         {{contest.contest_name}}
       </button>
     </li>
-    <Row type="flex" justify="space-around">
+    <table class="tbl">
+      <thead class="thead">
+        <tr>
+          <th>{{"Class No."}}</th>
+          <th>{{"Class name"}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in hihihi.data" :key="hihihi.data">
+          <td class="td1"><span>{{index+1}}</span></td> 
+          <td><span @click="goContestl(item.contest_id_list)">{{item.contest_name}}</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <Row type="flex" justify="space-around">
     <Col :span="22">
     <panel shadow v-if="contests.length" class="contest">
       <div slot="title">
@@ -36,6 +50,7 @@
     </Col>
     </Row>
     <p>{{hihihi.data}}</p>
+    -->
   </div>
 </template>
 
@@ -113,5 +128,24 @@
 
   .announcement {
     margin-top: 20px;
+  }
+  .tbl {
+    border: 1px solid black; 
+    background-color: white;
+    font-style: italic;
+    font-size: 21px;
+    text-align: center;
+  }
+  
+  .thead {
+    border: 1px black;
+    background-color: lightblue;
+  }
+  .tr, td{
+    border-bottom: 1px solid black;
+    padding: 10px;
+  }
+  .td1{
+    width: 200px;
   }
 </style>
