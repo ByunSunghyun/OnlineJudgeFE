@@ -148,8 +148,8 @@
       }
     },
     mounted () {
-      // this.getQuestionList(this.currentPage)
-      this.getQuestionList1()
+      this.getQuestionList(this.currentPage)
+      // this.getQuestionList1()
     },
     methods: {
       printAnswer (answer) {

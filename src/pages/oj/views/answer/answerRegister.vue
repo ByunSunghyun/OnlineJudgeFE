@@ -9,7 +9,7 @@
           <el-row :gutter='15'>
             <el-col :span='12'>
               <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
-                <div class="output"><p>{{this.answer.class_id}}</p></div>
+                <div class="output"><p>{{this.answer.id}}</p></div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -46,7 +46,7 @@
             <el-col :span='24'>
               <el-form-item :label="$t('m.question_content')" label-width="80px" prop="question_content">
                 <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
-                <div class="output"><p>{{answer.question_content}}</p></div>
+                <div class="output">{{answer.content}}</div>
               </el-form-item>
             </el-col>
           </el-row>
@@ -90,11 +90,12 @@
       data () {
         return {
           answer: {
+            id: '', // question ID
             class_id: '',
             problem_id: '',
             submission_id: '',
             question_id: '',
-            question_content: '',
+            content: '',
             answer_contents: ''
           },
           username: '',
@@ -134,7 +135,7 @@
         },
         getQuestion () {
           this.loading = true
-          api.getAnswer(this.$route.params.id).then(res => {
+          api.getQuestion(this.$route.params.questionID).then(res => {
             this.loding = true
             let data = res.data.data
             this.answer = data
@@ -146,16 +147,14 @@
           //
           let funcName = ''
           data = {
-            class_id: this.answer.class_id,
-            problem_id: this.answer.problem_id,
             submission_id: this.answer.submission_id,
-            content: this.answer_contents,
-            username: this.username
+            question_id: this.answer.question_id,
+            content: this.answer_contents
           }
           //
           funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
           //
-          api.createQuestion(data).then(res => {
+          api.createAnswer(data).then(res => {
             this.$router.push({name: 'questionDetail', params: {questionID: this.answer.question_id}})
           }).catch()
         }

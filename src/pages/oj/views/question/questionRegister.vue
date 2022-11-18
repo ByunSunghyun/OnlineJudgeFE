@@ -5,18 +5,17 @@
     </div>
     
     <div class = "register">
-      <el-form ref='form' size="samll" label-position='left'>
-        <el-row :gutter='15'>
-          <el-col :span='24'>
-            <el-form-item :label="$t('m.Question_ID')" label-width="120px" prop="question.question_id">
-              <!--
-                <div class="output"><p>{{this.question.class_id}}</p></div>
-              -->
-              <el-input :placeholder="$t('m.Question_ID')" v-model="question.question_id"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <!--
+        <el-form ref='form' size="samll" label-position='left'>
+          <el-row :gutter='15'>
+            <el-col :span='24'>
+              <el-form-item :label="$t('m.Question_ID')" label-width="120px" prop="question.question_id">
+                <el-input :placeholder="$t('m.Question_ID')" v-model="question.question_id"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      -->
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
@@ -62,7 +61,6 @@
           </el-row>
         
       -->
-      <p>{{question.question_id}}</p>
       <p>{{question.title}}</p>
       <p>{{question.question_contents}}</p>
     </div>
@@ -80,11 +78,10 @@
     data () {
       return {
         question: {
-          class_id: '',
-          problem_id: '',
-          submission_id: '',
+          class_id: '2',
+          problem_id: '2',
+          submission_id: '2',
           title: '',
-          question_id: '',
           question_contents: ''
         },
         //
@@ -115,7 +112,7 @@
           this.profile = res.data.data
           this.name = res.data.data.user.username
         })
-        this.getSubmission()
+        // this.getSubmission()
       },
       backPage () {
         this.$router.go(-1)
@@ -133,16 +130,15 @@
       submitQuestion (data = undefined) {
         if (!data.title) {
           data = {
-            question_id: this.question.class_id,
-            contest_id: '',
-            problem_id: '',
-            submission_id: '',
+            contest_id: this.question.class_id,
+            problem_id: this.question.problem_id,
+            submission_id: this.question.submission_id,
             title: this.question.title,
             content: this.question.question_contents,
             username: this.name
           }
           api.createQuestion(data).then(res => {
-            this.$router.push({name: 'questionDetail', params: {questionID: this.question.question_id}})
+            this.$router.push({name: 'questionDetail', params: {questionID: res.data.data.question_id}})
           }).catch()
         }
       }

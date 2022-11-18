@@ -37,7 +37,7 @@
                   <el-row :gutter='15'>
                     <el-col :span='12'>
                       <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submisssion_id">
-                        <div id="submission_id" class="content"><p>{{question.submisssion_id}}</p></div>
+                        <div id="submission_id" class="content"><p>{{question.submission_id}}</p></div>
                       </el-form-item>
                     </el-col>
                   </el-row>
@@ -55,7 +55,7 @@
                   <el-row :gutter='15'>
                     <el-col :span='24'>
                         <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
-                          <div id="question" class="content"><p>{{question.content}}</p></div>
+                          <div id="question" class="content">{{question.content}}</div>
                         </el-form-item>
                     </el-col>
                   </el-row>
@@ -85,6 +85,7 @@
                 </div>
             </div>
             
+            <p>[{{this.$route.params.questionID}}]</p>
         </Panel>
         </div>
       </div>
@@ -103,7 +104,7 @@
           id: '',
           class_id: '',
           problem_id: '',
-          submisssion_id: '',
+          submission_id: '',
           answer_id: '',
           title: '',
           content: ''
@@ -115,7 +116,8 @@
           content: ''
         },
         loading: false,
-        hasAnswer: false
+        hasAnswer: false,
+        check: ''
       }
     },
     mounted () {
@@ -129,6 +131,7 @@
     },
     methods: {
       init () {
+        this.check = this.$route.name
         this.getQuestion()
         if (this.question.answer_id === '') this.hasAnswer = false
         else this.hasAnswer = true
@@ -141,7 +144,7 @@
       },
       getQuestion () {
         this.loading = true
-        api.getQuestion(this.$route.params.id).then(res => {
+        api.getQuestion(this.$route.params.questionID).then(res => {
           this.loading = true
           let data = res.data.data
           this.question = data
