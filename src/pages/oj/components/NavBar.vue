@@ -6,22 +6,26 @@
         <Icon type="home"></Icon>
         {{$t('m.Home')}}
       </Menu-item>
-      <Menu-item name="/problem">
-        <Icon type="ios-keypad"></Icon>
-        {{$t('m.NavProblems')}}
-      </Menu-item>
-      <Menu-item name="/question">
-        <Icon type="ios-keypad"></Icon>
-        {{"question"}}
-      </Menu-item>
-      <Menu-item name="/contest">
-        <Icon type="trophy"></Icon>
-        {{$t('m.Contests')}}
-      </Menu-item>
+      <!--
+        <Menu-item name="/problem">
+          <Icon type="ios-keypad"></Icon>
+          {{$t('m.NavProblems')}}
+        </Menu-item>
+      -->
       <Menu-item name="/status">
-        <Icon type="ios-pulse-strong"></Icon>
+        <i class="fa-solid fa-square-poll-vertical"></i>
         {{$t('m.NavStatus')}}
       </Menu-item>
+      <Menu-item name="/question">
+        <i class="fa-solid fa-circle-question"></i>
+        {{$t('m.Question')}}
+      </Menu-item>
+      <!--
+        <Menu-item name="/contest">
+          <Icon type="trophy"></Icon>
+          {{$t('m.Contests')}}
+        </Menu-item>
+      -->
       <Submenu name="rank">
         <template slot="title">
           <Icon type="podium"></Icon>
@@ -158,6 +162,7 @@
       font-size: 20px;
       float: left;
       line-height: 60px;
+      color : #2D8CF0;
     }
 
     .drop-menu {

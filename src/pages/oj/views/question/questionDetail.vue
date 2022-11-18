@@ -60,6 +60,15 @@
                     </el-col>
                   </el-row>
                 </el-form>
+                <el-form v-if="this.hasAnswer" ref='form'  size="samll" label-position='top'>
+                  <el-row :gutter='15'>
+                    <el-col :span='24'>
+                        <el-form-item :label="$t('m.Answer_Content')" label-width="80px" prop="answer_content">
+                          <div id="answer" class="content"><p>{{answer.content}}</p></div>
+                        </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-form>
                 <!---
                     <div v-html="question.description" class="markdown-body"></div>
                     <div v-if="passwordFormVisible" class="question-password">
@@ -70,7 +79,9 @@
                     </div>
                 -->
                 <div class="btnfooter">
-                    <cancel @click.native="backPage"></cancel>
+                  <el-button v-if="this.hasAnswer" plain type="primary" @click="goAnswer">답변 수정</el-button>
+                  <el-button v-else plain type="primary" @click="goAnswer">답변 등록</el-button>
+                  <cancel @click.native="backPage"></cancel>
                 </div>
             </div>
             
@@ -93,24 +104,40 @@
           class_id: '',
           problem_id: '',
           submisssion_id: '',
+          answer_id: '',
           title: '',
           content: ''
         },
-        loading: false
+        answer: {
+          id: '',
+          submisssion_id: '',
+          question_id: '',
+          content: ''
+        },
+        loading: false,
+        hasAnswer: false
       }
     },
     mounted () {
       /*
-      this.$router.push({name: 'questionDetails', params: {questionID: 'id_value'}})로 in
+      this.$router.push({name: 'questionDetail', params: {questionID: 'id_value'}})로 in
       */
       this.getQuestion()
+      if (this.question.answer_id === '') this.hasAnswer = false
+      else this.hasAnswer = true
+      // this.hasAnswer = true
     },
     methods: {
       init () {
         this.getQuestion()
+        if (this.question.answer_id === '') this.hasAnswer = false
+        else this.hasAnswer = true
       },
       backPage () {
         this.$router.go(-1)
+      },
+      goAnswer () {
+        this.$router.push({name: 'answerRegister', params: {questionID: this.question.id}})
       },
       getQuestion () {
         this.loading = true
@@ -121,6 +148,18 @@
         }, () => {
           this.loading = false
         })
+      },
+      getAnswer () {
+        if (this.hasAnswer) {
+          this.loading = true
+          api.getAnswer(this.question.answer_id).then(res => {
+            this.loading = true
+            let data = res.data.data
+            this.answer = data
+          }, () => {
+            this.loading = false
+          })
+        }
       }
     }
   }

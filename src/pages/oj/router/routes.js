@@ -32,7 +32,7 @@ export default [
     name: 'home',
     path: '/',
     meta: {title: 'Home'},
-    component: Home
+    component: Contest.ContestList
   },
   {
     name: 'logout',
@@ -205,19 +205,19 @@ export default [
   },
   {
     name: 'questionregister',
-    path: '/questionregister',
+    path: '/questionregister/:submitID',
     meta: {title: 'question register'},
     component: QuestionRegister
   },
   {
     name: 'questionDetail',
-    path: '/questionDetail',
+    path: '/questionDetail/:questionID',
     meta: {title: 'Question Detail'},
     component: QuestionDetail
   },
   {
     name: 'answerRegister',
-    path: '/answerRegister',
+    path: '/answerRegister/:questionID',
     meta: {title: 'Answer Register'},
     component: AnswerRegister
   },

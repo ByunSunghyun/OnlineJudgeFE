@@ -8,8 +8,11 @@
       <el-form ref='form' size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.Class_ID')" label-width="120px" prop="class_id">
-              <el-input :placeholder="$t('m.Class_ID')" v-model="class_id"></el-input>
+            <el-form-item :label="$t('m.Question_ID')" label-width="120px" prop="question.question_id">
+              <!--
+                <div class="output"><p>{{this.question.class_id}}</p></div>
+              -->
+              <el-input :placeholder="$t('m.Question_ID')" v-model="question.question_id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -29,8 +32,8 @@
       <el-form ref='form'  size="samll" label-position='left'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.Title')" label-width="80px" prop="title">
-              <el-input :placeholder="$t('m.Title')" v-model="title"></el-input>
+            <el-form-item :label="$t('m.Title')" label-width="80px" prop="question.title">
+              <el-input :placeholder="$t('m.Title')" v-model="question.title"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -38,11 +41,11 @@
       <el-form ref='form'  size="samll" label-position='top'>
         <el-row :gutter='15'>
           <el-col :span='24'>
-            <el-form-item :label="$t('m.Question_contents')" label-width="80px" prop="question_contents">
+            <el-form-item :label="$t('m.Question_contents')" label-width="80px" prop="question.question_contents">
               <!--
               <el-input :placeholder="$t('m.question_contents')" v-model="question.question_contents"></el-input>
               -->
-              <Simditor v-model="question_contents"></Simditor>
+              <Simditor v-model="question.question_contents"></Simditor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -59,9 +62,9 @@
           </el-row>
         
       -->
-      <p>{{class_id}}</p>
-      <p>{{title}}</p>
-      <p>{{question_contents}}</p>
+      <p>{{question.question_id}}</p>
+      <p>{{question.title}}</p>
+      <p>{{question.question_contents}}</p>
     </div>
   </panel>
 </template>
@@ -76,24 +79,15 @@
     },
     data () {
       return {
-        rules: {
-          class_id: {required: true, message: 'Class ID is required', trigger: 'blur'},
-          problem_id: {required: true, message: 'Problem ID is required', trigger: 'blur'},
-          submission_id: {required: true, message: 'Submission ID is required', trigger: 'blur'},
-          title: {required: true, message: 'Title is required', trigger: 'blur'},
-          question_contents: {required: true, message: 'Input Description is required', trigger: 'blur'}
-        },
         question: {
-          languages: [],
-          io_mode: {'io_mode': 'Standard IO', 'input': 'input.txt', 'output': 'output.txt'}
+          class_id: '',
+          problem_id: '',
+          submission_id: '',
+          title: '',
+          question_id: '',
+          question_contents: ''
         },
         //
-        class_id: '',
-        problem_id: '',
-        title: '',
-        question_contents: '',
-        //
-        submission_id: '',
         username: '',
         name: '',
         profile: {},
@@ -111,31 +105,44 @@
       this.init()
     },
     methods: {
+      /*
+      this.$router.push({name: 'questionregister', params: {submitID: 'submission_id value'}})
+      로 questionRegister Page 호출
+      */
       init () {
         this.username = this.$route.query.username
         api.getUserInfo(this.username).then(res => {
           this.profile = res.data.data
           this.name = res.data.data.user.username
         })
+        this.getSubmission()
       },
       backPage () {
         this.$router.go(-1)
       },
+      getSubmission () {
+        this.loading = true
+        api.getSubmission(this.$route.params.id).then(res => {
+          this.loding = true
+          let data = res.data.data
+          this.question = data
+        }, () => {
+          this.loading = false
+        })
+      },
       submitQuestion (data = undefined) {
-        //
         if (!data.title) {
           data = {
-            question_id: this.class_id,
-            contest_id: 2,
-            problem_id: 2,
-            submission_id: 2,
-            title: this.title,
-            content: this.question_contents,
+            question_id: this.question.class_id,
+            contest_id: '',
+            problem_id: '',
+            submission_id: '',
+            title: this.question.title,
+            content: this.question.question_contents,
             username: this.name
           }
           api.createQuestion(data).then(res => {
-            this.init()
-            this.$router.push({name: 'questionDetail'})
+            this.$router.push({name: 'questionDetail', params: {questionID: this.question.question_id}})
           }).catch()
         }
       }
@@ -188,5 +195,5 @@
       padding-right: 10px;
       border-radius: 5px;
       background: #f1f2f4;
-    }
+  }
 </style>

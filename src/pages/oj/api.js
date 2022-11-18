@@ -298,18 +298,16 @@ export default {
       }
     })
   },
-  getQuestionList (offset, limit, searchParams) {
+  getQuestionList (offset, limit, keyword) {
     let params = {
       paging: true,
       offset,
       limit
     }
-    Object.keys(searchParams).forEach((element) => {
-      if (searchParams[element]) {
-        params[element] = searchParams[element]
-      }
-    })
-    return ajax('problem', 'get', {
+    if (keyword) {
+      params.keyword = keyword
+    }
+    return ajax('question/question_api', 'get', {
       params: params
     })
   },
@@ -331,6 +329,20 @@ export default {
   createAnswer (data) {
     return ajax('admin/answer', 'post', {
       data
+    })
+  },
+  getQuestion (id) {
+    return ajax('question/question_api', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  getAnswer (id) {
+    return ajax('answer/answer_api', 'get', {
+      params: {
+        id
+      }
     })
   }
   /**

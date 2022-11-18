@@ -30,14 +30,15 @@
   import utils from '@/utils/utils'
   import Pagination from '@oj/components/Pagination'
   export default {
-    name: 'Announcement',
+    name: 'Question',
     components: {
       Pagination
     },
     data () {
       return {
-        limit: 10,
-        total: 10,
+        currentPage: 1,
+        pageSize: 10,
+        keyword: '',
         QuestionTableColumns: [
           {
             title: this.$i18n.t('m.Class'),
@@ -49,10 +50,15 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'contest-details', params: {questionID: params.row.class_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.class)
+              }, params.row.class_id)
             }
           },
           {
@@ -65,10 +71,15 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'problem-details', params: {questionID: params.row.problem_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.problem)
+              }, params.row.problem_id)
             }
           },
           {
@@ -80,6 +91,11 @@
                 props: {
                   type: 'text',
                   size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.id}})
+                  }
                 },
                 style: {
                   textAlign: 'center'
@@ -96,30 +112,50 @@
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.answer)
+              }, this.printAnswer(params.row.answer))
             }
           }
         ],
-        loadings: [],
+        loadings: true,
         routeName: '',
-        query: {
-          keyword: '',
-          difficulty: '',
-          tag: '',
-          page: 1,
-          limit: 10
-        },
+        total: 0,
         questionList: [],
+        questionList1: [
+          {
+            'id': '12',
+            'class_id': '123',
+            'problem_id': '456',
+            'title': 'question',
+            'answer': ''
+          },
+          {
+            'id': '45',
+            'class_id': '456',
+            'problem_id': '12',
+            'title': 'question2',
+            'answer': '12'
+          }
+        ],
         listVisible: true
       }
     },
     mounted () {
-      this.init()
+      // this.getQuestionList(this.currentPage)
+      this.getQuestionList1()
     },
     methods: {
+      printAnswer (answer) {
+        if (answer === '') return 'No Answer'
+        else return answer
+      },
       goRegist () {
         this.$router.push({
           name: 'questionregister'
@@ -142,15 +178,6 @@
       },
       init () {
         this.routeName = this.$route.name
-        let query = this.$route.query
-        this.query.difficulty = query.difficulty || ''
-        this.query.keyword = query.keyword || ''
-        this.query.tag = query.tag || ''
-        this.query.page = parseInt(query.page) || 1
-        if (this.query.page < 1) {
-          this.query.page = 1
-        }
-        this.query.limit = parseInt(query.limit) || 10
         this.getQuestionList()
       },
       pushRouter () {
@@ -159,20 +186,18 @@
           query: utils.filterEmptyValue(this.query)
         })
       },
-      getQuestionList () {
-        // getProblemList from ProblemList.vue
-        let offset = (this.query.page - 1) * this.query.limit
-        this.loadings.table = true
-        api.getQuestionList(offset, this.limit, this.query).then(res => {
-          this.loadings.table = false
+      getQuestionList (page) {
+        this.loadings = true
+        api.getQuestionList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
+          this.loadings = false
           this.total = res.data.data.total
           this.questionList = res.data.data.results
-          if (this.isAuthenticated) {
-            this.addStatusColumn(this.QuestionTableColumns, res.data.data.results)
-          }
         }, res => {
           this.loadings.table = false
         })
+      },
+      getQuestionList1 () {
+        this.questionList = this.questionList1
       },
       // announcement.vue
       goBack () {
@@ -181,17 +206,11 @@
       }
     },
     computed: {
-      ...mapGetters(['isAuthenticated'])
     },
     watch: {
       '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init(true)
-        }
-      },
-      'isAuthenticated' (newVal) {
-        if (newVal === true) {
-          this.init()
         }
       }
     }

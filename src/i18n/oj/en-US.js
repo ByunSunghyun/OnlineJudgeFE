@@ -270,6 +270,9 @@ export const m = {
   My_question: '내질문',
   Answer: '답변',
   Class: '수업',
+  // Question.vue
+  Date: 'Date',
+  Problem: 'Problem',
   // AnswerRegister.vue
   Answer_regist: 'Answer Register',
   question_content: 'Question Content',
