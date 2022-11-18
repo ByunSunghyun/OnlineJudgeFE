@@ -128,6 +128,7 @@
       if (this.question.answer_id === '') this.hasAnswer = false
       else this.hasAnswer = true
       // this.hasAnswer = true
+      // if (this.hasAnswer) this.getAnswer()
     },
     methods: {
       init () {
@@ -135,6 +136,8 @@
         this.getQuestion()
         if (this.question.answer_id === '') this.hasAnswer = false
         else this.hasAnswer = true
+        this.hasAnswer = true
+        if (this.hasAnswer) this.getAnswer()
       },
       backPage () {
         this.$router.go(-1)
@@ -148,6 +151,7 @@
           this.loading = true
           let data = res.data.data
           this.question = data
+          if (this.hasAnswer) this.getAnswer()
         }, () => {
           this.loading = false
         })

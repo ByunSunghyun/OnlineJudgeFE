@@ -298,17 +298,12 @@ export default {
       }
     })
   },
-  getQuestionList (offset, limit, keyword) {
-    let params = {
-      paging: true,
-      offset,
-      limit
-    }
-    if (keyword) {
-      params.keyword = keyword
-    }
-    return ajax('question/question_api', 'get', {
-      params: params
+  // getQuestionList (offset, limit, params) {
+  getQuestionList (username) {
+    return ajax('question/question_list_api', 'get', {
+      params: {
+        username
+      }
     })
   },
   updateQuestion (data) {
@@ -322,12 +317,12 @@ export default {
     })
   },
   updateAnswer (data) {
-    return ajax('admin/answer', 'put', {
+    return ajax('answer/answer_api', 'put', {
       data
     })
   },
   createAnswer (data) {
-    return ajax('admin/answer', 'post', {
+    return ajax('answer/answer_api', 'post', {
       data
     })
   },

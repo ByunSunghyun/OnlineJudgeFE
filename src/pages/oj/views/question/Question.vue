@@ -20,6 +20,10 @@
         <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
         <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
       </div>
+
+      <p>[{{this.total}}]</p>
+      <p>[{{this.loading}}]</p>
+      <p>[{{this.questionList}}]</p>
   </panel>
   
 </template>
@@ -36,9 +40,6 @@
     },
     data () {
       return {
-        currentPage: 1,
-        pageSize: 10,
-        keyword: '',
         QuestionTableColumns: [
           {
             title: this.$i18n.t('m.Class'),
@@ -124,9 +125,11 @@
             }
           }
         ],
-        loadings: true,
+        loading: false,
         routeName: '',
         total: 0,
+        limit: 20,
+        page: 1,
         questionList: [],
         questionList1: [
           {
@@ -144,11 +147,19 @@
             'answer': '12'
           }
         ],
-        listVisible: true
+        listVisible: true,
+        username: '',
+        name: '',
+        profile: {}
       }
     },
     mounted () {
-      this.getQuestionList(this.currentPage)
+      this.username = this.$route.query.username
+      api.getUserInfo(this.username).then(res => {
+        this.profile = res.data.data
+        this.name = res.data.data.user.username
+      })
+      this.getQuestionList()
       // this.getQuestionList1()
     },
     methods: {
@@ -186,14 +197,22 @@
           query: utils.filterEmptyValue(this.query)
         })
       },
-      getQuestionList (page) {
-        this.loadings = true
-        api.getQuestionList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
-          this.loadings = false
+      buildQuery () {
+        return {
+          username: this.name,
+          page: this.page
+        }
+      },
+      getQuestionList () {
+        // this.loading = true
+        let params = {}
+        let offset = (this.page - 1) * this.limit
+        api.getQuestionList(this.name).then(res => {
+          this.loading = true
           this.total = res.data.data.total
           this.questionList = res.data.data.results
         }, res => {
-          this.loadings.table = false
+          this.loading = false
         })
       },
       getQuestionList1 () {

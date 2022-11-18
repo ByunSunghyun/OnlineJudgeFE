@@ -148,14 +148,15 @@
           let funcName = ''
           data = {
             submission_id: this.answer.submission_id,
-            question_id: this.answer.question_id,
-            content: this.answer_contents
+            question_id: this.answer.id,
+            content: this.answer.answer_contents,
+            username: this.name
           }
           //
           funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
           //
           api.createAnswer(data).then(res => {
-            this.$router.push({name: 'questionDetail', params: {questionID: this.answer.question_id}})
+            this.$router.push({name: 'questionDetail', params: {questionID: this.answer.id}})
           }).catch()
         }
       }
