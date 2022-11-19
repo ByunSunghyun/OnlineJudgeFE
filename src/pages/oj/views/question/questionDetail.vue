@@ -86,6 +86,7 @@
             </div>
             
             <p>[{{this.$route.params.questionID}}]</p>
+            <p>[{{this.question.answer_id}}]</p>
         </Panel>
         </div>
       </div>
@@ -124,23 +125,23 @@
       /*
       this.$router.push({name: 'questionDetail', params: {questionID: 'id_value'}})로 in
       */
-      this.getQuestion()
-      if (this.question.answer_id === '') this.hasAnswer = false
-      else this.hasAnswer = true
+      this.init()
+      // this.getQuestion()
+      // if (this.question.answer_id === '') this.hasAnswer = false
+      // else this.hasAnswer = true
       // this.hasAnswer = true
       // if (this.hasAnswer) this.getAnswer()
     },
     methods: {
       init () {
-        this.check = this.$route.name
         this.getQuestion()
-        if (this.question.answer_id === '') this.hasAnswer = false
-        else this.hasAnswer = true
-        this.hasAnswer = true
-        if (this.hasAnswer) this.getAnswer()
+        // if (this.question.answer_id === '') this.hasAnswer = false
+        // else this.hasAnswer = true
+        // this.hasAnswer = true
+        // if (this.hasAnswer) this.getAnswer()
       },
       backPage () {
-        this.$router.go(-1)
+        this.$router.push({name: 'question'})
       },
       goAnswer () {
         this.$router.push({name: 'answerRegister', params: {questionID: this.question.id}})
@@ -151,21 +152,27 @@
           this.loading = true
           let data = res.data.data
           this.question = data
-          if (this.hasAnswer) this.getAnswer()
+          //
+          if (this.question.answer_id === null) this.hasAnswer = false
+          else {
+            this.hasAnswer = true
+            //
+            this.getAnswer()
+          }
         }, () => {
           this.loading = false
         })
       },
       getAnswer () {
-        if (this.hasAnswer) {
+        this.loading = true
+        api.getAnswer(this.question.answer_id).then(res => {
           this.loading = true
-          api.getAnswer(this.question.answer_id).then(res => {
-            this.loading = true
-            let data = res.data.data
-            this.answer = data
-          }, () => {
-            this.loading = false
-          })
+          let data = res.data.data
+          this.answer = data
+        }, () => {
+          this.loading = false
+        })
+        if (this.hasAnswer) {
         }
       }
     }
@@ -190,7 +197,7 @@
     background: #f1f2f4;
   }
   .btnfooter {
-    display: inline-block;
+    // display: inline-block;
     margin: 0 5px;
     float: right;
   }

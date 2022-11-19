@@ -23,7 +23,7 @@
 
       <p>[{{this.total}}]</p>
       <p>[{{this.loading}}]</p>
-      <p>[{{this.questionList}}]</p>
+      <p>[{{this.name}}]</p>
   </panel>
   
 </template>
@@ -44,7 +44,7 @@
           {
             title: this.$i18n.t('m.Class'),
             align: 'center',
-            width: 300,
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -65,7 +65,7 @@
           {
             title: this.$i18n.t('m.Problem'),
             align: 'center',
-            width: 300,
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -86,7 +86,7 @@
           {
             title: this.$i18n.t('m.Title'),
             align: 'center',
-            width: 300,
+            width: '30%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -95,7 +95,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.id}})
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
                   }
                 },
                 style: {
@@ -107,6 +107,7 @@
           {
             title: this.$i18n.t('m.Answer'),
             align: 'center',
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -115,13 +116,13 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.id}})
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
                   }
                 },
                 style: {
                   textAlign: 'center'
                 }
-              }, this.printAnswer(params.row.answer))
+              }, this.printAnswer(params.row.answer_id))
             }
           }
         ],
@@ -150,7 +151,8 @@
         listVisible: true,
         username: '',
         name: '',
-        profile: {}
+        profile: {},
+        hasAnswer: false
       }
     },
     mounted () {
@@ -158,14 +160,19 @@
       api.getUserInfo(this.username).then(res => {
         this.profile = res.data.data
         this.name = res.data.data.user.username
+        this.getQuestionList()
       })
-      this.getQuestionList()
       // this.getQuestionList1()
     },
     methods: {
       printAnswer (answer) {
-        if (answer === '') return 'No Answer'
-        else return answer
+        if (answer === '') {
+          this.hasAnswer = true
+          return 'No Answer'
+        } else {
+          this.hasAnswer = false
+          return answer
+        }
       },
       goRegist () {
         this.$router.push({
@@ -210,7 +217,7 @@
         api.getQuestionList(this.name).then(res => {
           this.loading = true
           this.total = res.data.data.total
-          this.questionList = res.data.data.results
+          this.questionList = res.data.data
         }, res => {
           this.loading = false
         })

@@ -18,6 +18,12 @@
     </Col>
 
     <!-- 백그라운드로 돌아가면 나타납니다. 권한 제어 백그라운드로 이동 -->
+    <Col :span="20" id = "button">
+      <div class="btnfooter">
+        <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
+        <cancel @click.native="backPage"></cancel>
+      </div>
+    </Col>
     <Col v-if="submission.info && !isCE" :span="6">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
@@ -61,7 +67,6 @@
         </Button>
       </div>
     </Col>-->
-
 </template>
 
 <script>
@@ -166,6 +171,14 @@
       this.init()
     },
     methods: {
+      goRegist () {
+        this.$router.push({
+          name: 'questionregister'
+        })
+      },
+      backPage () {
+        this.$router.go(-1)
+      },
       init () {
         this.maxStep = this.items.length
       },
@@ -304,5 +317,10 @@ table {
   pre {
     border: none;
     background: none;
+  }
+  .btnfooter {
+    // display: inline-block;
+    margin: 10px 5px 10px 5px;
+    float: right;
   }
 </style>
