@@ -16,14 +16,18 @@
 
       <div>
         <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_regist')}}</Button>
-        <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
-        <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
-        <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
+        <!--
+          <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
+          <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
+          <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
+        -->
       </div>
 
-      <p>[{{this.total}}]</p>
-      <p>[{{this.loading}}]</p>
-      <p>[{{this.name}}]</p>
+      <!--
+        <p>[{{this.total}}]</p>
+        <p>[{{this.loading}}]</p>
+        <p>[{{this.name}}]</p>
+      -->
   </panel>
   
 </template>

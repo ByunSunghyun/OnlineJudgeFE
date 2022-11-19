@@ -60,9 +60,9 @@
             </el-col>
           </el-row>
         
+          <p>{{question.title}}</p>
+          <p>{{question.question_contents}}</p>
       -->
-      <p>{{question.title}}</p>
-      <p>{{question.question_contents}}</p>
     </div>
   </panel>
 </template>
@@ -112,14 +112,14 @@
           this.profile = res.data.data
           this.name = res.data.data.user.username
         })
-        // this.getSubmission()
+        this.getSubmission()
       },
       backPage () {
         this.$router.go(-1)
       },
       getSubmission () {
         this.loading = true
-        api.getSubmission(this.$route.params.id).then(res => {
+        api.getSubmission(this.$route.params.submitID).then(res => {
           this.loding = true
           let data = res.data.data
           this.question = data

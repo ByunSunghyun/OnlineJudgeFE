@@ -84,9 +84,10 @@
                   <cancel @click.native="backPage"></cancel>
                 </div>
             </div>
-            
-            <p>[{{this.$route.params.questionID}}]</p>
-            <p>[{{this.question.answer_id}}]</p>
+            <!--
+              <p>[{{this.$route.params.questionID}}]</p>
+              <p>[{{this.question.answer_id}}]</p>
+            -->
         </Panel>
         </div>
       </div>
