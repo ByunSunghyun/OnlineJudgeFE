@@ -37,7 +37,7 @@
                   <el-row :gutter='15'>
                     <el-col :span='12'>
                       <el-form-item :label="$t('m.Submission_ID')" label-width="120px" prop="submisssion_id">
-                        <div id="submission_id" class="content"><p>{{question.submisssion_id}}</p></div>
+                        <div id="submission_id" class="content"><p>{{question.submission_id}}</p></div>
                       </el-form-item>
                     </el-col>
                   </el-row>
@@ -55,7 +55,16 @@
                   <el-row :gutter='15'>
                     <el-col :span='24'>
                         <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
-                          <div id="question" class="content"><p>{{question.content}}</p></div>
+                          <div id="question" class="content">{{question.content}}</div>
+                        </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-form>
+                <el-form v-if="this.hasAnswer" ref='form'  size="samll" label-position='top'>
+                  <el-row :gutter='15'>
+                    <el-col :span='24'>
+                        <el-form-item :label="$t('m.Answer_Content')" label-width="80px" prop="answer_content">
+                          <div id="answer" class="content"><p>{{answer.content}}</p></div>
                         </el-form-item>
                     </el-col>
                   </el-row>
@@ -70,10 +79,15 @@
                     </div>
                 -->
                 <div class="btnfooter">
-                    <cancel @click.native="backPage"></cancel>
+                  <el-button v-if="this.hasAnswer" plain type="primary" @click="goAnswer">답변 수정</el-button>
+                  <el-button v-else plain type="primary" @click="goAnswer">답변 등록</el-button>
+                  <cancel @click.native="backPage"></cancel>
                 </div>
             </div>
-            
+            <!--
+              <p>[{{this.$route.params.questionID}}]</p>
+              <p>[{{this.question.answer_id}}]</p>
+            -->
         </Panel>
         </div>
       </div>
@@ -92,35 +106,75 @@
           id: '',
           class_id: '',
           problem_id: '',
-          submisssion_id: '',
+          submission_id: '',
+          answer_id: '',
           title: '',
           content: ''
         },
-        loading: false
+        answer: {
+          id: '',
+          submisssion_id: '',
+          question_id: '',
+          content: ''
+        },
+        loading: false,
+        hasAnswer: false,
+        check: ''
       }
     },
     mounted () {
       /*
-      this.$router.push({name: 'questionDetails', params: {questionID: 'id_value'}})로 in
+      this.$router.push({name: 'questionDetail', params: {questionID: 'id_value'}})로 in
       */
-      this.getQuestion()
+      this.init()
+      // this.getQuestion()
+      // if (this.question.answer_id === '') this.hasAnswer = false
+      // else this.hasAnswer = true
+      // this.hasAnswer = true
+      // if (this.hasAnswer) this.getAnswer()
     },
     methods: {
       init () {
         this.getQuestion()
+        // if (this.question.answer_id === '') this.hasAnswer = false
+        // else this.hasAnswer = true
+        // this.hasAnswer = true
+        // if (this.hasAnswer) this.getAnswer()
       },
       backPage () {
-        this.$router.go(-1)
+        this.$router.push({name: 'question'})
+      },
+      goAnswer () {
+        this.$router.push({name: 'answerRegister', params: {questionID: this.question.id}})
       },
       getQuestion () {
         this.loading = true
-        api.getQuestion(this.$route.params.id).then(res => {
+        api.getQuestion(this.$route.params.questionID).then(res => {
           this.loading = true
           let data = res.data.data
           this.question = data
+          //
+          if (this.question.answer_id === null) this.hasAnswer = false
+          else {
+            this.hasAnswer = true
+            //
+            this.getAnswer()
+          }
         }, () => {
           this.loading = false
         })
+      },
+      getAnswer () {
+        this.loading = true
+        api.getAnswer(this.question.answer_id).then(res => {
+          this.loading = true
+          let data = res.data.data
+          this.answer = data
+        }, () => {
+          this.loading = false
+        })
+        if (this.hasAnswer) {
+        }
       }
     }
   }
@@ -144,7 +198,7 @@
     background: #f1f2f4;
   }
   .btnfooter {
-    display: inline-block;
+    // display: inline-block;
     margin: 0 5px;
     float: right;
   }

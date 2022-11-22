@@ -16,70 +16,91 @@
 
       <div>
         <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_regist')}}</Button>
-        <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
-        <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
-        <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
+        <!--
+          <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
+          <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
+          <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
+        -->
       </div>
+
+      <!--
+        <p>[{{this.total}}]</p>
+        <p>[{{this.loading}}]</p>
+        <p>[{{this.name}}]</p>
+      -->
   </panel>
   
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  // import { mapGetters } from 'vuex'
   import api from '@oj/api'
   import utils from '@/utils/utils'
   import Pagination from '@oj/components/Pagination'
   export default {
-    name: 'Announcement',
+    name: 'Question',
     components: {
       Pagination
     },
     data () {
       return {
-        limit: 10,
-        total: 10,
         QuestionTableColumns: [
           {
             title: this.$i18n.t('m.Class'),
             align: 'center',
-            width: 300,
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'contest-details', params: {questionID: params.row.class_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.class)
+              }, params.row.class_id)
             }
           },
           {
             title: this.$i18n.t('m.Problem'),
             align: 'center',
-            width: 300,
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'problem-details', params: {questionID: params.row.problem_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.problem)
+              }, params.row.problem_id)
             }
           },
           {
             title: this.$i18n.t('m.Title'),
             align: 'center',
-            width: 300,
+            width: '30%',
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'text',
                   size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
+                  }
                 },
                 style: {
                   textAlign: 'center'
@@ -90,36 +111,73 @@
           {
             title: this.$i18n.t('m.Answer'),
             align: 'center',
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'text',
                   size: 'large'
                 },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
+                  }
+                },
                 style: {
                   textAlign: 'center'
                 }
-              }, params.row.answer)
+              }, this.printAnswer(params.row.answer_id))
             }
           }
         ],
-        loadings: [],
+        loading: false,
         routeName: '',
-        query: {
-          keyword: '',
-          difficulty: '',
-          tag: '',
-          page: 1,
-          limit: 10
-        },
+        total: 0,
+        limit: 20,
+        page: 1,
         questionList: [],
-        listVisible: true
+        questionList1: [
+          {
+            'id': '12',
+            'class_id': '123',
+            'problem_id': '456',
+            'title': 'question',
+            'answer': ''
+          },
+          {
+            'id': '45',
+            'class_id': '456',
+            'problem_id': '12',
+            'title': 'question2',
+            'answer': '12'
+          }
+        ],
+        listVisible: true,
+        username: '',
+        name: '',
+        profile: {},
+        hasAnswer: false
       }
     },
     mounted () {
-      this.init()
+      this.username = this.$route.query.username
+      api.getUserInfo(this.username).then(res => {
+        this.profile = res.data.data
+        this.name = res.data.data.user.username
+        this.getQuestionList()
+      })
+      // this.getQuestionList1()
     },
     methods: {
+      printAnswer (answer) {
+        if (answer === '') {
+          this.hasAnswer = true
+          return 'No Answer'
+        } else {
+          this.hasAnswer = false
+          return answer
+        }
+      },
       goRegist () {
         this.$router.push({
           name: 'questionregister'
@@ -142,15 +200,6 @@
       },
       init () {
         this.routeName = this.$route.name
-        let query = this.$route.query
-        this.query.difficulty = query.difficulty || ''
-        this.query.keyword = query.keyword || ''
-        this.query.tag = query.tag || ''
-        this.query.page = parseInt(query.page) || 1
-        if (this.query.page < 1) {
-          this.query.page = 1
-        }
-        this.query.limit = parseInt(query.limit) || 10
         this.getQuestionList()
       },
       pushRouter () {
@@ -159,20 +208,26 @@
           query: utils.filterEmptyValue(this.query)
         })
       },
+      buildQuery () {
+        return {
+          username: this.name,
+          page: this.page
+        }
+      },
       getQuestionList () {
-        // getProblemList from ProblemList.vue
-        let offset = (this.query.page - 1) * this.query.limit
-        this.loadings.table = true
-        api.getQuestionList(offset, this.limit, this.query).then(res => {
-          this.loadings.table = false
+        // this.loading = true
+        // let params = {}
+        // let offset = (this.page - 1) * this.limit
+        api.getQuestionList(this.name).then(res => {
+          this.loading = true
           this.total = res.data.data.total
-          this.questionList = res.data.data.results
-          if (this.isAuthenticated) {
-            this.addStatusColumn(this.QuestionTableColumns, res.data.data.results)
-          }
+          this.questionList = res.data.data
         }, res => {
-          this.loadings.table = false
+          this.loading = false
         })
+      },
+      getQuestionList1 () {
+        this.questionList = this.questionList1
       },
       // announcement.vue
       goBack () {
@@ -181,17 +236,11 @@
       }
     },
     computed: {
-      ...mapGetters(['isAuthenticated'])
     },
     watch: {
       '$route' (newVal, oldVal) {
         if (newVal !== oldVal) {
           this.init(true)
-        }
-      },
-      'isAuthenticated' (newVal) {
-        if (newVal === true) {
-          this.init()
         }
       }
     }

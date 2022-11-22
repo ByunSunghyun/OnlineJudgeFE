@@ -92,39 +92,39 @@ export default {
         }
       ],
       treeData: {
-        name: '할아버지',
-        image_url: 'https://2.bp.blogspot.com/-2Ksv3eNd8rU/VaMNmDYJhnI/AAAAAAAAvZ8/beeIFBTV1yI/s800/man_55.png',
+        name: 'A',
+        image_url: 'https://i.ibb.co/jZPmQrc/circle.png',
         mate: {
-          name: '할머니',
-          image_url: 'https://3.bp.blogspot.com/-FftTdIRficc/VaMN2XZPX4I/AAAAAAAAvfE/nfhfaBzUQO4/s800/woman_70.png'
+          name: 'B',
+          image_url: 'https://i.ibb.co/jZPmQrc/circle.png'
         },
         children: [
           {
-            name: '엄마',
+            name: 'C',
             image_url:
-              'https://3.bp.blogspot.com/-IHUKjJDgpoA/VbNBI6Yl5oI/AAAAAAAAv-0/Om-qYQS8HK8/s800/hair_curler.png',
+              'https://i.ibb.co/jZPmQrc/circle.png',
             mate: {
-              name: '아빠',
+              name: 'D',
               image_url:
-                'https://1.bp.blogspot.com/-YRqIo9Ha9bo/VZ-O3A_W2jI/AAAAAAAAu-U/8iRjzHwIPqc/s300/business01_laugh.png'
+                'https://i.ibb.co/jZPmQrc/circle.png'
             },
             children: [
               {
-                name: '나',
+                name: 'E',
                 image_url:
-                  'https://1.bp.blogspot.com/-r0SdJLU4eWk/X1CK7MQfwvI/AAAAAAABaws/QoCcnan3kO42i4Gmhpjil0Iy0BvIGzY4wCNcBGAsYHQ/s400/hair_okappa_boy.png'
+                  'https://i.ibb.co/jZPmQrc/circle.png'
               }
             ]
           },
           {
-            name: '삼촌',
+            name: 'F',
             image_url:
-              'https://3.bp.blogspot.com/-HlyNojAwQ_E/WGnPR_1sd-I/AAAAAAABA28/-nTxgf0ImnMvOaC8Fvrnw5hOPNdq90_5gCLcB/s800/hair_bouzu.png'
+              'https://i.ibb.co/jZPmQrc/circle.png'
           },
           {
-            name: '고모',
+            name: 'G',
             image_url:
-              'https://2.bp.blogspot.com/-214b8CKHI9M/VpjKd3RgirI/AAAAAAAA3IM/Ooil9YOS0Ds/s800/hair_okappa.png'
+              'https://i.ibb.co/jZPmQrc/circle.png'
           }
         ]
       },
@@ -180,13 +180,14 @@ export default {
 }
 #tree {
   flex: 1;
-  /* font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;*/
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   //margin-top: 60px;
   border: 1px solid rgb(0, 0, 0);
+  background-color: white;
 }
 </style>
   

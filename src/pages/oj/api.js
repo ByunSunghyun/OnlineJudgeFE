@@ -298,19 +298,11 @@ export default {
       }
     })
   },
-  getQuestionList (offset, limit, searchParams) {
-    let params = {
-      paging: true,
-      offset,
-      limit
-    }
-    Object.keys(searchParams).forEach((element) => {
-      if (searchParams[element]) {
-        params[element] = searchParams[element]
+  getQuestionList (username) {
+    return ajax('question/question_list_api', 'get', {
+      params: {
+        username
       }
-    })
-    return ajax('problem', 'get', {
-      params: params
     })
   },
   updateQuestion (data) {
@@ -324,16 +316,30 @@ export default {
     })
   },
   updateAnswer (data) {
-    return ajax('admin/answer', 'put', {
+    return ajax('answer/answer_api', 'put', {
       data
     })
   },
   createAnswer (data) {
-    return ajax('admin/answer', 'post', {
+    return ajax('answer/answer_api', 'post', {
       data
     })
+  },
+  getQuestion (id) {
+    return ajax('question/question_api', 'get', {
+      params: {
+        id
+      }
+    })
+  },
+  getAnswer (id) {
+    return ajax('answer/answer_api', 'get', {
+      params: {
+        id
+      }
+    })
   }
-  /**
+  /*
   여기서 부터 추가부분
   **/
 }
