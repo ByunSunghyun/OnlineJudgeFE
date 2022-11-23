@@ -1,10 +1,5 @@
 <template>
   <div>
-    <li v-for="contest in hihihi.data" :key="hihihi.data">
-      <button @click="goContestl(contest.contest_id_list)">
-        {{contest.contest_name}}
-      </button>
-    </li>
     <table class="tbl">
       <thead class="thead">
         <tr>

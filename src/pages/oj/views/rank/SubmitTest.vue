@@ -16,6 +16,15 @@
         </div>
       </Alert>
     </Col>
+    <Col :span="20" id = "button">
+      <!--
+        <p>[{{this.printid}}]</p>
+      -->
+      <div class="btnfooter">
+        <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
+        <cancel @click.native="backPage"></cancel>
+      </div>
+    </Col>
 
     <!-- 백그라운드로 돌아가면 나타납니다. 권한 제어 백그라운드로 이동 -->
     <Col v-if="submission.info && !isCE" :span="6">
@@ -234,6 +243,14 @@
           this.$success(this.$i18n.t('m.Succeeded'))
         }, () => {
         })
+      },
+      goRegist () {
+        this.$router.push({
+          name: 'questionregister', params: {submitID: this.submission.id}
+        })
+      },
+      backPage () {
+        this.$router.go(-1)
       }
     },
     computed: {

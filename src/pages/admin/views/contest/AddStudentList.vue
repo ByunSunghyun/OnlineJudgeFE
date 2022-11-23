@@ -1,22 +1,20 @@
 <template>
-    <div id="acm-rank">
-      <vue-csv-import
-        v-model="csv"
-        :autoMatchFields="true"
-        :autoMatchIgnoreCase="true"
-        :map-fields="['student_id_list']"
-      >
-      </vue-csv-import>
-      <div style="padding-top: 50px">
-        <p>Results</p>
-        {{ csv }}
-      </div>
-      <Button @click="pushStudentList">{{$t('학생 추가')}}</Button>
-      <p>{{hihihi.data}}</p>
-      <p>{{"This class id: "}}{{idid}}</p>
-      <p>{{"upload success? "}}{{gana}}</p>
+  <div class="acm-rank">
+    <p>{{"This class id: "}}{{idid}}</p>
+    <vue-csv-import 
+      v-model="csv"
+      :autoMatchFields="true"
+      :autoMatchIgnoreCase="true"
+      :map-fields="['student_id_list']"> </vue-csv-import>
+    <div style="padding-top: 50px">
+      <p>Results</p>
+      {{ csv }}
     </div>
-  </template>
+    <Button class="btn1" @click="pushStudentList">{{$t('학생 추가')}}</Button>
+    <p>{{hihihi.data}}</p>
+    <p>{{"upload success? "}}{{gana}}</p>
+  </div>
+</template>
   
   <script>
     import api from '@oj/api'
@@ -60,10 +58,22 @@
   </script>
   
   <style scoped lang="less">
-    .echarts {
-      margin: 0 auto;
-      width: 95%;
-      height: 400px;
+    .btn1{
+      background-color: rgb(114, 173, 172);
+      border: none;
+      color: black;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5%;
+    }
+    .acm-rank{
+      background-color: white;
+      font-size: 30px;
     }
   </style>
   

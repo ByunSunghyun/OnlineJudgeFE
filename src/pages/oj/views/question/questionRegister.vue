@@ -79,8 +79,8 @@
       return {
         question: {
           class_id: '1',
-          problem_id: '1',
-          submission_id: '1',
+          problem_id: '2',
+          submission_id: '4c8c6fe0c76d41289af3f6e26cb82459',
           title: '',
           question_contents: ''
         },
