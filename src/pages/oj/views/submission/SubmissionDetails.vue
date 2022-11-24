@@ -21,6 +21,9 @@
     <Col v-if="submission.info && !isCE" :span="20">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
+    <Col> 
+      <p>{{testfile}}</p>
+    </Col>
 
     <Col :span="20">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
@@ -54,6 +57,7 @@
     },
     data () {
       return {
+        testfile: [],
         columns: [
           {
             title: this.$i18n.t('m.ID'),
@@ -145,6 +149,7 @@
         }, () => {
           this.loading = false
         })
+        this.getVisual()
       },
       shareSubmission (shared) {
         let data = {id: this.submission.id, shared: shared}
@@ -152,6 +157,16 @@
           this.getSubmission()
           this.$success(this.$i18n.t('m.Succeeded'))
         }, () => {
+        })
+      },
+      getVisual () {
+        let params = {
+          submission_id: this.submission.id,
+          problem_id: this.submission.problem,
+          user_id: this.submission.id
+        }
+        api.getVisual(params).then(res => {
+          this.testfile = res.data.data.results
         })
       }
     },

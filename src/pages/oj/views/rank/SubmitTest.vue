@@ -86,6 +86,7 @@
     },
     data () {
       return {
+        tetfile: [],
         nowStep: 0,
         maxStep: 0,
         items: [
@@ -251,6 +252,16 @@
       },
       backPage () {
         this.$router.go(-1)
+      },
+      getVisual () {
+        let params = {
+          submission_id: this.submission.info.data.id,
+          problem_id: this.submission.info.data.problem,
+          user_id: this.submission.info.data.id
+        }
+        api.getVisual(params).then(res => {
+          this.testfile = res.data.data.results
+        })
       }
     },
     computed: {

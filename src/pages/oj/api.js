@@ -338,6 +338,11 @@ export default {
         id
       }
     })
+  },
+  getVisual (params) {
+    return ajax('submission_visual', 'get', {
+      params
+    })
   }
   /*
   여기서 부터 추가부분
