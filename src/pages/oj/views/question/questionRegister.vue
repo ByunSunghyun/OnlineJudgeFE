@@ -63,6 +63,9 @@
           <p>{{question.title}}</p>
           <p>{{question.question_contents}}</p>
       -->
+      <p>{{question.id}}</p>
+      <p>{{question.contest}}</p>
+      <p>{{question.problem}}</p>
     </div>
   </panel>
 </template>
@@ -78,9 +81,9 @@
     data () {
       return {
         question: {
-          class_id: '2',
-          problem_id: '2',
-          submission_id: '2',
+          contest: '',
+          problem: '',
+          id: '', // submission_id
           title: '',
           question_contents: ''
         },
@@ -130,9 +133,9 @@
       submitQuestion (data = undefined) {
         if (!data.title) {
           data = {
-            contest_id: this.question.class_id,
-            problem_id: this.question.problem_id,
-            submission_id: this.question.submission_id,
+            contest_id: this.question.contest,
+            problem_id: this.question.problem,
+            submission_id: this.question.id,
             title: this.question.title,
             content: this.question.question_contents,
             username: this.name
