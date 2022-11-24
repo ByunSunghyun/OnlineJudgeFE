@@ -26,8 +26,7 @@
       <div class="btnfooter">
           <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
           <cancel @click.native="backPage"></cancel>
-        </div>
-      </Col>
+      </div>
     </Col>
 
     <Col :span="20">
