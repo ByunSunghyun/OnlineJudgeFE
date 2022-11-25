@@ -33,9 +33,10 @@
       </div>
       <div id="tree">
         <p>트리 구현 test</p>
-        <TreeChart :json='treeData' />
+        <TreeChart :json='treeData2' />
       </div>
     </div>
+    <TreeChart :json='treeData2' />
   </div>
 </template>
   
@@ -92,13 +93,13 @@ export default {
         }
       ],
       treeData: {
-        name: 'A',
+        'name': 'A',
         image_url: 'https://i.ibb.co/jZPmQrc/circle.png',
         mate: {
           name: 'B',
           image_url: 'https://i.ibb.co/jZPmQrc/circle.png'
         },
-        children: [
+        'children': [
           {
             name: 'C',
             image_url:
@@ -125,6 +126,38 @@ export default {
             name: 'G',
             image_url:
               'https://i.ibb.co/jZPmQrc/circle.png'
+          }
+        ]
+      },
+      treeData2: {
+        'name': '*tree',
+        'data': '{lChild = 0x55555555a6f0, rChild = 0x55555555a720, parent = 0x0, \n  key = 3}',
+        'children': [
+          {
+            'name': '(*treerChild)',
+            'data': '{lChild = 0x55555555a750, rChild = 0x0, parent = 0x55555555a2b0, \n  key = 7}',
+            'children': [
+              {
+                'name': '*(((*tree->rChild)->lChild))',
+                'data': '{lChild = 0x55555555a780, rChild = 0x0, parent = 0x55555555a720, \n  key = 6}',
+                'children': [
+                  {
+                    'name': '(*(((*tree->rChild)->lChild))->lChild)',
+                    'data': '{lChild = 0x0, rChild = 0x0, parent = 0x55555555a750, key = 5}',
+                    'children': []
+                  }
+                ]},
+              {
+                'name': '((*treerChild)lChild)',
+                'data': '(struct node *) 0x55555555a750',
+                'children': []
+              }
+            ]
+          },
+          {
+            'name': '(*tree->lChild)',
+            'data': '{lChild = 0x0, rChild = 0x0, parent = 0x55555555a2b0, key = 2}',
+            'children': []
           }
         ]
       },

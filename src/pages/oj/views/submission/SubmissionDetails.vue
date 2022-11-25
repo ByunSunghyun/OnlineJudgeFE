@@ -23,6 +23,8 @@
     </Col>
     <Col> 
       <p>{{testfile}}</p>
+      <p>{{test1}}{{"test"}}</p>
+      <p>{{submission.id}}</p>
     </Col>
 
     <Col :span="20">
@@ -58,6 +60,7 @@
     data () {
       return {
         testfile: [],
+        test1: '',
         columns: [
           {
             title: this.$i18n.t('m.ID'),
@@ -146,10 +149,10 @@
             }
           }
           this.submission = data
+          this.getVisual(data.id, data.problem, data.user_id)
         }, () => {
           this.loading = false
         })
-        this.getVisual()
       },
       shareSubmission (shared) {
         let data = {id: this.submission.id, shared: shared}
@@ -159,11 +162,12 @@
         }, () => {
         })
       },
-      getVisual () {
+      getVisual (a, b, c) {
+        this.test1 = a
         let params = {
-          submission_id: this.submission.id,
-          problem_id: this.submission.problem,
-          user_id: this.submission.id
+          submission_id: a,
+          problem_id: b,
+          user_id: c
         }
         api.getVisual(params).then(res => {
           this.testfile = res.data.data.results
