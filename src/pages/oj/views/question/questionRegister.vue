@@ -86,9 +86,9 @@
           problem: ''
         },
         question: {
-          contest: '2',
-          problem: '2',
-          submission: '2', // submission_id
+          contest: '',
+          problem: '',
+          submission: '', // submission_id
           title: '',
           question_contents: ''
         },

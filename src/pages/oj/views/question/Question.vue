@@ -170,12 +170,12 @@
     },
     methods: {
       printAnswer (answer) {
-        if (answer === '') {
+        if (answer === null) {
           this.hasAnswer = true
-          return 'No Answer'
+          return 'Waiting'
         } else {
           this.hasAnswer = false
-          return answer
+          return 'Complete'
         }
       },
       goRegist () {
