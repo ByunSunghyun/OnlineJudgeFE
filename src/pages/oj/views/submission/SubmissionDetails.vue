@@ -21,28 +21,22 @@
     <Col v-if="submission.info && !isCE" :span="20">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
-    <Col> 
-      <p>{{testfile}}</p>
-      <p>{{test1}}{{"test"}}</p>
-      <p>{{submission.id}}</p>
-    </Col>
 
     <Col :span="20">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
-    <Col v-if="submission.can_unshare" :span="20">
-      <div id="share-btn">
-        <Button v-if="submission.shared"
-                type="warning" size="large" @click="shareSubmission(false)">
-          {{$t('m.UnShare')}}
-        </Button>
-        <Button v-else
-                type="primary" size="large" @click="shareSubmission(true)">
-          {{$t('m.Share')}}
-        </Button>
-      </div>
+    
+    <Col> 
+      <p>{{submitcode}}</p>
     </Col>
+    <table>
+      <td>name</td>
+      <tr v-for="(value, key, index) in submitcode">
+        <td>{{index}}{{value}}{{key}}</td>
+      </tr>
+    </table>
   </Row>
+  
 
 </template>
 
@@ -59,8 +53,9 @@
     },
     data () {
       return {
-        testfile: [],
-        test1: '',
+        submitcode: [],
+        test1: 'test1',
+        test2: false,
         columns: [
           {
             title: this.$i18n.t('m.ID'),
@@ -163,14 +158,15 @@
         })
       },
       getVisual (a, b, c) {
-        this.test1 = a
         let params = {
           submission_id: a,
           problem_id: b,
           user_id: c
         }
+        this.test1 = params.submission_id
         api.getVisual(params).then(res => {
-          this.testfile = res.data.data.results
+          this.test2 = true
+          this.submitcode = res.data.data
         })
       }
     },

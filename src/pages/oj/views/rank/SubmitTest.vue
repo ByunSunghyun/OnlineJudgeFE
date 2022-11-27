@@ -43,12 +43,10 @@
         <td>name</td>
         <td>value</td>
         <td>type</td>
-        <td>Check</td>
-        <tr v-if="index < nowStep" v-for="(item, index) in items" :key="items.name">
-          <td><span v-if="index < nowStep" v-html="item.name"></span></td>
-          <td><span v-if="index < nowStep" v-html="item.value"></span></td>
-          <td><span v-if="index < nowStep" v-html="index"></span></td>
-          <td><span v-if="index < nowStep" v-html="index"></span></td>
+        <tr v-if="index == nowStep" v-for="(item, index) in items" :key="items.name">
+          <td><span v-if="index == nowStep" v-html="item.name"></span></td>
+          <td><span v-if="index == nowStep" v-html="item.value"></span></td>
+          <td><span v-if="index == nowStep" v-html="index"></span></td>
         </tr>
       </table>
     </Col>
@@ -56,6 +54,20 @@
       <p>visualization 구현부분</p>
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
+    <table>
+      <td>name</td>
+      <td>value</td>
+      <template v-for="(item, index) in testobj">
+        <tr v-if="index==nowStep" v-for="(key, value) in item.var">
+          <td>
+            {{value}}
+          </td>
+          <td>
+            {{key}}
+          </td>
+        </tr>
+      </template>
+    </table>
   </Row>
   
     <!-- <Col v-if="submission.can_unshare" :span="20">
@@ -89,6 +101,10 @@
         tetfile: [],
         nowStep: 0,
         maxStep: 0,
+        testobj: [
+          {'frame': 'main', 'next': 'd', 'step': 0, 'var': {'&a': '(int *) 0x7ffce7dd0f54', 'a': 0}},
+          {'frame': 'main', 'next': '}', 'step': 4, 'var': {'&a': '(int *) 0x7ffce7dd0f54', 'a': 1}}
+        ],
         items: [
           {
             'name': 'a',
