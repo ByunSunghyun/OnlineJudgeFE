@@ -63,6 +63,9 @@
           <p>{{question.title}}</p>
           <p>{{question.question_contents}}</p>
       -->
+      <p>{{this.question.submission}}</p>
+      <p>{{this.question.contest}}</p>
+      <p>{{this.question.problem}}</p>
     </div>
   </panel>
 </template>
@@ -77,10 +80,15 @@
     },
     data () {
       return {
+        submission: {
+          id: '',
+          contest: '',
+          problem: ''
+        },
         question: {
-          class_id: '1',
-          problem_id: '2',
-          submission_id: '4c8c6fe0c76d41289af3f6e26cb82459',
+          contest: '',
+          problem: '',
+          submission: '', // submission_id
           title: '',
           question_contents: ''
         },
@@ -114,6 +122,11 @@
         })
         this.getSubmission()
       },
+      transferSubmitToQuestion () {
+        this.question.contest = this.submission.contest
+        this.question.problem = this.submission.problem
+        this.question.submission = this.submission.id
+      },
       backPage () {
         this.$router.go(-1)
       },
@@ -122,7 +135,8 @@
         api.getSubmission(this.$route.params.submitID).then(res => {
           this.loding = true
           let data = res.data.data
-          this.question = data
+          this.submission = data
+          this.transferSubmitToQuestion()
         }, () => {
           this.loading = false
         })
@@ -130,9 +144,9 @@
       submitQuestion (data = undefined) {
         if (!data.title) {
           data = {
-            contest_id: this.question.class_id,
-            problem_id: this.question.problem_id,
-            submission_id: this.question.submission_id,
+            contest_id: this.question.contest,
+            problem_id: this.question.problem,
+            submission_id: this.question.submission,
             title: this.question.title,
             content: this.question.question_contents,
             username: this.name
