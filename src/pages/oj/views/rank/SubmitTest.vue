@@ -17,9 +17,6 @@
       </Alert>
     </Col>
     <Col :span="20" id = "button">
-      <!--
-        <p>[{{this.printid}}]</p>
-      -->
       <div class="btnfooter">
         <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
         <cancel @click.native="backPage"></cancel>
@@ -52,7 +49,16 @@
     </Col>
     <Col :span="6">
       <p>visualization 구현부분</p>
-      <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
+      <button @click="getTree">트리입니다</button>
+      <p>{{isTree}}</p>
+      <template v-if="isTree==1">
+        <p>ddd</p>
+        <template v-for="(item, index) in testobj">
+          <template v-if="index==nowStep" v-for="(items, index) in item.treeData">
+            <TreeChart :json='items' />
+          </template>
+        </template>
+      </template>
     </Col>
     <table>
       <td>name</td>
@@ -90,14 +96,17 @@
   import {JUDGE_STATUS} from '@/utils/constants'
   import utils from '@/utils/utils'
   import Highlight from '@/pages/oj/components/Highlight'
+  import TreeChart from 'vue-tree-chart'
 
   export default {
     name: 'submissionDetails',
     components: {
-      Highlight
+      Highlight,
+      TreeChart
     },
     data () {
       return {
+        isTree: 0,
         tetfile: [],
         nowStep: 0,
         maxStep: 0,
@@ -182,6 +191,43 @@
               'memory_cost': 1736704
             }
           }
+        },
+        treeData: {
+          'name': 'A',
+          image_url: 'https://i.ibb.co/jZPmQrc/circle.png',
+          mate: {
+            name: 'B',
+            image_url: 'https://i.ibb.co/jZPmQrc/circle.png'
+          },
+          'children': [
+            {
+              name: 'C',
+              image_url:
+                'https://i.ibb.co/jZPmQrc/circle.png',
+              mate: {
+                name: 'D',
+                image_url:
+                  'https://i.ibb.co/jZPmQrc/circle.png'
+              },
+              children: [
+                {
+                  name: 'E',
+                  image_url:
+                    'https://i.ibb.co/jZPmQrc/circle.png'
+                }
+              ]
+            },
+            {
+              name: 'F',
+              image_url:
+                'https://i.ibb.co/jZPmQrc/circle.png'
+            },
+            {
+              name: 'G',
+              image_url:
+                'https://i.ibb.co/jZPmQrc/circle.png'
+            }
+          ]
         },
         isConcat: false,
         loading: false
@@ -273,10 +319,24 @@
         let params = {
           submission_id: this.submission.info.data.id,
           problem_id: this.submission.info.data.problem,
-          user_id: this.submission.info.data.id
+          user_id: this.submission.info.data.id,
+          dataType: 0
         }
         api.getVisual(params).then(res => {
           this.testfile = res.data.data.results
+        })
+      },
+      getTree () {
+        this.isTree = 1
+        let params = {
+          submission_id: this.submission.info.data.id,
+          problem_id: this.submission.info.data.problem,
+          user_id: this.submission.info.data.id,
+          dataType: 1
+        }
+        api.getVisual(params).then(res => {
+          this.testfile = res.data.data.results
+          this.isTree = 1
         })
       }
     },

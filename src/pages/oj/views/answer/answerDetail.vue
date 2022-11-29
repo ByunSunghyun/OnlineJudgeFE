@@ -145,7 +145,6 @@
       },
       submitAnswer (data = undefined) {
         //
-        let funcName = ''
         data = {
           submission_id: this.answer.submission_id,
           question_id: this.answer.id,
@@ -153,6 +152,7 @@
           username: this.name
         }
         //
+        
         funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
         //
         api.createAnswer(data).then(res => {
