@@ -135,22 +135,6 @@
         limit: 20,
         page: 1,
         questionList: [],
-        questionList1: [
-          {
-            'id': '12',
-            'class_id': '123',
-            'problem_id': '456',
-            'title': 'question',
-            'answer': ''
-          },
-          {
-            'id': '45',
-            'class_id': '456',
-            'problem_id': '12',
-            'title': 'question2',
-            'answer': '12'
-          }
-        ],
         listVisible: true,
         username: '',
         name: '',
