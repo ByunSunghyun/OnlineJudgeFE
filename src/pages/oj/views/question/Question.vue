@@ -33,7 +33,6 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import api from '@oj/api'
   import utils from '@/utils/utils'
   import Pagination from '@oj/components/Pagination'
@@ -216,8 +215,8 @@
       },
       getQuestionList () {
         // this.loading = true
-        let params = {}
-        let offset = (this.page - 1) * this.limit
+        // let params = {}
+        // let offset = (this.page - 1) * this.limit
         api.getQuestionList(this.name).then(res => {
           this.loading = true
           this.total = res.data.data.total
