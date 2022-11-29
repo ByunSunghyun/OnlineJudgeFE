@@ -55,7 +55,7 @@
                   <el-row :gutter='15'>
                     <el-col :span='24'>
                         <el-form-item :label="$t('m.Question_Content')" label-width="80px" prop="question_content">
-                          <div id="question" class="content">{{deleteTag(question.content)}}</div>
+                          <div id="question" class="content">{{question.content}}</div>
                         </el-form-item>
                     </el-col>
                   </el-row>
@@ -64,7 +64,7 @@
                   <el-row :gutter='15'>
                     <el-col :span='24'>
                         <el-form-item :label="$t('m.Answer_Content')" label-width="80px" prop="answer_content">
-                          <div id="answer" class="content"><p>{{deleteTag(answer.content)}}</p></div>
+                          <div id="answer" class="content"><p>{{answer.content}}</p></div>
                         </el-form-item>
                     </el-col>
                   </el-row>
@@ -140,10 +140,6 @@
         // else this.hasAnswer = true
         // this.hasAnswer = true
         // if (this.hasAnswer) this.getAnswer()
-      },
-      deleteTag (str) {
-        let len = str.length
-        return str.substr(3, len - 7)
       },
       backPage () {
         this.$router.push({name: 'question'})
