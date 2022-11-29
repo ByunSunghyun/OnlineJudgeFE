@@ -56,7 +56,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'contest-details', params: {questionID: params.row.class_id}})
+                    this.$router.push({name: 'contest-details', params: {contestID: params.row.class_id}})
                   }
                 },
                 style: {
@@ -77,7 +77,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {questionID: params.row.problem_id}})
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
                   }
                 },
                 style: {
