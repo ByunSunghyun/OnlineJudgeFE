@@ -14,7 +14,7 @@
           <p class="title">{{$t('m.Output')}} <span v-if="problem.io_mode.io_mode=='File IO'">({{$t('m.ToFile')}}: {{ problem.io_mode.output }})</span></p>
           <p class="content" v-html=problem.output_description></p>
 
-          <div v-for="(sample, index) of problem.samples" :key="index">
+          <!-- <div v-for="(sample, index) of problem.samples" :key="index">
             <div class="flex-container sample">
               <div class="sample-input">
                 <p class="title">{{$t('m.Sample_Input')}} {{index + 1}}
@@ -32,7 +32,7 @@
                 <pre>{{sample.output}}</pre>
               </div>
             </div>
-          </div>
+          </div> 
 
           <div v-if="problem.hint">
             <p class="title">{{$t('m.Hint')}}</p>
@@ -44,7 +44,7 @@
           <div v-if="problem.source">
             <p class="title">{{$t('m.Source')}}</p>
             <p class="content">{{problem.source}}</p>
-          </div>
+          </div> -->
 
         </div>
       </Panel>

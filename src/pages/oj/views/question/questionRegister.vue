@@ -62,10 +62,11 @@
         
           <p>{{question.title}}</p>
           <p>{{question.question_contents}}</p>
-      -->
-      <p>{{this.question.submission}}</p>
-      <p>{{this.question.contest}}</p>
-      <p>{{this.question.problem}}</p>
+
+          <p>{{this.question.submission}}</p>
+          <p>{{this.question.contest}}</p>
+          <p>{{this.question.problem}}</p>
+        -->
     </div>
   </panel>
 </template>

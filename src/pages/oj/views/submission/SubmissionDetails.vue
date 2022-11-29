@@ -21,7 +21,12 @@
     <Col v-if="submission.info && !isCE" :span="20">
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
-
+    <Col :span="20">
+      <div class="btnfooter">
+          <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
+          <cancel @click.native="backPage"></cancel>
+      </div>
+    </Col>
     <Col :span="6">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
@@ -141,6 +146,14 @@
       this.getSubmission()
     },
     methods: {
+      goRegist () {
+        this.$router.push({
+          name: 'questionregister', params: {submitID: this.submission.id}
+        })
+      },
+      backPage () {
+        this.$router.go(-1)
+      },
       getSubmission () {
         this.loading = true
         api.getSubmission(this.$route.params.id).then(res => {
@@ -305,6 +318,11 @@
   th, td {
     border: 1px solid #444444;
     padding: 10px;
+  }
+  .btnfooter {
+    // display: inline-block;
+    margin: 10px 5px 10px 5px;
+    float: right;
   }
   #debuglist {
     padding: 10px;

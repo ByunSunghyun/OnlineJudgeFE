@@ -14,14 +14,14 @@
         :data="questionList"
         disabled-hover> </Table>
 
-      <div>
-        <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_regist')}}</Button>
         <!--
+        <div>
+          <Button type="button" @click="goRegist" style="margin: 10px">{{$t('m.Question_regist')}}</Button>
           <Button type="button" @click="goDetail" style="margin: 10px">DetailPage</Button>
           <Button type="button" @click="goAnswer" style="margin: 10px">답변 등록</Button>
           <Button type="button" @click="goAnswerDet" style="margin: 10px">Detail_Answer</Button>
+        </div>
         -->
-      </div>
 
       <!--
         <p>[{{this.total}}]</p>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-  // import { mapGetters } from 'vuex'
   import api from '@oj/api'
   import utils from '@/utils/utils'
   import Pagination from '@oj/components/Pagination'
@@ -57,7 +56,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'contest-details', params: {questionID: params.row.class_id}})
+                    this.$router.push({name: 'contest-details', params: {contestID: params.row.class_id}})
                   }
                 },
                 style: {
@@ -78,7 +77,7 @@
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'problem-details', params: {questionID: params.row.problem_id}})
+                    this.$router.push({name: 'questionDetail', params: {questionID: params.row.question_id}})
                   }
                 },
                 style: {
@@ -136,22 +135,6 @@
         limit: 20,
         page: 1,
         questionList: [],
-        questionList1: [
-          {
-            'id': '12',
-            'class_id': '123',
-            'problem_id': '456',
-            'title': 'question',
-            'answer': ''
-          },
-          {
-            'id': '45',
-            'class_id': '456',
-            'problem_id': '12',
-            'title': 'question2',
-            'answer': '12'
-          }
-        ],
         listVisible: true,
         username: '',
         name: '',
