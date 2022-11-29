@@ -359,7 +359,7 @@
 </script>
 
 <style scoped lang="less">
-table {
+  table {
     width: 100%;
     border: 1px solid #444444;
     border-collapse: collapse;
