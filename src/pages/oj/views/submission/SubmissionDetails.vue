@@ -30,9 +30,6 @@
       <Button @click="nextStep">{{ "next_step" }}</Button>
       <p>{{ "max step: " }}{{ maxStep }}</p>
       <p>{{ "now step: " }}{{ nowStep }}</p>
-      <p>{{submission.info.data.problem}}</p>
-      <p>{{submission.info.data.id}}</p>
-      <p>{{submission.info.data.user_id}}</p>
       <table>
         <td>name</td>
         <td>value</td>
@@ -51,11 +48,10 @@
     <Col :span="6">
       <p>visualization 구현부분</p>
       <button @click="getSubmission1">트리입니다</button>
-      <p>{{isTree}}</p>
       <template v-if="isTree==1">
         <template v-for="(item, index) in submitcode">
-          <template v-if="index==nowStep" v-for="(items, index) in item.treeData">
-            <TreeChart :json='items' />
+          <template v-if="index==nowStep">
+            <TreeChart :json=item.treeData />
           </template>
         </template>
       </template>
