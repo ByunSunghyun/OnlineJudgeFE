@@ -22,19 +22,41 @@
       <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
-    <Col :span="20">
+    <Col :span="6">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
-    
-    <Col> 
-      <p>{{submitcode}}</p>
+    <Col :span="6" id="debuglist">
+      <Button @click="prevStep">{{ "prev_step" }}</Button>
+      <Button @click="nextStep">{{ "next_step" }}</Button>
+      <p>{{ "max step: " }}{{ maxStep }}</p>
+      <p>{{ "now step: " }}{{ nowStep }}</p>
+      <table>
+        <td>name</td>
+        <td>value</td>
+        <template v-for="(item, index) in submitcode">
+          <tr v-if="index==nowStep" v-for="(key, value) in item.var">
+            <td>
+              {{value}}
+            </td>
+            <td>
+              {{key}}
+            </td>
+          </tr>
+        </template>
+      </table>
     </Col>
-    <table>
-      <td>name</td>
-      <tr v-for="(value, key, index) in submitcode">
-        <td>{{index}}{{value}}{{key}}</td>
-      </tr>
-    </table>
+    <Col :span="6">
+      <p>visualization 구현부분</p>
+      <button @click="getTree">트리입니다</button>
+      <p>{{isTree}}</p>
+      <template v-if="isTree==1">
+        <template v-for="(item, index) in submitcode">
+          <template v-if="index==nowStep" v-for="(items, index) in item.treeData">
+            <TreeChart :json='items' />
+          </template>
+        </template>
+      </template>
+    </Col>
   </Row>
   
 
@@ -45,15 +67,28 @@
   import {JUDGE_STATUS} from '@/utils/constants'
   import utils from '@/utils/utils'
   import Highlight from '@/pages/oj/components/Highlight'
+  import TreeChart from 'vue-tree-chart'
 
   export default {
     name: 'submissionDetails',
     components: {
-      Highlight
+      Highlight,
+      TreeChart
     },
     data () {
       return {
+        isTree: 0,
+        nowStep: 0,
+        maxStep: 100,
         submitcode: [],
+        testobj: [
+          {'frame': 'main', 'next': 'scanf(\'%d\', &a);', 'step': 0, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 0}},
+          {'frame': 'main', 'next': 'a = a + 9;', 'step': 1, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 0}},
+          {'frame': 'main', 'next': 'printf(\'%d\', a);', 'step': 2, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 9}},
+          {'frame': 'main', 'next': 'printf(\'\\n\');', 'step': 3, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 9}},
+          {'frame': 'main', 'next': 'return (0);', 'output': ['9'], 'step': 4, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 9}},
+          {'frame': 'main', 'next': '}', 'step': 5, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 9}}
+        ],
         test1: 'test1',
         test2: false,
         columns: [
@@ -157,16 +192,46 @@
         }, () => {
         })
       },
+      prevStep () {
+        if (this.nowStep <= 0) {
+          this.nowStep = 0
+        } else {
+          this.nowStep = this.nowStep - 1
+        }
+      },
+      nextStep () {
+        if (this.maxStep === this.nowStep) {
+          this.nowStep = this.items.length
+        } else {
+          this.nowStep = this.nowStep + 1
+        }
+      },
       getVisual (a, b, c) {
         let params = {
           submission_id: a,
           problem_id: b,
-          user_id: c
+          user_id: c,
+          dataType: 0
         }
         this.test1 = params.submission_id
         api.getVisual(params).then(res => {
           this.test2 = true
           this.submitcode = res.data.data
+          this.submitcode = JSON.parse(this.submitcode)
+          this.maxStep = this.submitcode.length - 1
+        })
+      },
+      getTree () {
+        this.isTree = 1
+        let params = {
+          submission_id: this.submission.info.data.id,
+          problem_id: this.submission.info.data.problem,
+          user_id: this.submission.info.data.id,
+          dataType: 1
+        }
+        api.getVisual(params).then(res => {
+          this.testfile = res.data.data.results
+          this.isTree = 1
         })
       }
     },
@@ -189,6 +254,20 @@
 </script>
 
 <style scoped lang="less">
+  table {
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+  }
+  #debuglist {
+    padding: 10px;
+    background-color: white;
+    //border: 1px solid rgb(0, 0, 0); 
+  }
   #status {
     .title {
       font-size: 20px;

@@ -145,6 +145,7 @@
       },
       submitAnswer (data = undefined) {
         //
+        // funcName= this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
         data = {
           submission_id: this.answer.submission_id,
           question_id: this.answer.id,
@@ -152,8 +153,6 @@
           username: this.name
         }
         //
-        
-        funcName = this.mode === 'edit' ? 'updateAnswer' : 'createAnswer'
         //
         api.createAnswer(data).then(res => {
           this.$router.push({name: 'questionDetail', params: {questionID: this.answer.id}})
