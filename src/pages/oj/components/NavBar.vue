@@ -11,7 +11,7 @@
         {{$t('m.NavProblems')}}
       </Menu-item>
       <Menu-item name="/question">
-        <Icon type="ios-keypad"></Icon>
+        <i class="fa-solid fa-circle-question"></i>
         {{"question"}}
       </Menu-item>
       <Menu-item name="/contest">
@@ -19,7 +19,7 @@
         {{$t('m.Contests')}}
       </Menu-item>
       <Menu-item name="/status">
-        <Icon type="ios-pulse-strong"></Icon>
+        <i class="fa-solid fa-square-poll-vertical"></i>
         {{$t('m.NavStatus')}}
       </Menu-item>
       <Submenu name="rank">
@@ -158,6 +158,7 @@
       font-size: 20px;
       float: left;
       line-height: 60px;
+      color : #2D8CF0;
     }
 
     .drop-menu {

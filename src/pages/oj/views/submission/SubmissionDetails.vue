@@ -23,6 +23,13 @@
     </Col>
 
     <Col :span="20">
+      <div class="btnfooter">
+          <el-button plain type="primary" @click="goRegist">{{$t('m.Question_regist')}}</el-button>
+          <cancel @click.native="backPage"></cancel>
+      </div>
+    </Col>
+
+    <Col :span="20">
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
     
@@ -30,7 +37,7 @@
       <p>{{submitcode}}</p>
     </Col>
     <table>
-      <td>name</td>
+      <!--<td>name</td> -->
       <tr v-for="(value, key, index) in submitcode">
         <td>{{index}}{{value}}{{key}}</td>
       </tr>
@@ -107,6 +114,14 @@
       this.getSubmission()
     },
     methods: {
+      goRegist () {
+        this.$router.push({
+          name: 'questionregister', params: {submitID: this.submission.id}
+        })
+      },
+      backPage () {
+        this.$router.go(-1)
+      },
       getSubmission () {
         this.loading = true
         api.getSubmission(this.$route.params.id).then(res => {
@@ -224,5 +239,11 @@
   pre {
     border: none;
     background: none;
+  }
+
+  .btnfooter {
+    // display: inline-block;
+    margin: 10px 5px 10px 5px;
+    float: right;
   }
 </style>
