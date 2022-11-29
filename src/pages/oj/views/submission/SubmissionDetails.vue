@@ -30,6 +30,9 @@
       <Button @click="nextStep">{{ "next_step" }}</Button>
       <p>{{ "max step: " }}{{ maxStep }}</p>
       <p>{{ "now step: " }}{{ nowStep }}</p>
+      <p>{{submission.info.data.problem}}</p>
+      <p>{{submission.info.data.id}}</p>
+      <p>{{submission.info.data.user_id}}</p>
       <table>
         <td>name</td>
         <td>value</td>
@@ -47,7 +50,7 @@
     </Col>
     <Col :span="6">
       <p>visualization 구현부분</p>
-      <button @click="getTree">트리입니다</button>
+      <button @click="getSubmission1">트리입니다</button>
       <p>{{isTree}}</p>
       <template v-if="isTree==1">
         <template v-for="(item, index) in submitcode">
@@ -184,6 +187,48 @@
           this.loading = false
         })
       },
+      getSubmission1 () {
+        this.loading = true
+        api.getSubmission(this.$route.params.id).then(res => {
+          this.loading = false
+          let data = res.data.data
+          if (data.info && data.info.data && !this.isConcat) {
+            // score exist means the submission is OI problem submission
+            if (data.info.data[0].score !== undefined) {
+              this.isConcat = true
+              const scoreColumn = {
+                title: this.$i18n.t('m.Score'),
+                align: 'center',
+                key: 'score'
+              }
+              this.columns.push(scoreColumn)
+              this.loadingTable = false
+            }
+            if (this.isAdminRole) {
+              this.isConcat = true
+              const adminColumn = [
+                {
+                  title: this.$i18n.t('m.Real_Time'),
+                  align: 'center',
+                  render: (h, params) => {
+                    return h('span', utils.submissionTimeFormat(params.row.real_time))
+                  }
+                },
+                {
+                  title: this.$i18n.t('m.Signal'),
+                  align: 'center',
+                  key: 'signal'
+                }
+              ]
+              this.columns = this.columns.concat(adminColumn)
+            }
+          }
+          this.submission = data
+          this.getTree(data.id, data.problem, data.user_id)
+        }, () => {
+          this.loading = false
+        })
+      },
       shareSubmission (shared) {
         let data = {id: this.submission.id, shared: shared}
         api.updateSubmission(data).then(res => {
@@ -221,17 +266,19 @@
           this.maxStep = this.submitcode.length - 1
         })
       },
-      getTree () {
+      getTree (a, b, c) {
         this.isTree = 1
         let params = {
-          submission_id: this.submission.info.data.id,
-          problem_id: this.submission.info.data.problem,
-          user_id: this.submission.info.data.id,
+          submission_id: a,
+          problem_id: b,
+          user_id: c,
           dataType: 1
         }
         api.getVisual(params).then(res => {
-          this.testfile = res.data.data.results
-          this.isTree = 1
+          this.test2 = true
+          this.submitcode = res.data.data
+          this.submitcode = JSON.parse(this.submitcode)
+          this.maxStep = this.submitcode.length - 1
         })
       }
     },
