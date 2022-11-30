@@ -31,28 +31,25 @@
       <Highlight :code="submission.code" :language="submission.language" :border-color="status.color"></Highlight>
     </Col>
     <Col :span="6" id="debuglist">
-      <Button @click="prevStep">{{ "prev_step" }}</Button>
-      <Button @click="nextStep">{{ "next_step" }}</Button>
+      <Button id="prevBtn" @click="prevStep">{{ "prev step" }}</Button>
+      <Button id="nextBtn" @click="nextStep">{{ "next step" }}</Button>
       <p>{{ "max step: " }}{{ maxStep }}</p>
       <p>{{ "now step: " }}{{ nowStep }}</p>
       <table>
         <td>name</td>
-        <td>value</td>
+        <td>value</td>  
         <template v-for="(item, index) in submitcode">
           <tr v-if="index==nowStep" v-for="(key, value) in item.var">
-            <td>
-              {{value}}
-            </td>
-            <td>
-              {{key}}
-            </td>
+            <template v-if="key != isError">
+              <td>{{value}}</td>
+              <td>{{key}}</td>
+            </template>
           </tr>
         </template>
       </table>
     </Col>
-    <Col :span="6">
-      <p>visualization 구현부분</p>
-      <button @click="getSubmission1">트리입니다</button>
+    <Col :span="6" id="visualTree">
+      <button id="treeBtn" @click="getSubmission1">Show Tree</button>
       <template v-if="isTree==1">
         <template v-for="(item, index) in submitcode">
           <template v-if="index==nowStep">
@@ -84,6 +81,7 @@
         isTree: 0,
         nowStep: 0,
         maxStep: 100,
+        isError: 'ERROR',
         submitcode: [],
         testobj: [
           {'frame': 'main', 'next': 'scanf(\'%d\', &a);', 'step': 0, 'var': {'&a': '(int *) 0x7ffeb981cd84', 'a': 0}},
@@ -327,7 +325,39 @@
   #debuglist {
     padding: 10px;
     background-color: white;
+    font-size: 17px;
     //border: 1px solid rgb(0, 0, 0); 
+  }
+  #visualTree {
+    padding: 10px;
+    background-color: white;
+  }
+  #treeBtn {
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    border-radius: 5%;
+  }
+  #prevBtn {
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    border-radius: 5%;
+  }
+  #nextBtn {
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    border-radius: 5%;
   }
   #status {
     .title {
