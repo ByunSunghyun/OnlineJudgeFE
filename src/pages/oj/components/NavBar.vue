@@ -6,13 +6,13 @@
         <Icon type="home"></Icon>
         {{$t('m.Home')}}
       </Menu-item>
-      <Menu-item name="/problem">
-        <Icon type="ios-keypad"></Icon>
-        {{$t('m.NavProblems')}}
-      </Menu-item>
       <Menu-item name="/question">
         <i class="fa-solid fa-circle-question"></i>
         {{"question"}}
+      </Menu-item>
+      <!-- <Menu-item name="/problem">
+        <Icon type="ios-keypad"></Icon>
+        {{$t('m.NavProblems')}}
       </Menu-item>
       <Menu-item name="/contest">
         <Icon type="trophy"></Icon>
@@ -51,7 +51,7 @@
         <Menu-item name="/FAQ">
           {{$t('m.FAQ')}}
         </Menu-item>
-      </Submenu>
+      </Submenu> -->
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"

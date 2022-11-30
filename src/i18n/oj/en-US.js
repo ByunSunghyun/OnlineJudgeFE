@@ -275,5 +275,6 @@ export const m = {
   question_content: 'Question Content',
   Go_Code: 'Go to Code',
   // AnswerDetail.vue
-  Answer_Content: 'Answer Contents'
+  Answer_Content: 'Answer Contents',
+  Question_Content: '질문 내용'
 }
