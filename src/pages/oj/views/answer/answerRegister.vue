@@ -46,7 +46,7 @@
           <el-col :span='24'>
             <el-form-item :label="$t('m.question_content')" label-width="80px" prop="question_content">
               <el-button plain type="primary" :span='8' @click="goStatus">{{$t('m.Go_Code')}}</el-button>
-              <div class="output">{{answer.content}}</div>
+              <div class="output">{{deleteTag(answer.content)}}</div>
             </el-form-item>
           </el-col>
         </el-row>
@@ -118,6 +118,10 @@
       /*
       this.$router.push({name: 'answerRegister', params: {questionID: 'this.question.id'}}) 로 in
       */
+      deleteTag (str) {
+        let len = str.length
+        return str.substr(3, len - 7)
+      },
       goStatus () {
         this.$router.push({name: 'submission-details', params: {id: this.answer.submission_id}})
       },
